@@ -14,7 +14,41 @@
   </head>
   <body>
     <div class="app-frame app-frame--wide">
-      <a class="btn btn--ghost" href="fridge-results.html" style="margin: -0.5rem 0 1rem; width: auto">Back</a>
+      <div
+        class="sheet-backdrop"
+        id="share-backdrop"
+        hidden
+        aria-hidden="true"
+      ></div>
+      <div
+        class="sheet-panel"
+        id="share-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="share-sheet-title"
+        hidden
+      >
+        <h2 class="sheet-panel__title" id="share-sheet-title">Share recipe</h2>
+        <p class="body-muted" style="font-size: 0.8125rem; margin: 0 0 1rem">
+          Only the recipe is shared—not your child’s profile or allergies.
+        </p>
+        <div class="sheet-actions">
+          <button type="button" class="btn btn--primary" id="share-copy-link">Copy link</button>
+          <button type="button" class="btn btn--ghost" id="share-print">Print or PDF</button>
+          <button type="button" class="btn btn--ghost" id="share-copy-text">Copy recipe text</button>
+          <div id="share-revoke-wrap" hidden>
+            <button type="button" class="btn btn--ghost btn--danger" id="share-revoke">Revoke share link</button>
+          </div>
+          <button type="button" class="btn btn--ghost" id="share-close">Close</button>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin: -0.5rem 0 1rem">
+        <a class="btn btn--ghost" href="fridge-results.html" style="width: auto">Back</a>
+        <button type="button" class="btn btn--ghost" id="open-share" aria-haspopup="dialog" aria-controls="share-sheet" style="width: auto">
+          Share
+        </button>
+      </div>
       <div class="recipe-card__thumb" style="border-radius: var(--radius-card); margin-bottom: 1rem" role="img" aria-label=""></div>
       <header>
         <span class="badge badge--match" style="margin-bottom: 0.5rem">Library</span>
@@ -55,13 +89,72 @@
         </ol>
       </main>
     </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
     <script>
-      document.getElementById("refresh-safety").addEventListener("click", function () {
-        document.getElementById("stale-banner").hidden = true;
-      });
-      if (location.search.indexOf("mine=1") !== -1) {
-        document.querySelector(".badge--match").textContent = "Yours";
-      }
+      (function () {
+        var staleBtn = document.getElementById("refresh-safety");
+        if (staleBtn) {
+          staleBtn.addEventListener("click", function () {
+            document.getElementById("stale-banner").hidden = true;
+          });
+        }
+        var params = new URLSearchParams(location.search);
+        if (location.search.indexOf("mine=1") !== -1) {
+          document.querySelector(".badge--match").textContent = "Yours";
+          var rw = document.getElementById("share-revoke-wrap");
+          if (rw) rw.hidden = false;
+        }
+
+        var backdrop = document.getElementById("share-backdrop");
+        var sheet = document.getElementById("share-sheet");
+        var openBtn = document.getElementById("open-share");
+        function openShare() {
+          sheet.hidden = false;
+          backdrop.hidden = false;
+          openBtn.setAttribute("aria-expanded", "true");
+        }
+        function closeShare() {
+          sheet.hidden = true;
+          backdrop.hidden = true;
+          openBtn.setAttribute("aria-expanded", "false");
+        }
+        openBtn.addEventListener("click", openShare);
+        document.getElementById("share-close").addEventListener("click", closeShare);
+        backdrop.addEventListener("click", closeShare);
+
+        function toast(msg) {
+          if (window.M1Proto && M1Proto.showToast) M1Proto.showToast(msg, 2200);
+        }
+
+        document.getElementById("share-copy-link").addEventListener("click", function () {
+          closeShare();
+          toast("Link copied.");
+        });
+        document.getElementById("share-print").addEventListener("click", function () {
+          closeShare();
+          var q = new URLSearchParams(location.search);
+          q.set("print", "1");
+          window.open("recipe-detail.html?" + q.toString(), "_blank");
+        });
+        document.getElementById("share-copy-text").addEventListener("click", function () {
+          closeShare();
+          toast("Recipe text copied.");
+        });
+
+        var revokeBtn = document.getElementById("share-revoke");
+        if (revokeBtn) {
+          revokeBtn.addEventListener("click", function () {
+            if (
+              confirm(
+                "Revoke this share link?\n\nAnyone with an old link won’t see this recipe anymore. You can create a new link with Copy link."
+              )
+            ) {
+              closeShare();
+              toast("Share link revoked.");
+            }
+          });
+        }
+      })();
     </script>
     <script src="app.js"></script>
   </body>

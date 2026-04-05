@@ -427,11 +427,11 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 
 ### 5.13 Recipe detail
 
-**Purpose:** View seeded / user recipe; analytics `recipe_view`; FR-E6, FR-H1–H4.
+**Purpose:** View seeded / user recipe; analytics `recipe_view`; FR-E6, FR-H1–**H5**.
 
 **Layout**
 
-1. **Top bar:** **Back** · **Share** (icon opens **Share sheet**—see below).  
+1. **Top bar:** **Back** · **Share** (opens **Share sheet**—item 9 below).  
 2. **Hero image** optional placeholder  
 3. **Title** + source pill **Library** | **Yours**  
 4. **Cook time row:** **Total ~35 min** (required display when `total_minutes` on seeded; show **“Time not set”** muted for user recipe if empty—encourage fill in edit). Optional **Active 15 min** subline.  
@@ -440,9 +440,10 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 7. **Ingredients** bulleted  
 8. **Steps** numbered **large type** (min **18px** body for steps on mobile—helps tired users).  
 9. **Share sheet** (modal / bottom sheet):  
-   - **Copy link** — copies **unguessable URL** to §5.16 public page; toast “Link copied.”  
+   - **Copy link** — copies **unguessable URL** to §5.16 public page; toast “Link copied.” If user **revoked** earlier, this **mints a new token** (PRD FR-H5).  
    - **Print or PDF** — opens public page in **new tab** with **`?print=1`** or triggers **window.print()** after navigation; print CSS removes nav.  
    - **Copy recipe text** — plain text (title, times, ingredients, steps) to clipboard.  
+   - **Revoke share link** — **destructive-style** row or button; **confirm dialog** (C20/C21). On confirm: invalidate token, toast **“Share link revoked”**, sheet can show **muted** “Previous links no longer work.” **Library/seeded (“Library”) recipes (M1 default):** **hide** revoke **or** show disabled state with helper “Editorial recipes use a shared link managed by Suppa”—PO/eng pick one; **“Yours”** always shows revoke.  
    - **Helper:** “Only the recipe is shared—not your child’s profile.”  
 10. **Sticky bottom:** **Back** (if not duplicating top).
 
@@ -601,7 +602,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 | `TrendingStrip` | horizontal scroll | Recipes §5.14 |
 | `TrendingBadge` | on card | |
 | `CookTimeMeta` | total, optional active | List + detail |
-| `ShareSheet` | link, print, text | Recipe detail |
+| `ShareSheet` | link, print, text, **revoke** (confirm) | Recipe detail |
 | `PublicRecipeLayout` | print + mobile | §5.16 |
 | `NutrientFocusCard` | vitamin D, iron, calcium pattern | Today §5.8 |
 | `AwarenessRow` | sodium, added sugar, unknown | Today |
@@ -633,6 +634,9 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 | C16 | Forgot-password confirmation | “If that email has a Suppa account, we sent a reset link.” (avoid account enumeration—exact copy with Architect). |
 | C17 | Reset password success | “Password updated. You can log in.” |
 | C19 | Mindful lines reset | “Restored default guide lines for your child’s age.” |
+| C20 | Revoke share (confirm title) | “Revoke this share link?” |
+| C21 | Revoke share (confirm body) | “Anyone with an old link won’t see this recipe anymore. You can create a new link with Copy link.” |
+| C22 | Share link revoked (toast) | “Share link revoked.” |
 
 *(Product name **Suppa** is locked for M1 marketing and in-app disclaimers; see [`suppa-brand-framework.md`](./suppa-brand-framework.md).)*
 
@@ -665,7 +669,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 9. ~~**Meal ideas / no logs**~~ **Locked:** **Generic browse** + CTA — §5.8.6.  
 10. **Growth X-axis** when only **age band** (no DOB)—eng must lock age representation before visual finalization.  
 11. **WHO → CDC chart switch** at 24 mo—single screen vs handoff UX.  
-12. **Share link revoke / rotate** — M1 vs M1.1 (PRD §14.2 explainer).  
+12. ~~**Share revoke**~~ **Locked (M1):** **Revoke** in share sheet — PRD FR-H5; **Library** recipe policy (hide vs disabled) with eng.  
 13. ~~**Sodium/sugar**~~ **Locked:** **Defaults + user-adjustable** in Settings — §5.19.  
 14. **Today:** sodium row placement—inside hero card vs separate card (a11y scan).
 
@@ -673,7 +677,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 
 ## 10. Handoff checklist
 
-- [ ] PO approves copy deck **C1–C19** and screen list (incl. §5.16–5.19, forgot/reset auth, §5.9b feed log).  
+- [ ] PO approves copy deck **C1–C22** and screen list (incl. §5.16–5.19, forgot/reset auth, §5.9b feed log, **share revoke**).  
 - [ ] Frontend: tokens as CSS variables / Tailwind theme.  
 - [ ] QA: cross-reference **acceptance criteria** in PRD §11 with **states** above.  
 - [ ] Optional: Figma file created from this spec (same section numbering).
@@ -706,3 +710,4 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 | 0.7 | 2026-04-06 | §5.2 + §9: **email + password** auth locked (PRD Q1). |
 | 0.8 | 2026-04-06 | Forgot-password + reset screens; **8-char** password; Today **mama + child** greeting (PRD Q6); C15–C17; handoff C1–C17. |
 | 0.9 | 2026-04-06 | **Indonesia** city dropdown §5.3; milk mode §5.8; **generic meal ideas** C18; **§5.9b** feed log; Settings **editable** mindful lines C19; §9 closures. |
+| 1.0 | 2026-04-06 | Share sheet **revoke** (FR-H5); C20–C22; `ShareSheet` component; §9.12 locked. |

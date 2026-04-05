@@ -24,7 +24,7 @@ The agent should complete this end-to-end unless Alvin says **spec-only** or **n
 
 **Auth & Today (locked):** Password **min 8**; **forgot password** sends email with one-time link to **reset password** (see PRD FR-A1). **Today** greets **Good [morning|afternoon|evening], mama — [child first name]** (PRD FR-C1); neutral/locale variants backlog.
 
-**Household geography (M1):** **Indonesia only**; **city/regency dropdown** (FR-A3). **0–5 months:** **milk mode**—**feed check-in** only, no solid **meal log**. **Meal ideas:** **generic safe browse** when there are no logs or no gap matches—always a path forward (FR-C5). **Sodium/sugar guides:** **defaults + user-adjustable** in Settings (FR-B5). **Shared recipe links:** see PRD **§14.2** for what **revoke/rotate** means—**M1 vs M1.1** still **open**.
+**Household geography (M1):** **Indonesia only**; **city/regency dropdown** (FR-A3). **0–5 months:** **milk mode**—**feed check-in** only, no solid **meal log**. **Meal ideas:** **generic safe browse** when there are no logs or no gap matches—always a path forward (FR-C5). **Sodium/sugar guides:** **defaults + user-adjustable** in Settings (FR-B5). **Shared recipe links:** M1 includes **revoke** from recipe detail (**FR-H5**); old URLs stop working; **Copy link** mints a new token. **Library** vs **Yours** policy: PRD default—revoke for **user-owned** recipes; see [`prd-milestone-1.md`](./prd-milestone-1.md) §8.5.
 
 ---
 

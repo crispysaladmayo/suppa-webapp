@@ -896,6 +896,62 @@ textarea:focus-visible,
   text-decoration: none;
 }
 
+/* Share sheet (recipe detail) */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.45);
+  z-index: 15;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.sheet-panel {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: var(--max-width);
+  max-height: min(85dvh, 520px);
+  overflow-y: auto;
+  background: var(--surface);
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  box-shadow: var(--shadow-sheet);
+  z-index: 16;
+  padding: 1rem var(--space-page) calc(1rem + env(safe-area-inset-bottom, 0));
+}
+
+.sheet-panel__title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.sheet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sheet-actions .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.btn--danger {
+  color: var(--error-text);
+  border-color: var(--error-text);
+  background: transparent;
+}
+
+.btn--danger:hover {
+  background: rgba(185, 28, 28, 0.06);
+}
+
 /* Toast */
 .toast {
   position: fixed;

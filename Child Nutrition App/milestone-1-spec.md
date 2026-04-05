@@ -60,7 +60,7 @@
 
 7. **Recipes browse — trending & share**  
    - **Trending:** editorial **`trending`** flag on seeded recipes (M1 default); surfaced as a **label/section** on the Recipes tab ([`prd-milestone-1.md`](./prd-milestone-1.md) FR-E5).  
-   - **Share (recipe only, no child PII):** **(a)** shareable URL to a **minimal public recipe page**; **(b)** **print / PDF** via print stylesheet or export; **(c)** **plain text** copy for messaging apps.
+   - **Share (recipe only, no child PII):** **(a)** shareable URL to a **minimal public recipe page**; **(b)** **print / PDF** via print stylesheet or export; **(c)** **plain text** copy for messaging apps; **(d)** **revoke** current link (**user recipes** in M1; see [`prd-milestone-1.md`](./prd-milestone-1.md) FR-H5).
 
 8. **Weekly meal prep**  
    - Caregiver builds a **7-day plan** for the **primary child** by assigning **recipes or notes** to days/meals; respects **allergy hard rules** when picking from catalog; optional **prep checklist** / cook-time summary ([`prd-milestone-1.md`](./prd-milestone-1.md) Epic G).
@@ -178,7 +178,7 @@
 - **Allergy matching** policy for free-text ingredients (enum on profile + conservative algorithm + tests).  
 - **Seeded recipes:** licensing/source list; **trending** flags; **cook time**; optional **sodium/sugar** per serving.  
 - **Age bands** in UX vs. research bands in knowledge base — map explicitly.  
-- **Share URLs:** token strategy, **no PII** on public page, optional **revoke link** (PO decision).  
+- **Share URLs:** unguessable token, **no PII** on public page, **revoke** in M1 for **user-owned** recipes ([`prd-milestone-1.md`](./prd-milestone-1.md) FR-H5).  
 - **Growth:** WHO vs CDC **chart version** pinned; **measurement units** and **length vs height** UX; legal review of copy.
 
 ---

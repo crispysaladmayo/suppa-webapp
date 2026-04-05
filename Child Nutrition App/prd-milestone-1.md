@@ -22,6 +22,7 @@
 | 0.7 | 2026-04-06 | PO | **Q1 Auth locked:** M1 **email + password** sign-up and sign-in (FR-A1). |
 | 0.8 | 2026-04-06 | PO | **Forgot-password** email link + reset page; **password min 8**; **Today greeting** mama + child first name (Q6). |
 | 0.9 | 2026-04-06 | PO | **Q4:** Indonesia-only, **city/regency dropdown**; **0–5 mo** milk mode; **meal ideas** generic browse when no logs; **sodium/sugar** adjustable in Settings; §14.2 **share token** explainer. |
+| 1.0 | 2026-04-06 | PO | **Share link revoke** in M1 (FR-H5, §8.5, AC-H3). |
 
 ---
 
@@ -220,9 +221,9 @@ Caregiver tags each log line with **one or more** of: `vegetables` · `fruits` �
 
 ### 8.5 Recipe sharing & public page (privacy)
 
-- **Share link** resolves to a **recipe-only** view: title, ingredients, steps, optional cook time, optional per-serving nutrition—**no** authentication wall required for **read** (implementation may use **unguessable token** in URL).  
+- **Share link** resolves to a **recipe-only** view: title, ingredients, steps, optional cook time, optional per-serving nutrition—**no** authentication wall required for **read** (implementation uses **unguessable token** in URL per NFR5).  
 - **Must not** include: child name, age, allergies, household location, Today data, or account identifiers.  
-- **Revocation:** **Open**—ideal: user can **rotate/invalidate** share token from recipe detail (**Architect**); if not M1, document limitation.
+- **Revocation (M1 — PO):** Owner can **revoke** the active share token from **recipe detail** (share sheet). Old URLs return **expired / not found** (exact UX in design). **Copy link** after revoke mints a **new** token (technical spec). **Seeded/library recipes:** product policy whether household users can revoke **editorial** share links—default **revoke only for user-owned (“Yours”) recipes** unless PO extends.
 
 ### 8.6 Data (product-level)
 
@@ -263,6 +264,7 @@ Caregiver tags each log line with **one or more** of: `vegetables` · `fruits` �
 | **Sex = prefer not to say** | **Growth chart** disabled; Settings explains **why**; no empty broken chart. |
 | **No sodium/sugar on recipes** | Today/rollup shows **unknown** or hides tally—never fake zeros. |
 | **Share URL opened by stranger** | Sees **recipe only**; **no** login required; **no** child/household data (§8.5). |
+| **Share URL after revoke** | **Expired / not found** (or equivalent)—**no** full recipe body; **no** leak of whether recipe existed (align with Architect for enumeration). |
 | **Meal prep: user picks allergic recipe** | **Blocked** when adding from catalog if recipe **fails** allergy policy; manual text slots **allowed** with **safety reminder** (design copy). |
 | **Unit mismatch (kg vs lb)** | Growth entry uses **explicit unit control** + validation; conversion in tech spec. |
 | **Single growth point** | Chart shows **point** with copy that **trend needs multiple visits** + clinician context—or empty-state per design. |
@@ -270,8 +272,8 @@ Caregiver tags each log line with **one or more** of: `vegetables` · `fruits` �
 ### 9.3 Journey — share recipe (returning user)
 
 1. Opens **Recipe detail** (seeded or own).  
-2. Taps **Share** → sheet: **Copy link** (opens **minimal recipe page** in browser), **Print or save as PDF** (print stylesheet), **Copy recipe text** (plain ingredients + steps).  
-3. Recipient opens link → **read-only** recipe page (**large type**, **simple layout** for novice cooks—design spec §5.x); **no** account data.
+2. Taps **Share** → sheet: **Copy link**, **Print or save as PDF**, **Copy recipe text**, **Revoke share link** (confirm—invalidates current URL; next **Copy link** creates a new token).  
+3. Recipient opens link → **read-only** recipe page (**large type**, **simple layout** for novice cooks—design spec §5.x); **no** account data. **Revoked** link → **expired** state, no recipe body.
 
 ---
 
@@ -351,6 +353,7 @@ Caregiver tags each log line with **one or more** of: `vegetables` · `fruits` �
 | FR-H2 | User can **print** or use **browser print to PDF** from that page via **print-optimized layout** (technical spec: dedicated route + print CSS). |
 | FR-H3 | User can **copy plain text** recipe (title, ingredients, steps, optional times) to clipboard for messaging apps. |
 | FR-H4 | Shared page includes **disclaimer** footer (§8.4) and **no** authenticated app chrome. |
+| FR-H5 | Recipe owner can **revoke** the **current** share token from **recipe detail** (share sheet). Server **invalidates** token; old URLs **do not** serve recipe content. **Copy link** after revoke issues a **new** token. **UI:** confirm destructive action; optional **“Link revoked”** toast. **Scope (M1 default):** **User-owned recipes**; **seeded library** recipes may **omit** revoke or use editorial policy—document in tech spec. |
 
 ### Epic I — Growth
 
@@ -402,7 +405,8 @@ Caregiver tags each log line with **one or more** of: `vegetables` · `fruits` �
 ### Epic H — Share
 
 - **AC-H1:** Given user taps **Share → copy link**, When a logged-out user opens the URL, Then they see **recipe content only** and **no** child or account fields.  
-- **AC-H2:** Given shared page, When user invokes **browser print**, Then layout is **readable** (large type, minimal chrome) per design §5.16.
+- **AC-H2:** Given shared page, When user invokes **browser print**, Then layout is **readable** (large type, minimal chrome) per design §5.16.  
+- **AC-H3:** Given user has an active share link, When they tap **Revoke share link** and confirm, Then the **previous** URL **no longer** returns full recipe content (expired/not found). When they tap **Copy link** again, Then a **new** URL is generated that **does** load the recipe for strangers.
 
 ### Epic I — Growth
 
@@ -426,6 +430,7 @@ Define in implementation; **minimum event names** for funnel:
 | `recipe_view` | `source_seed|user`, `has_cook_time`, `trending` |
 | `trending_section_view` | `recipe_count` |
 | `recipe_share` | `format` ∈ `link`, `print`, `text` |
+| `recipe_share_revoked` | `recipe_source` ∈ `user`, `seeded` (if applicable) |
 | `mealprep_week_saved` | `slots_filled`, `approx_total_minutes` |
 | `growth_entry_added` | `age_band` |
 | `growth_chart_viewed` | `point_count` |
@@ -456,23 +461,21 @@ Define in implementation; **minimum event names** for funnel:
 - **0–5 months — Milk mode (PO):** **No** solid macro chart, **no** macro gap hints, **no** food-group **meal log**; **feed/milk check-in** only + optional generic **recipe browse** for education (not gap-driven).
 - **Meal ideas — no logs (PO):** **Generic allergy-safe browse** + **Browse recipes** (and **Add recipe** if needed)—module **never** empty without a **forward path** when catalog has recipes.
 - **Q7 — Sodium/sugar (M1):** **Default** lines per §7.8; caregiver **adjusts** values in **Settings** + **reset to defaults**.
+- **Q5 — Share revoke (M1):** **Revoke** active share link from recipe detail (**FR-H5**); new link on next **Copy link**.
 
 ### Open
 
 2. **Log edit/delete:** Policy for correcting mistakes.  
 3. **Seeded recipe count** and **licensing** owner.  
 4. **Bahasa Indonesia** copy wave: in M1 or M1.1?
-5. **Share token / link revocation:** **Rotate or revoke** shared recipe links in **M1** vs **defer** to M1.1—see **§14.2** for what this means, then decide.  
-6. **Meal prep ↔ Log:** Auto-suggest “log this recipe” from plan—M1 or later?  
-7. **WHO/CDC chart transition** at 24 mo: exact UX (switch chart type vs single continuous view)—align with pediatric norms + engineering spike.
+5. **Meal prep ↔ Log:** Auto-suggest “log this recipe” from plan—M1 or later?  
+6. **WHO/CDC chart transition** at 24 mo: exact UX (switch chart type vs single continuous view)—align with pediatric norms + engineering spike.
 
-### 14.2 What “share token / rotate / revoke” means (for PO)
+### 14.2 What “share token / rotate / revoke” means
 
-When someone taps **Share → copy link**, the app generates a **URL** that opens the **public recipe page** (no login). To avoid guessable links, that URL usually contains a **secret token** (a long random id), not just `/recipes/123`.
+When someone taps **Share → copy link**, the app generates a **URL** that opens the **public recipe page** (no login). The URL contains a **secret token** (unguessable id), not just `/recipes/123` (NFR5).
 
-- **Revoke** (or **rotate**): the caregiver can **invalidate** the old link so **whoever has the old URL can no longer see the recipe** (or gets an expired message). A **new** share action can mint a **new** token.  
-- **Why it matters:** If a link was pasted in a chat you regret, or a caregiver wants to “unpublish” a family recipe from the web, revocation is the product control.  
-- **M1 tradeoff:** Building **revoke/rotate UI** + server logic is real work. **Deferring to M1.1** means links may stay valid until you add that feature (you can still use unguessable URLs—see NFR5). **PO decision (still open):** ship **revoke** in M1, or **M1.1**?
+- **Revoke:** invalidate the current token so **old URLs stop working**; **Copy link** again mints a **new** token. **Shipped in M1** (FR-H5, AC-H3). **Library/seeded recipes:** default M1—**revoke for “Yours” only** unless product extends to editorial shares.
 
 ### 14.1 PO-first resolution order (before design freeze)
 
@@ -486,12 +489,12 @@ Work **top to bottom**. Record each answer inline above (edit the numbered item)
 | 4 | ~~**0–5 mo**~~ **Resolved** | Milk mode only — FR-C2/C3/D1 | §5.8 milk; §5.9 / feed log |
 | 5 | ~~**Meal ideas / no logs**~~ **Resolved** | Generic browse + CTA — FR-C5 | §5.8 |
 | 6 | ~~**Q7 Sodium/sugar**~~ **Resolved** | Defaults + Settings adjust — FR-B5 | §5.19 |
-| 7 | **Q5 Share revoke** (was “token”) | §14.2 explainer; M1 vs M1.1 | §5.13 Share sheet; §5.16 |
+| 7 | ~~**Q5 Share revoke**~~ **Resolved** | M1 **revoke** — FR-H5 | §5.13 Share sheet |
 | 8 | **Q2 Log edit/delete** | Support + abuse boundary | §5.10 Log history; tech spec |
-| 9 | **Open #7 WHO/CDC** | Growth chart UX | §5.18 Growth (issues §9.10–9.11) |
+| 9 | **Open #6 WHO/CDC** | Growth chart UX | §5.18 Growth (issues §9.10–9.11) |
 | 10 | **Q3 Seeded recipes** | Content plan, not blocking first UI pass | Epic E / content pipeline |
 | 11 | **Open #4 Bahasa** | Locale scope vs §15 assumption | §9.6; copy deck §7 |
-| 12 | **Open #6 Meal prep → Log** | Nice-to-have vs M1 scope | §5.17 Meal prep |
+| 12 | **Open #5 Meal prep → Log** | Nice-to-have vs M1 scope | §5.17 Meal prep |
 | — | **Fridge input (chips vs comma)** | Eng + UX tradeoff | §5.11 — resolve with Architect after Q1–Q4 |
 | — | **Gap threshold %** | Product tuning | §5.8 hints — default in tech spec with PO visibility |
 | — | **Age band → nutrition row mapping** | No silent logic | §5.4 + PRD §7.2 — Architect confirms table |
@@ -538,3 +541,4 @@ Work **top to bottom**. Record each answer inline above (edit the numbered item)
 | 0.7 | **Q1 Auth:** M1 **email + password**; FR-A1 updated; §14 split **Resolved** / **Open** (Q2–Q10). |
 | 0.8 | FR-A1 **forgot-password** email link + reset; **8-char** password min; FR-C1 **Today greeting**; Q6 resolved; open list renumbered. |
 | 0.9 | FR-A3 Indonesia **city dropdown**; **milk mode** 0–5 mo; FR-C5 **generic meal ideas**; FR-B5 **adjustable** lines; §7.5/§7.8; §14.2 **share token** explainer; AC-C4/C4b; §15 assumption 4. |
+| 1.0 | **FR-H5** share **revoke**; §8.5; **AC-H3**; journey §9.3; analytics `recipe_share_revoked`; Q5 resolved. |
