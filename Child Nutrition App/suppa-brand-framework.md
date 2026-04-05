@@ -118,4 +118,4 @@ Before adding a new **Suppa\***, check:
 ## References
 
 - [`child-nutrition-app-context.md`](./child-nutrition-app-context.md) — vision, principles, V1 scope.
-- [`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md) — update screen copy when rebranding UI from working title to Suppa.
+- [`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md) — hi-fi spec and M1 HTML prototype use **Suppa** wordmark, C1–C2 disclaimers, and onboarding CTA (“Get started with Suppa”).

@@ -3,7 +3,8 @@
 **Document type:** Product requirements (what / why). Implementation belongs in the technical spec.  
 **Authoring lens:** Product Owner ([`agents/product-owner.md`](../agents/product-owner.md)).  
 **Research grounding:** Synthesized with Researcher ([`agents/researcher.md`](../agents/researcher.md)) from [`child-nutrition-0-12-knowledge-base.md`](./child-nutrition-0-12-knowledge-base.md).  
-**Strategic alignment:** [`child-nutrition-app-context.md`](./child-nutrition-app-context.md), [`milestone-1-spec.md`](./milestone-1-spec.md).  
+**Strategic alignment:** [`child-nutrition-app-context.md`](./child-nutrition-app-context.md), [`milestone-1-spec.md`](./milestone-1-spec.md), [`suppa-brand-framework.md`](./suppa-brand-framework.md).  
+**Customer-facing product name:** **Suppa** (this PRD may still say “child nutrition app” descriptively; UI, marketing, and legal surfaces use **Suppa** per the brand framework).  
 **Owner / decision authority:** Alvin (with CPO on scope changes).
 
 ---
@@ -16,6 +17,7 @@
 | 0.2 | 2026-04-05 | PO | Post–BMad AR/ECH review: country rule, edge cases, privacy stub ([`m1-bmad-review-ar-ech.md`](./m1-bmad-review-ar-ech.md)). |
 | 0.3 | 2026-04-05 | PO | **Macro-anchored Today:** age-band energy + macro targets (approximate), logging → estimated macros, gap-driven **meal ideas** from recipe macro data ([`child-nutrition-0-12-knowledge-base.md`](./child-nutrition-0-12-knowledge-base.md) §AMDR reference). |
 | 0.4 | 2026-04-05 | PO + CPO alignment | **M1 expansion:** nutrient-focus (vitamin D, iron, calcium pattern), sodium/added-sugar **awareness**, **trending** recipes, **cook time**, **weekly meal prep**, **recipe share** (URL / print / text), **growth chart** (WHO/CDC, user-entered measurements). See [`milestone-1-spec.md`](./milestone-1-spec.md). |
+| 0.5 | 2026-04-05 | PO | **Suppa** branding locked for customer-facing copy; linked [`suppa-brand-framework.md`](./suppa-brand-framework.md); hi-fi + prototype aligned ([`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md)). |
 
 ---
 

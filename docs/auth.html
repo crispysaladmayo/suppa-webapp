@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Create your account</title>
+    <title>Create your account — Suppa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,6 +18,7 @@
         >Back</a
       >
       <main>
+        <p class="wordmark wordmark--auth" lang="en">Suppa</p>
         <h1 class="title" id="auth-title">Create your account</h1>
         <p class="body-muted">
           We use your profile to personalize food ideas only.
@@ -62,10 +63,12 @@
         var pass = document.getElementById("password");
         if (mode === "login") {
           title.textContent = "Welcome back";
+          document.title = "Welcome back — Suppa";
           pass.setAttribute("autocomplete", "current-password");
           switchEl.textContent = "Need an account? Sign up";
           switchEl.href = "auth.html?mode=signup";
         } else {
+          document.title = "Create your account — Suppa";
           switchEl.textContent = "Already have an account? Log in";
           switchEl.href = "auth.html?mode=login";
         }

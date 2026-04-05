@@ -2,7 +2,7 @@
 
 **Role:** Designer ([`agents/designer.md`](../agents/designer.md)).  
 **Source of truth (product):** [`prd-milestone-1.md`](./prd-milestone-1.md).  
-**Companion docs:** [`child-nutrition-app-context.md`](./child-nutrition-app-context.md), [`milestone-1-spec.md`](./milestone-1-spec.md).
+**Companion docs:** [`child-nutrition-app-context.md`](./child-nutrition-app-context.md), [`milestone-1-spec.md`](./milestone-1-spec.md), [`suppa-brand-framework.md`](./suppa-brand-framework.md).
 
 This document is **build-ready structure**: layout, hierarchy, components, states, and microcopy—so engineering can implement **without guessing**. Pixel-perfect Figma can mirror this 1:1.
 
@@ -22,6 +22,14 @@ This document is **build-ready structure**: layout, hierarchy, components, state
 ---
 
 ## 2. Visual system (hi-fi tokens)
+
+### 2.0 Brand (Suppa)
+
+**Product name:** **Suppa** — see [`suppa-brand-framework.md`](./suppa-brand-framework.md) for naming (`SuppaMom`, **SuppaRecipe**, slugs), voice, and surfaces.
+
+- **Landing & auth:** **Suppa** wordmark in **Display** typography (Fraunces); functional screen titles stay plain (“Today,” “Recipes”).  
+- **Disclaimers (C1–C2):** Lead with **“Suppa shares…”** / **“Suppa does not…”** so the legal tone names the product.  
+- **Catalog (engineering):** Seeded and user recipes in the system map to **SuppaRecipe** where the brand doc calls for a catalog object; user-facing list copy remains **Library** / **Yours** / **My recipes** as below.
 
 ### 2.1 Color
 
@@ -129,13 +137,14 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 **Layout**
 
 1. **Hero** (full viewport min ~520px mobile): soft gradient or subtle food illustration (abstract shapes—avoid stereotype “mom” clip art).  
-2. **Display** headline: *“Today’s nutrition, clearer.”* (or PO-final copy).  
-3. **Body** 2 lines: planning support for young children; not medical advice (micro disclaimer).  
-4. **Primary button** full width: **Create account**  
-5. **Secondary** text button: **Log in**  
-6. **Footer** tiny: Privacy · Terms (placeholders).
+2. **Wordmark:** **Suppa** (Display / Fraunces)—master brand on first touch.  
+3. **Display** headline: *“Today’s nutrition, clearer.”*  
+4. **Body** 2–3 lines: **Suppa** positioning — household nutrition **visible and actionable**; planning and reassurance, **not** clinical care; brief not-medical-advice line (see brand framework §1).  
+5. **Primary button** full width: **Create account**  
+6. **Secondary** text button: **Log in**  
+7. **Footer** tiny: Privacy · Terms (placeholders).
 
-**Components:** Logo wordmark, `ButtonPrimary`, `ButtonGhost`, inline disclaimer text 12px muted.
+**Components:** **Suppa** wordmark, `ButtonPrimary`, `ButtonGhost`, inline disclaimer text 12px muted.
 
 **States:** None beyond hover/focus on buttons.
 
@@ -252,7 +261,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 2. **Title:** “A quick note”  
 3. **Body** 3–4 lines: informational; not medical advice; pediatrician/RD for concerns.  
 4. **Checkbox** required: “I understand”  
-5. **Primary:** **Get started** (replace label with final app name when chosen)
+5. **Primary:** **Get started with Suppa**
 
 **Back navigation:** If user taps **Back** from this step, **uncheck** “I understand” (or reset disclaimer acknowledgement) so they cannot complete onboarding without an explicit re-confirm.
 
@@ -466,7 +475,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 **Layout**
 
 1. **Max width** `640px` centered; **background** white or `#FAF8F5`; **padding** `24px`  
-2. **Product wordmark** small top (optional link to marketing site—PO)  
+2. **Product wordmark** small top: **Suppa** (optional link to marketing site—PO)  
 3. **Title** — **serif Display 28–32px**, line-height tight  
 4. **One-line meta:** **Total time ~X min** (optional **Active Y min**)  
 5. **Optional** per-serving nutrition as **plain sentence** (not dense table)  
@@ -475,7 +484,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 8. **Footer** — **12px muted** disclaimer (PRD §8.4) + “Not medical advice.”  
 9. **Print:** `@media print` hide wordmark link; **black text**; **page-break-inside: avoid** on list items where supported  
 
-**Do not show:** allergies, child name, Today, nav tabs, sign-in prompts (optional tiny “Made with [App]” only).
+**Do not show:** allergies, child name, Today, nav tabs, sign-in prompts (optional tiny “Made with Suppa” only).
 
 ---
 
@@ -583,8 +592,8 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 
 | ID | Location | Copy |
 |----|----------|------|
-| C1 | Today disclaimer (short) | “This app shares general food ideas, not medical advice.” |
-| C2 | Today disclaimer (expand) | “This app does not diagnose or treat conditions. For feeding or allergy concerns, talk with your pediatrician or a registered dietitian.” |
+| C1 | Today disclaimer (short) | “Suppa shares general food ideas, not medical advice.” |
+| C2 | Today disclaimer (expand) | “Suppa does not diagnose or treat conditions. For feeding or allergy concerns, talk with your pediatrician or a registered dietitian.” |
 | C3 | Allergy step | “Always read food labels—ingredients can change.” |
 | C4 | Fridge footnote | “Suggestions match the allergies you listed. Extra ‘Other’ text is matched carefully and may hide recipes—edit your profile if this feels too strict. When in doubt, skip the recipe.” |
 | C5 | Validation food group | “Choose at least one food group for this meal.” |
@@ -598,7 +607,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 | C13 | Meal prep note warning | “We can’t check free-text notes for allergies—always verify before serving.” |
 | C14 | Nutrient focus (vitamin D) | “Many families discuss vitamin D with their pediatrician—ask what’s right for your baby.” |
 
-*(Swap in final product name in marketing surfaces when branding is locked.)*
+*(Product name **Suppa** is locked for M1 marketing and in-app disclaimers; see [`suppa-brand-framework.md`](./suppa-brand-framework.md).)*
 
 ---
 
@@ -616,7 +625,7 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 
 ## 9. Open design issues (for PO / Architect)
 
-1. **App name** and final marketing headline on Landing.  
+1. ~~**App name**~~ **Locked:** **Suppa** ([`suppa-brand-framework.md`](./suppa-brand-framework.md)). **Open:** final marketing headline variants on Landing (A/B or PO pick).  
 2. **Auth** pattern affects **sign-up screen** field set.  
 3. **0–5 mo logging:** dedicated “feed” log vs skip meal log entirely.  
 4. **Fridge input:** comma-separated vs chip field—engineering + design tradeoff.  
@@ -663,3 +672,4 @@ Each block lists: **purpose**, **layout (top → bottom)**, **components**, **st
 | 0.2 | 2026-04-05 | Post–BMad AR/ECH: country validation, allergy mutual exclusivity, disclaimer back, Today greeting, network/error states, fridge empty validation, recipe stale safety, add-recipe validation, WCAG AA target, C4 copy, handoff QA note. |
 | 0.3 | 2026-04-05 | Macro-anchored Today (§5.8), portion helper on log (§5.9), fridge/recipe macro badges (§5.12–5.14), recipe detail macro line (§5.13), add-recipe optional macros (§5.15), components C7–C8, open issues 8–9. |
 | 0.4 | 2026-04-05 | **M1 expansion:** 5-tab nav + Prep; onboarding **sex**; Today **nutrient focus** + **sodium/sugar awareness**; **Trending** + **cook time** on lists; recipe **Share sheet** + §5.16 **public page**; §5.17 **meal prep**; §5.18 **Growth**; §5.19 Settings **mindful guides**; new components; C9–C14; open issues 10–14. |
+| 0.5 | 2026-04-05 | **Suppa** branding: §2.0 brand block; landing §5.1 wordmark + positioning; onboarding CTA; C1–C2; §5.16 footer; open issue 1 (app name) locked; prototype `styles.css` wordmark utilities. |
