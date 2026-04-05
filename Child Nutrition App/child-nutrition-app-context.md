@@ -2,13 +2,23 @@
 
 **Owner:** Alvin  
 **Status:** Draft  
-**Last updated:** 2026-04-05
+**Last updated:** 2026-04-06
 
 > This is the canonical reference for this project. All decisions, scope, timeline, and ownership live here. Other docs (decks, one-pagers) derive from or link to this file.
 
 **Product / brand name:** **Suppa** — naming extensions (SuppaMom, SuppaRecipe, etc.) and voice rules: [`suppa-brand-framework.md`](./suppa-brand-framework.md).
 
 **GitHub repository:** [https://github.com/crispysaladmayo/suppa](https://github.com/crispysaladmayo/suppa) — canonical remote for this product. **Live static prototype:** GitHub Pages from branch **`main`**, folder **`/docs`** (synced from `m1-hifi-prototype/` via `scripts/sync-prototype-to-docs.sh`). Setup steps: [`GITHUB-PAGES.md`](../GITHUB-PAGES.md) at repo root.
+
+### Design update workflow (Alvin’s default)
+
+When Alvin asks for a **design update** (UX/UI change, new screen, copy/layout tweak tied to the hi-fi spec):
+
+1. **Update the spec** — Edit [`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md) (and PRD [`prd-milestone-1.md`](./prd-milestone-1.md) if behavior or acceptance criteria change).
+2. **Update the HTML prototype** — Apply the same changes under [`m1-hifi-prototype/`](./m1-hifi-prototype/) (`*.html`, `styles.css`, `app.js` as needed).
+3. **Publish to GitHub Pages** — From the **repo root** (`Alvin Cursor`): run `./scripts/sync-prototype-to-docs.sh`, then `git add` (at least `docs/` and any spec/prototype edits), **commit**, **`git push origin main`** to [crispysaladmayo/suppa](https://github.com/crispysaladmayo/suppa).
+
+The agent should complete this end-to-end unless Alvin says **spec-only** or **no push**.
 
 ---
 

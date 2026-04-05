@@ -10,3 +10,5 @@ When working on any file in this folder, load `child-nutrition-app-context.md` a
 Do not regenerate context that belongs in that file. Reference the file. If a task conflicts with what's in that file, flag it.
 
 **Source of truth:** `Child Nutrition App/child-nutrition-app-context.md`
+
+**Design update requests:** When the user asks for a design / hi-fi / prototype change, follow **§Design update workflow** in that context file: update `design-m1-hifi-pages.md` (and PRD if needed), mirror changes in `Child Nutrition App/m1-hifi-prototype/`, run `./scripts/sync-prototype-to-docs.sh` from repo root, commit, and `git push origin main`—unless they explicitly opt out of prototype or push.
