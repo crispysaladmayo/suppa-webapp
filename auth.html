@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Create your account — Suppa</title>
+    <title>Buat akun — Suppa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,13 +15,23 @@
   <body>
     <div class="app-frame">
       <a class="btn btn--ghost" href="index.html" style="margin: -0.5rem 0 1rem; align-self: flex-start"
-        >Back</a
+        >Kembali</a
       >
       <main>
-        <p class="wordmark wordmark--auth" lang="en">Suppa</p>
-        <h1 class="title" id="auth-title">Create your account</h1>
+        <a href="index.html" class="brand-lockup brand-lockup--auth" lang="id">
+          <img
+            class="brand-lockup__mark"
+            src="assets/suppa-logo.svg"
+            alt=""
+            width="38"
+            height="38"
+            aria-hidden="true"
+          />
+          <span class="brand-lockup__name">Suppa</span>
+        </a>
+        <h1 class="title" id="auth-title">Buat akun</h1>
         <p class="body-muted">
-          We use your profile to personalize food ideas only.
+          Kami memakai profil Anda hanya untuk mempersonalisasi ide makanan.
         </p>
         <form class="auth-form" action="onboarding.html" style="margin-top: 1.5rem">
           <div class="field">
@@ -35,7 +45,7 @@
             />
           </div>
           <div class="field">
-            <label for="password">Password</label>
+            <label for="password">Kata sandi</label>
             <input
               id="password"
               name="password"
@@ -45,19 +55,19 @@
               minlength="8"
             />
             <p class="body-muted" id="password-hint" style="margin-top: 0.35rem; font-size: 0.875rem">
-              At least 8 characters
+              Minimal 8 karakter
             </p>
             <p class="body-muted" id="forgot-password" style="margin-top: 0.35rem; font-size: 0.875rem" hidden>
-              <a href="forgot-password.html">Forgot password?</a>
+              <a href="forgot-password.html">Lupa kata sandi?</a>
             </p>
           </div>
           <p class="field__error" id="auth-inline-error" hidden>
-            This email is already registered. <a href="auth.html?mode=login">Log in</a> instead.
+            Email ini sudah terdaftar. <a href="auth.html?mode=login">Masuk</a> saja.
           </p>
-          <button type="submit" class="btn btn--primary">Continue</button>
+          <button type="submit" class="btn btn--primary">Lanjutkan</button>
         </form>
         <p style="margin-top: 1rem; text-align: center; font-size: 0.875rem">
-          <a href="#" id="switch-mode">Already have an account? Log in</a>
+          <a href="#" id="switch-mode">Sudah punya akun? Masuk</a>
         </p>
       </main>
     </div>
@@ -71,20 +81,20 @@
         var forgot = document.getElementById("forgot-password");
         var hint = document.getElementById("password-hint");
         if (mode === "login") {
-          title.textContent = "Welcome back";
-          document.title = "Welcome back — Suppa";
+          title.textContent = "Selamat datang kembali";
+          document.title = "Selamat datang kembali — Suppa";
           pass.setAttribute("autocomplete", "current-password");
           pass.removeAttribute("minlength");
           if (forgot) forgot.hidden = false;
           if (hint) hint.hidden = true;
-          switchEl.textContent = "Need an account? Sign up";
+          switchEl.textContent = "Belum punya akun? Daftar";
           switchEl.href = "auth.html?mode=signup";
         } else {
-          document.title = "Create your account — Suppa";
+          document.title = "Buat akun — Suppa";
           pass.setAttribute("minlength", "8");
           if (forgot) forgot.hidden = true;
           if (hint) hint.hidden = false;
-          switchEl.textContent = "Already have an account? Log in";
+          switchEl.textContent = "Sudah punya akun? Masuk";
           switchEl.href = "auth.html?mode=login";
         }
       })();

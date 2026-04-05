@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Chicken &amp; carrot rice bowl — Suppa</title>
+    <title>Nasi ayam wortel — Suppa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,64 +28,64 @@
         aria-labelledby="share-sheet-title"
         hidden
       >
-        <h2 class="sheet-panel__title" id="share-sheet-title">Share recipe</h2>
+        <h2 class="sheet-panel__title" id="share-sheet-title">Bagikan resep</h2>
         <p class="body-muted" style="font-size: 0.8125rem; margin: 0 0 1rem">
-          Only the recipe is shared—not your child’s profile or allergies.
+          Hanya resep yang dibagikan—bukan profil anak atau alergi Anda.
         </p>
         <div class="sheet-actions">
-          <button type="button" class="btn btn--primary" id="share-copy-link">Copy link</button>
-          <button type="button" class="btn btn--ghost" id="share-print">Print or PDF</button>
-          <button type="button" class="btn btn--ghost" id="share-copy-text">Copy recipe text</button>
+          <button type="button" class="btn btn--primary" id="share-copy-link">Salin tautan</button>
+          <button type="button" class="btn btn--ghost" id="share-print">Cetak atau PDF</button>
+          <button type="button" class="btn btn--ghost" id="share-copy-text">Salin teks resep</button>
           <div id="share-revoke-wrap" hidden>
-            <button type="button" class="btn btn--ghost btn--danger" id="share-revoke">Revoke share link</button>
+            <button type="button" class="btn btn--ghost btn--danger" id="share-revoke">Cabut tautan bagikan</button>
           </div>
-          <button type="button" class="btn btn--ghost" id="share-close">Close</button>
+          <button type="button" class="btn btn--ghost" id="share-close">Tutup</button>
         </div>
       </div>
 
       <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin: -0.5rem 0 1rem">
-        <a class="btn btn--ghost" href="fridge-results.html" style="width: auto">Back</a>
+        <a class="btn btn--ghost" href="fridge-results.html" style="width: auto">Kembali</a>
         <button type="button" class="btn btn--ghost" id="open-share" aria-haspopup="dialog" aria-controls="share-sheet" style="width: auto">
-          Share
+          Bagikan
         </button>
       </div>
       <div class="recipe-card__thumb" style="border-radius: var(--radius-card); margin-bottom: 1rem" role="img" aria-label=""></div>
       <header>
-        <span class="badge badge--match" style="margin-bottom: 0.5rem">Library</span>
-        <h1 class="display" style="font-size: 1.5rem">Chicken &amp; carrot rice bowl</h1>
+        <span class="badge badge--match" style="margin-bottom: 0.5rem">Katalog</span>
+        <h1 class="display" style="font-size: 1.5rem">Nasi ayam wortel</h1>
       </header>
       <div class="banner-stale" id="stale-banner" hidden>
-        <span>Profile updated—tap to refresh safety check</span>
+        <span>Profil diperbarui—ketuk untuk segarkan pengecekan keamanan</span>
         <button type="button" class="btn btn--ghost" style="width: auto; min-height: 36px; padding: 0.25rem 0.5rem" id="refresh-safety">
-          Refresh
+          Segarkan
         </button>
       </div>
       <div class="safety-callout" role="status">
         <span aria-hidden="true">✓</span>
-        <span><strong>Matches your allergy settings</strong> for Maya (egg avoided). Always double-check labels.</span>
+        <span><strong>Sesuai pengaturan alergi Anda</strong> untuk Maya (telur dihindari). Selalu cek label.</span>
       </div>
       <p class="caption" style="margin-bottom: 1rem">
-        General food ideas, not medical advice. For concerns, speak with your pediatrician or a registered dietitian.
+        Ide makanan umum, bukan saran medis. Untuk kekhawatiran, bicarakan dengan dokter anak atau ahli gizi terdaftar.
       </p>
-      <div class="macro-recipe-line" role="group" aria-label="Per serving nutrition estimate">
+      <div class="macro-recipe-line" role="group" aria-label="Perkiraan gizi per porsi">
         <p class="body-muted" style="margin: 0 0 0.5rem; font-size: 0.875rem">
-          <strong>Per serving (estimate)</strong> · ~320 kcal · 18g protein · 30g carbs · 12g fat
+          <strong>Per porsi (perkiraan)</strong> · ~320 kkal · 18g protein · 30g karbo · 12g lemak
         </p>
-        <span class="badge badge--gap">Protein-forward</span>
+        <span class="badge badge--gap">Kaya protein</span>
       </div>
       <main>
-        <h2 class="overline">Ingredients</h2>
+        <h2 class="overline">Bahan</h2>
         <ul>
-          <li>Cooked rice, 2 cups</li>
-          <li>Chicken thigh, diced</li>
-          <li>Carrot, sliced</li>
-          <li>Garlic, oil, salt</li>
+          <li>Nasi matang, 2 cangkir</li>
+          <li>Paha ayam, potong dadu</li>
+          <li>Wortel, iris</li>
+          <li>Bawang putih, minyak, garam</li>
         </ul>
-        <h2 class="overline">Steps</h2>
+        <h2 class="overline">Langkah</h2>
         <ol>
-          <li>Sauté chicken until cooked through.</li>
-          <li>Add carrot and cook until tender.</li>
-          <li>Fold in rice; season to taste.</li>
+          <li>Tumis ayam hingga matang.</li>
+          <li>Tambahkan wortel dan masak hingga empuk.</li>
+          <li>Masukkan nasi; bumbui sesuai selera.</li>
         </ol>
       </main>
     </div>
@@ -100,7 +100,7 @@
         }
         var params = new URLSearchParams(location.search);
         if (location.search.indexOf("mine=1") !== -1) {
-          document.querySelector(".badge--match").textContent = "Yours";
+          document.querySelector(".badge--match").textContent = "Milik Anda";
           var rw = document.getElementById("share-revoke-wrap");
           if (rw) rw.hidden = false;
         }
@@ -128,7 +128,7 @@
 
         document.getElementById("share-copy-link").addEventListener("click", function () {
           closeShare();
-          toast("Link copied.");
+          toast("Tautan disalin.");
         });
         document.getElementById("share-print").addEventListener("click", function () {
           closeShare();
@@ -136,7 +136,7 @@
         });
         document.getElementById("share-copy-text").addEventListener("click", function () {
           closeShare();
-          toast("Recipe text copied.");
+          toast("Teks resep disalin.");
         });
 
         var revokeBtn = document.getElementById("share-revoke");
@@ -144,11 +144,11 @@
           revokeBtn.addEventListener("click", function () {
             if (
               confirm(
-                "Revoke this share link?\n\nAnyone with an old link won’t see this recipe anymore. You can create a new link with Copy link."
+                "Cabut tautan bagikan ini?\n\nSiapa pun dengan tautan lama tidak akan melihat resep ini lagi. Anda bisa membuat tautan baru lewat Salin tautan."
               )
             ) {
               closeShare();
-              toast("Share link revoked.");
+              toast("Tautan bagikan dicabut.");
             }
           });
         }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Onboarding — Suppa</title>
+    <title>Pengaturan awal — Suppa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,13 +23,13 @@
       </div>
 
       <section id="step-1" class="ob-step">
-        <h1 class="title">Where do you shop and cook?</h1>
-        <p class="body-muted">We’re starting in Indonesia—pick your city or regency.</p>
+        <h1 class="title">Di mana Anda berbelanja dan memasak?</h1>
+        <p class="body-muted">Kami mulai dari Indonesia—pilih kota atau kabupaten Anda.</p>
         <input type="hidden" id="country" name="country" value="ID" />
         <div class="field" style="margin-top: 1.25rem">
-          <label for="city">City or regency</label>
+          <label for="city">Kota atau kabupaten</label>
           <select id="city" name="city" required>
-            <option value="">Select city or regency</option>
+            <option value="">Pilih kota atau kabupaten</option>
             <option value="Jakarta" selected>Jakarta</option>
             <option value="Surabaya">Surabaya</option>
             <option value="Bandung">Bandung</option>
@@ -49,108 +49,108 @@
           </select>
         </div>
         <div class="btn-row">
-          <button type="button" class="btn btn--primary" data-next>Continue</button>
-          <button type="button" class="btn btn--ghost" disabled>Back</button>
+          <button type="button" class="btn btn--primary" data-next>Lanjutkan</button>
+          <button type="button" class="btn btn--ghost" disabled>Kembali</button>
         </div>
       </section>
 
       <section id="step-2" class="ob-step" hidden>
-        <h1 class="title">Tell us about your child</h1>
+        <h1 class="title">Ceritakan tentang anak Anda</h1>
         <div class="field">
-          <label for="child-name">First name or nickname</label>
+          <label for="child-name">Nama depan atau panggilan</label>
           <input id="child-name" type="text" value="Maya" required />
         </div>
-        <p class="overline" style="margin-top: 1rem">Age band</p>
-        <div class="age-grid" role="radiogroup" aria-label="Child age band">
+        <p class="overline" style="margin-top: 1rem">Rentang usia</p>
+        <div class="age-grid" role="radiogroup" aria-label="Rentang usia anak">
           <label class="age-card"
-            ><input type="radio" name="age" value="0-5" /><span class="age-card__ui">0–5 months</span></label
+            ><input type="radio" name="age" value="0-5" /><span class="age-card__ui">0–5 bulan</span></label
           >
           <label class="age-card"
-            ><input type="radio" name="age" value="6-12" /><span class="age-card__ui">6–12 months</span></label
+            ><input type="radio" name="age" value="6-12" /><span class="age-card__ui">6–12 bulan</span></label
           >
           <label class="age-card"
-            ><input type="radio" name="age" value="1-2" /><span class="age-card__ui">1–2 years</span></label
+            ><input type="radio" name="age" value="1-2" /><span class="age-card__ui">1–2 tahun</span></label
           >
           <label class="age-card"
-            ><input type="radio" name="age" value="3-5" checked /><span class="age-card__ui">3–5 years</span></label
+            ><input type="radio" name="age" value="3-5" checked /><span class="age-card__ui">3–5 tahun</span></label
           >
           <label class="age-card"
-            ><input type="radio" name="age" value="6-8" /><span class="age-card__ui">6–8 years</span></label
+            ><input type="radio" name="age" value="6-8" /><span class="age-card__ui">6–8 tahun</span></label
           >
           <label class="age-card"
-            ><input type="radio" name="age" value="9-11" /><span class="age-card__ui">9–11 years</span></label
+            ><input type="radio" name="age" value="9-11" /><span class="age-card__ui">9–11 tahun</span></label
           >
           <label class="age-card"
-            ><input type="radio" name="age" value="12" /><span class="age-card__ui">12 years</span></label
+            ><input type="radio" name="age" value="12" /><span class="age-card__ui">12 tahun</span></label
           >
         </div>
         <div class="btn-row">
-          <button type="button" class="btn btn--primary" data-next>Continue</button>
-          <button type="button" class="btn btn--ghost" data-back>Back</button>
+          <button type="button" class="btn btn--primary" data-next>Lanjutkan</button>
+          <button type="button" class="btn btn--ghost" data-back>Kembali</button>
         </div>
       </section>
 
       <section id="step-3" class="ob-step" hidden>
-        <h1 class="title">Any allergies to avoid?</h1>
+        <h1 class="title">Ada alergi yang harus dihindari?</h1>
         <p class="body-muted">
-          We hide recipes that don’t match. Always read food labels—ingredients can change.
+          Kami menyembunyikan resep yang tidak cocok. Selalu baca label makanan—bahan bisa berubah.
         </p>
-        <div class="chip-grid" role="group" aria-label="Allergens">
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Milk</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="true">Egg</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Peanut</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Tree nuts</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Wheat</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Soy</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Fish</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Shellfish</button>
-          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Sesame</button>
+        <div class="chip-grid" role="group" aria-label="Alergen">
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Susu</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="true">Telur</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Kacang tanah</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Kacang pohon</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Gandum</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Kedelai</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Ikan</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Kerang</button>
+          <button type="button" class="chip" data-allergy-chip aria-pressed="false">Wijen</button>
         </div>
         <div class="toggle-row">
-          <span>No known allergies</span>
-          <input type="checkbox" id="no-allergy" aria-label="No known allergies" />
+          <span>Tidak ada alergi yang diketahui</span>
+          <input type="checkbox" id="no-allergy" aria-label="Tidak ada alergi yang diketahui" />
         </div>
         <div class="field">
-          <label for="allergy-other">Other (optional)</label>
-          <textarea id="allergy-other" rows="2" placeholder="We’ll be careful—recipes may hide extra matches."></textarea>
+          <label for="allergy-other">Lainnya (opsional)</label>
+          <textarea id="allergy-other" rows="2" placeholder="Kami akan berhati-hati—resep bisa menyembunyikan kecocokan ekstra."></textarea>
         </div>
         <div class="btn-row">
-          <button type="button" class="btn btn--primary" data-next>Continue</button>
-          <button type="button" class="btn btn--ghost" data-back>Back</button>
+          <button type="button" class="btn btn--primary" data-next>Lanjutkan</button>
+          <button type="button" class="btn btn--ghost" data-back>Kembali</button>
         </div>
       </section>
 
       <section id="step-4" class="ob-step" hidden>
-        <h1 class="title">Likes and dislikes (optional)</h1>
+        <h1 class="title">Suka dan tidak suka (opsional)</h1>
         <div class="field">
-          <label for="likes">Likes</label>
-          <textarea id="likes" maxlength="500" placeholder="Loves rice, banana…"></textarea>
+          <label for="likes">Suka</label>
+          <textarea id="likes" maxlength="500" placeholder="Suka nasi, pisang…"></textarea>
         </div>
         <div class="field">
-          <label for="dislikes">Does not like</label>
+          <label for="dislikes">Tidak suka</label>
           <textarea id="dislikes" maxlength="500"></textarea>
         </div>
-        <a class="btn btn--ghost" href="#" id="skip-prefs" style="margin-bottom: 0.5rem">Skip for now</a>
+        <a class="btn btn--ghost" href="#" id="skip-prefs" style="margin-bottom: 0.5rem">Lewati dulu</a>
         <div class="btn-row">
-          <button type="button" class="btn btn--primary" data-next>Continue</button>
-          <button type="button" class="btn btn--ghost" data-back>Back</button>
+          <button type="button" class="btn btn--primary" data-next>Lanjutkan</button>
+          <button type="button" class="btn btn--ghost" data-back>Kembali</button>
         </div>
       </section>
 
       <section id="step-5" class="ob-step" hidden>
         <p class="empty__art" aria-hidden="true">ℹ️</p>
-        <h1 class="title">A quick note</h1>
+        <h1 class="title">Catatan singkat</h1>
         <p class="body-muted">
-          Suppa shares general food ideas, not medical advice. It does not diagnose or treat conditions. For feeding
-          or allergy concerns, talk with your pediatrician or a registered dietitian.
+          Suppa membagikan ide makanan umum, bukan saran medis. Suppa tidak mendiagnosis atau mengobati kondisi medis.
+          Untuk kekhawatiran MPASI atau alergi, diskusikan dengan dokter anak atau ahli gizi terdaftar.
         </p>
         <div class="check-row">
           <input type="checkbox" id="understand" required />
-          <label for="understand">I understand</label>
+          <label for="understand">Saya mengerti</label>
         </div>
         <div class="btn-row">
-          <a class="btn btn--primary" href="today.html" id="get-started" aria-disabled="true">Get started with Suppa</a>
-          <button type="button" class="btn btn--ghost" data-back>Back</button>
+          <a class="btn btn--primary" href="today.html" id="get-started" aria-disabled="true">Mulai dengan Suppa</a>
+          <button type="button" class="btn btn--ghost" data-back>Kembali</button>
         </div>
       </section>
     </div>
@@ -213,7 +213,7 @@
               if (!city || !city.value) return;
             }
             if (step === 3 && !noAllergy.checked && !anyChipSelected()) {
-              alert("Select allergies or choose “No known allergies.”");
+              alert("Pilih alergi atau centang “Tidak ada alergi yang diketahui.”");
               return;
             }
             if (step < 5) showStep(step + 1);

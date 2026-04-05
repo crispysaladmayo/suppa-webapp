@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Recipes — Suppa</title>
+    <title>Resep — Suppa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -15,58 +15,58 @@
   <body>
     <div class="app-frame">
       <header class="top-bar">
-        <h1 class="title" style="margin: 0">Recipes</h1>
-        <a href="settings.html" class="top-bar__settings" aria-label="Settings">⚙</a>
+        <h1 class="title" style="margin: 0">Resep</h1>
+        <a href="settings.html" class="top-bar__settings" aria-label="Pengaturan">⚙</a>
       </header>
-      <div class="segmented" role="tablist" aria-label="Recipe scope" style="margin-bottom: 1rem">
-        <label><input type="radio" name="rec-tab" checked /><span>For you</span></label>
-        <label><input type="radio" name="rec-tab" /><span>All safe</span></label>
-        <label><input type="radio" name="rec-tab" /><span>Mine</span></label>
+      <div class="segmented" role="tablist" aria-label="Cakupan resep" style="margin-bottom: 1rem">
+        <label><input type="radio" name="rec-tab" checked /><span>Untuk Anda</span></label>
+        <label><input type="radio" name="rec-tab" /><span>Semua aman</span></label>
+        <label><input type="radio" name="rec-tab" /><span>Milik saya</span></label>
       </div>
       <main>
         <a class="recipe-card" href="recipe-detail.html">
           <div class="recipe-card__thumb" role="img" aria-label=""></div>
           <div class="recipe-card__body">
-            <h2 class="recipe-card__title">Chicken &amp; carrot rice bowl</h2>
+            <h2 class="recipe-card__title">Nasi ayam wortel</h2>
             <div class="badge-row">
-              <span class="badge badge--safe">Safe for Maya</span>
-              <span class="badge badge--gap">Protein-forward</span>
+              <span class="badge badge--safe">Aman untuk Maya</span>
+              <span class="badge badge--gap">Kaya protein</span>
             </div>
           </div>
         </a>
         <a class="recipe-card" href="recipe-detail.html">
           <div class="recipe-card__thumb" role="img" aria-label=""></div>
           <div class="recipe-card__body">
-            <h2 class="recipe-card__title">Mild veggie stir-fry</h2>
+            <h2 class="recipe-card__title">Tumis sayur ringan</h2>
             <div class="badge-row">
-              <span class="badge badge--safe">Safe for Maya</span>
-              <span class="badge badge--match">Balanced</span>
+              <span class="badge badge--safe">Aman untuk Maya</span>
+              <span class="badge badge--match">Seimbang</span>
             </div>
           </div>
         </a>
       </main>
-      <a href="add-recipe.html" class="fab" aria-label="Add recipe">+</a>
+      <a href="add-recipe.html" class="fab" aria-label="Tambah resep">+</a>
     </div>
-    <nav class="bottom-nav" aria-label="Main navigation">
+    <nav class="bottom-nav" aria-label="Navigasi utama">
       <a href="today.html">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" /></svg>
-        Today
+        Hari ini
       </a>
       <a href="log-week.html">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 8v8M8 12h8" /></svg>
-        Log
+        Catat
       </a>
       <a href="fridge.html">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" /><path d="M5 8h14" /></svg>
-        Fridge
+        Kulkas
       </a>
       <a href="recipes.html" aria-current="page">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h5v18H6zM13 3h5v18h-5z" /></svg>
-        Recipes
+        Resep
       </a>
       <a href="meal-prep.html">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 11h18M8 3v4M16 3v4" /></svg>
-        Prep
+        Persiapan
       </a>
     </nav>
     <script src="app.js"></script>

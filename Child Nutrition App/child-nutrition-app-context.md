@@ -16,7 +16,7 @@ When Alvin asks for a **design update** (UX/UI change, new screen, copy/layout t
 
 1. **Update the spec** — Edit [`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md) (and PRD [`prd-milestone-1.md`](./prd-milestone-1.md) if behavior or acceptance criteria change).
 2. **Update the HTML prototype** — Apply the same changes under [`m1-hifi-prototype/`](./m1-hifi-prototype/) (`*.html`, `styles.css`, `app.js` as needed).
-3. **Publish to GitHub Pages** — From the **repo root** (`Alvin Cursor`): run `./scripts/sync-prototype-to-docs.sh`, then `git add` (at least `docs/` and any spec/prototype edits), **commit**, **`git push origin main`** to [crispysaladmayo/suppa](https://github.com/crispysaladmayo/suppa).
+3. **Publish to GitHub Pages** — From the **repo root** (`Alvin Cursor`): run `./scripts/sync-prototype-to-docs.sh` (copies **`docs/`** and mirrors the same prototype files to the **repo root** for duplicate static copies), then `git add` (`docs/`, root-level `*.html`, `app.js`, `styles.css`, `assets/` if present, plus spec/prototype edits), **commit**, **`git push origin main`** to [crispysaladmayo/suppa](https://github.com/crispysaladmayo/suppa).
 
 The agent should complete this end-to-end unless Alvin says **spec-only** or **no push**.
 

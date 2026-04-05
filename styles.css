@@ -79,6 +79,59 @@ body {
   margin-bottom: 0.25rem;
 }
 
+/* Logo mark + Fraunces wordmark — design-m1-hifi-pages.md §2.0 */
+.brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  text-decoration: none;
+  color: inherit;
+  margin: 0 0 0.75rem;
+}
+
+.brand-lockup:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+.brand-lockup__mark {
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  display: block;
+}
+
+.brand-lockup__name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.brand-lockup--hero .brand-lockup__mark {
+  width: 3rem;
+  height: 3rem;
+}
+
+.brand-lockup--hero .brand-lockup__name {
+  font-size: 2rem;
+}
+
+.brand-lockup--auth {
+  margin-bottom: 0.25rem;
+}
+
+.brand-lockup--auth .brand-lockup__mark {
+  width: 2.375rem;
+  height: 2.375rem;
+}
+
+.brand-lockup--auth .brand-lockup__name {
+  font-size: 1.375rem;
+}
+
 a {
   color: var(--accent);
 }
@@ -1068,6 +1121,7 @@ textarea:focus-visible,
   padding-bottom: 2rem;
 }
 
+.public-recipe-page .brand-lockup,
 .public-recipe-page .wordmark {
   margin-bottom: 1.5rem;
 }
@@ -1130,7 +1184,8 @@ textarea:focus-visible,
     background: #fff;
   }
 
-  .public-recipe-page .public-recipe__wordmark-link a {
+  .public-recipe-page .public-recipe__wordmark-link a,
+  .public-recipe-page .public-recipe__wordmark-link.brand-lockup {
     color: #000;
     text-decoration: none;
     pointer-events: none;

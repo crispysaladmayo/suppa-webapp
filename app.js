@@ -11,7 +11,7 @@
       var open = full.hidden === false;
       full.hidden = open;
       btn.setAttribute("aria-expanded", open ? "false" : "true");
-      btn.textContent = open ? "Learn more" : "Show less";
+      btn.textContent = open ? "Baca selengkapnya" : "Sembunyikan";
     });
   }
 
@@ -29,10 +29,15 @@
   function initTodayGreeting() {
     var el = document.getElementById("today-greeting");
     if (!el) return;
-    var name = el.getAttribute("data-child-first") || "your child";
+    var name = el.getAttribute("data-child-first") || "si kecil";
     var h = new Date().getHours();
-    var part = h < 12 ? "morning" : h < 17 ? "afternoon" : "evening";
-    el.textContent = "Good " + part + ", mama — " + name;
+    // Indonesian time-of-day: pagi <11, siang 11–14, sore 15–18, malam otherwise
+    var salam;
+    if (h < 11) salam = "Selamat pagi";
+    else if (h < 15) salam = "Selamat siang";
+    else if (h < 19) salam = "Selamat sore";
+    else salam = "Selamat malam";
+    el.textContent = salam + ", Mama " + name;
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -58,7 +63,7 @@
           return;
         }
         if (err) err.hidden = true;
-        showToast("Saved", 1800);
+        showToast("Tersimpan", 1800);
         setTimeout(function () {
           window.location.href = "today.html";
         }, 600);
@@ -100,7 +105,7 @@
         if (steps && !steps.value.trim()) mark(steps, true);
         else if (steps) mark(steps, false);
         if (!ok) return;
-        showToast("Recipe saved", 1800);
+        showToast("Resep tersimpan", 1800);
         setTimeout(function () {
           window.location.href = "recipe-detail.html?mine=1";
         }, 500);
