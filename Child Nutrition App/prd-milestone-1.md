@@ -19,6 +19,7 @@
 | 0.4 | 2026-04-05 | PO + CPO alignment | **M1 expansion:** nutrient-focus (vitamin D, iron, calcium pattern), sodium/added-sugar **awareness**, **trending** recipes, **cook time**, **weekly meal prep**, **recipe share** (URL / print / text), **growth chart** (WHO/CDC, user-entered measurements). See [`milestone-1-spec.md`](./milestone-1-spec.md). |
 | 0.5 | 2026-04-05 | PO | **Suppa** branding locked for customer-facing copy; linked [`suppa-brand-framework.md`](./suppa-brand-framework.md); hi-fi + prototype aligned ([`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md)). |
 | 0.6 | 2026-04-06 | PO | **PO-first queue** §14.1: ordered decisions before design freeze; maps to [`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md) §9. |
+| 0.7 | 2026-04-06 | PO | **Q1 Auth locked:** M1 **email + password** sign-up and sign-in (FR-A1). |
 
 ---
 
@@ -277,7 +278,7 @@ Caregiver tags each log line with **one or more** of: `vegetables` · `fruits` �
 
 | ID | Requirement |
 |----|-------------|
-| FR-A1 | User can **sign up** and **sign in** (method TBD in tech spec). |
+| FR-A1 | User can **sign up** and **sign in** with **email and password** (hashing, validation, rate limits, and **forgot-password / reset** timing in technical spec—**self-service reset** may ship **M1.1** if M1 is scope-tight). |
 | FR-A2 | User can **sign out** and session ends. |
 | FR-A3 | User can create **one household** with **city** (required) and **country**. **If** the UI presents a **country** control (dropdown or required field), **country is required** for that flow; **if** M1 ships **city + free-text “City, country”** only, **country** is satisfied by that field and a separate control may be omitted—pick one pattern before build and keep analytics consistent. |
 | FR-A4 | User can add **optional** household members (name, role) **stored only**—no scoring in M1. |
@@ -443,7 +444,12 @@ Define in implementation; **minimum event names** for funnel:
 
 **Already locked (do not reopen without CPO):** Customer-facing product name **Suppa** ([`suppa-brand-framework.md`](./suppa-brand-framework.md)); PRD v0.5.
 
-1. **Auth:** Email magic link vs OAuth vs password—**decision** before build.  
+### Resolved (PO)
+
+- **Q1 — Auth (M1):** **Email + password** for **sign up** and **sign in**. **Not in scope for M1:** magic-link–only flows, OAuth/social login as the **only** path (either may be added later as **additional** options). Implementation details (hashing, rotation, lockout, **forgot-password** UX) live in the **technical spec**; minimum shippable bar is **working credential sign-up and sign-in**.
+
+### Open
+
 2. **Log edit/delete:** Policy for correcting mistakes.  
 3. **Seeded recipe count** and **licensing** owner.  
 4. **Country list** vs free-text only for M1.  
@@ -460,7 +466,7 @@ Work **top to bottom**. Record each answer inline above (edit the numbered item)
 
 | Order | PO question (§14) | Why first | Design spec touchpoint ([`design-m1-hifi-pages.md`](./design-m1-hifi-pages.md)) |
 |------:|-------------------|-----------|-------------------------------------------------------------------------------------|
-| 1 | **Q1 Auth** | Blocks sign-up / log-in field set and FR-A1 | §5.2 Sign up / Log in |
+| 1 | ~~**Q1 Auth**~~ **Resolved** | Email + password — FR-A1 | §5.2 Sign up / Log in |
 | 2 | **Q4 Country** | Locks FR-A3 + onboarding validation | §5.3 Household place |
 | 3 | **Q6 Display name** | Locks Today greeting (FR-C1) | §5.8 Today |
 | 4 | **0–5 mo logging** (PRD journeys + AC-C1) | Locks milk mode vs meal log | §5.8 milk mode; §5.9 Log — *tie to Q1 if “feed” is separate flow* |
@@ -514,3 +520,4 @@ Work **top to bottom**. Record each answer inline above (edit the numbered item)
 | 0.4 | Nutrient focus §7.7; sodium/sugar awareness §7.8; cook time & trending §7.9; §8.5–8.6; journeys §9.1–9.3; Epics B–I; AC-C5–C6, AC-E4–E5, AC-G1–G2, AC-H1–H2, AC-I1–I2; analytics; NFR5; open Q7–10. |
 | 0.5 | **Suppa** branding; link [`suppa-brand-framework.md`](./suppa-brand-framework.md); hi-fi alignment note. |
 | 0.6 | §14.1 **PO-first resolution order** (table + sign-off gate); §14 locked-items note for **Suppa**. |
+| 0.7 | **Q1 Auth:** M1 **email + password**; FR-A1 updated; §14 split **Resolved** / **Open** (Q2–Q10). |

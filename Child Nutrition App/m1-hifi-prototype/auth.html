@@ -43,6 +43,9 @@
               autocomplete="new-password"
               required
             />
+            <p class="body-muted" id="forgot-password" style="margin-top: 0.35rem; font-size: 0.875rem" hidden>
+              <a href="#">Forgot password?</a>
+            </p>
           </div>
           <p class="field__error" id="auth-inline-error" hidden>
             This email is already registered. <a href="auth.html?mode=login">Log in</a> instead.
@@ -61,14 +64,17 @@
         var title = document.getElementById("auth-title");
         var switchEl = document.getElementById("switch-mode");
         var pass = document.getElementById("password");
+        var forgot = document.getElementById("forgot-password");
         if (mode === "login") {
           title.textContent = "Welcome back";
           document.title = "Welcome back — Suppa";
           pass.setAttribute("autocomplete", "current-password");
+          if (forgot) forgot.hidden = false;
           switchEl.textContent = "Need an account? Sign up";
           switchEl.href = "auth.html?mode=signup";
         } else {
           document.title = "Create your account — Suppa";
+          if (forgot) forgot.hidden = true;
           switchEl.textContent = "Already have an account? Log in";
           switchEl.href = "auth.html?mode=login";
         }

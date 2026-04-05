@@ -26,7 +26,7 @@
 ## M1 — In scope (product)
 
 1. **Account & household (minimal)**  
-   - Sign up / sign in (provider TBD).  
+   - Sign up / sign in — **email + password** (M1 PO lock; see [`prd-milestone-1.md`](./prd-milestone-1.md) FR-A1).  
    - One household, one **primary child** profile for M1 scoring (optional other members may exist as **placeholders**; see below).  
    - **City or locality (required):** Caregiver enters where the household shops/cooks (e.g. city + country or metro). **Use in M1:** persist field, show in settings, use for **copy variants / tagging / seeded recipe selection** where implemented; **no GPS**, no store locator.
 

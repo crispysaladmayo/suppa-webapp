@@ -63,7 +63,7 @@ V1 is a **coherent slice** that proves the core loop: **profile → log → see 
 ### V1 — in scope (user-visible)
 
 1. **Account & household (minimal)**  
-   - Sign up / sign in (implementation choice open: email magic link, OAuth, etc.).  
+   - Sign up / sign in — **M1:** **email + password** ([`prd-milestone-1.md`](./prd-milestone-1.md) FR-A1 / §14 **Resolved**).  
    - One **household** with a named **child** (age or age band) and optional **other members** as simple profiles (name + role, e.g. “Adult”) for future nutrition targets.  
    - **City or locality (required for V1):** Mom/caregiver enters where the household shops and cooks (e.g. city + country, or metro)—used to tune **food suggestions, ingredient names, and gap hints** to **geographic and cultural context** (not precise GPS in V1 unless we explicitly add it later).
 
