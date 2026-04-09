@@ -40,9 +40,168 @@
     el.textContent = salam + ", Mama " + name;
   }
 
+  // ── Mode contextual hint banner ──────────────────────────
+  // Shows at 17:00–19:00 on Log Harian; dismissed per session (sessionStorage).
+  function initModeHint() {
+    var hint = document.getElementById("mode-hint");
+    if (!hint) return;
+    var dismissed = sessionStorage.getItem("mode-hint-dismissed");
+    if (dismissed) return;
+    var h = new Date().getHours();
+    if (h >= 17 && h < 19) {
+      hint.hidden = false;
+    }
+    var btn = document.getElementById("mode-hint-dismiss");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        hint.hidden = true;
+        sessionStorage.setItem("mode-hint-dismissed", "1");
+      });
+    }
+  }
+
+  // ── Gap hint card dismiss (hides for 24 hours via localStorage) ──
+  function initGapHints() {
+    document.querySelectorAll("[data-dismiss]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var targetId = btn.getAttribute("data-dismiss");
+        var card = document.getElementById(targetId);
+        if (!card) return;
+        card.hidden = true;
+        try {
+          localStorage.setItem("gap-hint-dismissed-" + targetId, String(Date.now()));
+        } catch (e) {}
+      });
+    });
+    // Restore hidden state if dismissed within 24h
+    document.querySelectorAll(".gap-hint[id]").forEach(function (card) {
+      try {
+        var ts = localStorage.getItem("gap-hint-dismissed-" + card.id);
+        if (ts && Date.now() - Number(ts) < 86400000) {
+          card.hidden = true;
+        }
+      } catch (e) {}
+    });
+  }
+
+  // ── Pelangi makan tooltip toggle ─────────────────────────
+  function initPelangiTooltip() {
+    var btn = document.getElementById("pelangi-info-btn");
+    var tip = document.getElementById("pelangi-tooltip");
+    if (!btn || !tip) return;
+    btn.addEventListener("click", function () {
+      var open = tip.classList.contains("pelangi-tooltip--visible");
+      tip.classList.toggle("pelangi-tooltip--visible", !open);
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+    });
+  }
+
+  // ── Topic chip toggle (Edukasi browse) ───────────────────
+  function initTopicChips() {
+    var chips = document.querySelectorAll(".topic-chip");
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        chips.forEach(function (c) {
+          c.classList.remove("topic-chip--active");
+          c.setAttribute("aria-pressed", "false");
+        });
+        chip.classList.add("topic-chip--active");
+        chip.setAttribute("aria-pressed", "true");
+      });
+    });
+  }
+
+  // ── Inline article quiz ──────────────────────────────────
+  // Questions are shown one at a time; correct answer highlighted;
+  // explanation shown after any answer; shame-free framing.
+  function initArticleQuiz() {
+    var quiz = document.getElementById("article-quiz");
+    if (!quiz) return;
+    var progress = document.getElementById("quiz-progress");
+    var done = document.getElementById("quiz-done");
+    var totalQ = quiz.querySelectorAll(".quiz-q").length;
+
+    function activateQuestion(n) {
+      quiz.querySelectorAll(".quiz-q").forEach(function (q) {
+        q.classList.remove("quiz-q--active");
+      });
+      var target = document.getElementById("qq-" + n);
+      if (target) target.classList.add("quiz-q--active");
+      if (progress) progress.textContent = n + " / " + totalQ;
+    }
+
+    quiz.querySelectorAll(".quiz-q").forEach(function (q) {
+      var correct = q.getAttribute("data-correct");
+      var explainId = q.id + "-explain";
+      var explain = document.getElementById(explainId);
+      var nextBtn = q.querySelector(".quiz-q__next");
+      var options = q.querySelectorAll(".quiz-q__option");
+
+      options.forEach(function (opt) {
+        opt.addEventListener("click", function () {
+          // Lock all options after first pick
+          options.forEach(function (o) {
+            o.disabled = true;
+          });
+          var chosen = opt.getAttribute("data-option");
+          if (chosen === correct) {
+            opt.classList.add("quiz-q__option--correct");
+          } else {
+            opt.classList.add("quiz-q__option--wrong");
+            // Also highlight the correct answer
+            options.forEach(function (o) {
+              if (o.getAttribute("data-option") === correct) {
+                o.classList.add("quiz-q__option--correct");
+              }
+            });
+          }
+          // Show explanation (no shame language regardless of right/wrong)
+          if (explain) explain.classList.add("quiz-q__explain--visible");
+          // Show next/finish button
+          if (nextBtn) nextBtn.classList.add("quiz-q__next--visible");
+        });
+      });
+    });
+
+    // Next question buttons
+    quiz.querySelectorAll("[data-next]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var n = parseInt(btn.getAttribute("data-next"), 10);
+        activateQuestion(n);
+      });
+    });
+
+    // Finish button — show completion state
+    var finishBtn = quiz.querySelector("[data-finish]");
+    if (finishBtn) {
+      finishBtn.addEventListener("click", function () {
+        quiz.querySelectorAll(".quiz-q").forEach(function (q) {
+          q.classList.remove("quiz-q--active");
+        });
+        if (done) done.classList.add("quiz-block__done--visible");
+        if (progress) progress.textContent = "Selesai ✓";
+      });
+    }
+  }
+
+  // ── Child profile quick-switch stub (DQ-5) ───────────────
+  function initChildSwitch() {
+    var btn = document.getElementById("child-switch-btn");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      showToast("Ganti profil anak — segera hadir", 1800);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initTodayGreeting();
     initDisclaimer(document);
+    initModeHint();
+    initGapHints();
+    initPelangiTooltip();
+    initTopicChips();
+    initArticleQuiz();
+    initChildSwitch();
 
     document.querySelectorAll("[data-chip-toggle]").forEach(function (btn) {
       btn.addEventListener("click", function () {
