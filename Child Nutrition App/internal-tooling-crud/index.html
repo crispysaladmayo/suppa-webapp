@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suppa Internal Tooling - Schema CRUD</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Internal Platform</p>
+          <h1>Schema CRUD Console</h1>
+        </div>
+        <button id="seedButton" class="button button-secondary" type="button">
+          Reset Demo Data
+        </button>
+      </header>
+
+      <section class="card">
+        <h2>Data Schema</h2>
+        <p class="muted">
+          This console provides CRUD access for operational entities used by the
+          Child Nutrition app.
+        </p>
+        <div id="schemaGrid" class="schema-grid"></div>
+      </section>
+
+      <section class="card">
+        <div class="tabs" id="entityTabs" role="tablist" aria-label="Entities"></div>
+        <div class="table-wrap">
+          <table>
+            <thead id="tableHead"></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 id="formTitle">Create record</h2>
+        <form id="recordForm" class="form-grid"></form>
+      </section>
+    </main>
+
+    <template id="tabTemplate">
+      <button class="tab-button" role="tab" type="button"></button>
+    </template>
+
+    <template id="schemaTemplate">
+      <article class="schema-card">
+        <h3></h3>
+        <p></p>
+      </article>
+    </template>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
