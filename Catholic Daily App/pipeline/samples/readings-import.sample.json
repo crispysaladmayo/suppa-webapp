@@ -1,0 +1,39 @@
+{
+  "bundle_version": "2026.0.0-sample",
+  "conference_code": "KWI",
+  "effective_from": "2026-01-01",
+  "source_attribution": "PLACEHOLDER — ganti dengan teks sumber resmi setelah ada lisensi/API.",
+  "content_license_tag": "TBD",
+  "days": [
+    {
+      "liturgical_date": "2026-04-06",
+      "cycle_metadata": {
+        "note": "Contoh metadata siklus — sesuaikan dengan kalender liturgi KWI."
+      },
+      "blocks": [
+        {
+          "sort_order": 0,
+          "kind": "FIRST",
+          "reference": "Contoh 1:1-2",
+          "title": "Bacaan pertama (contoh)",
+          "body": "Ini teks contoh untuk pengujian pipeline. Bukan teks Kitab Suci resmi.",
+          "source_line": null
+        },
+        {
+          "sort_order": 1,
+          "kind": "PSALM",
+          "reference": "Mzm 23:1",
+          "title": "Salmo (contoh)",
+          "body": "Tuhan adalah gembalaku; aku tak akan kekurangan. (contoh)"
+        },
+        {
+          "sort_order": 2,
+          "kind": "GOSPEL",
+          "reference": "Contoh 1:1",
+          "title": "Injil (contoh)",
+          "body": "Pada mulanya adalah Firman… (contoh — ganti dengan teks leksionarium berizin.)"
+        }
+      ]
+    }
+  ]
+}

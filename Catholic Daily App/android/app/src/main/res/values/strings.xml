@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Catholic Daily</string>
+    <string name="home_title">Hari ini</string>
+    <string name="home_liturgy_name_placeholder">Liturgi hari ini</string>
+    <string name="section_readings">Bacaan</string>
+    <string name="section_homily">Homili Paus</string>
+    <string name="section_renungan">Renungan</string>
+    <string name="liturgical_date_line">Tanggal liturgi (%1$s): %2$s</string>
+    <string name="liturgical_header_date_line">%1$s \u00B7 %2$s</string>
+    <string name="readings_empty">Belum ada bacaan lokal. Salin readings_bundle.db ke app/src/main/assets/ (lihat android/README.md).</string>
+    <string name="homily_empty">Belum ada homili di cache. Set HOMILY_FEED_URL ke JSON resmi Anda, lalu ketuk muat ulang.</string>
+    <string name="homily_link_only">Teks penuh tidak ditampilkan di aplikasi sesuai izin konten. Buka sumber resmi untuk membaca selengkapnya.</string>
+    <string name="homily_open_link">Buka sumber resmi</string>
+    <string name="homily_source_footnote">Sumber: %1$s</string>
+    <string name="editorial_empty">Belum ada renungan. Atur EDITORIAL_BASE_URL ke CDN Anda, lalu ketuk muat ulang.</string>
+    <string name="renungan_ai_disclosure">Renungan ini melibatkan bantuan kecerdasan buatan dan telah ditinjau manusia sebelum tayang. Bukan pengganti ajaran Magisterium atau bimbingan pastoral pribadi. (Teks pengungkapan resmi dapat diubah setelah peninjauan pastoral/hukum.)</string>
+    <string name="fab_refresh_content_description">Muat ulang konten jaringan</string>
+    <string name="home_about_content_description">Tentang konten</string>
+    <string name="home_profile_content_description">Profil</string>
+    <string name="reading_overflow_content_description">Menu bacaan</string>
+    <string name="about_sheet_title">Tentang konten</string>
+    <string name="about_sheet_calendar_line">Kalender: Konferensi Waligereja Indonesia (%1$s)</string>
+    <string name="about_sheet_date_line">Tanggal liturgi: %1$s</string>
+    <string name="about_sheet_readings_source">Sumber bacaan: mitra leksionar Indonesia yang disetujui (placeholder).</string>
+    <string name="about_sheet_homily_source">Sumber homili: Vatican News / Tahta Suci sesuai publikasi resmi.</string>
+    <string name="about_sheet_disclaimer">Konten dapat diperbarui sesuai sinkronisasi sumber resmi dan lisensi.</string>
+    <string name="profile_sheet_title">Profil &amp; aksi</string>
+    <string name="profile_sheet_subtitle">Kelola aksi cepat untuk layar Hari ini.</string>
+    <string name="action_refresh_content">Muat ulang konten</string>
+    <string name="action_close">Tutup</string>
+</resources>

@@ -1,0 +1,14 @@
+---
+description: Auto-load context for any work in the Catholic Daily App project folder
+globs: Catholic Daily App/**
+---
+
+# Catholic Daily App — Project Context
+
+When working on any file in this folder, load `catholic-daily-app-context.md` as the canonical reference before doing any work.
+
+Do not regenerate context that belongs in that file. Reference the file. If a task conflicts with what's in that file, flag it.
+
+**Source of truth:** `Catholic Daily App/catholic-daily-app-context.md`
+
+**Product defaults:** Android-only V1; Indonesian UI and primary content (see context).

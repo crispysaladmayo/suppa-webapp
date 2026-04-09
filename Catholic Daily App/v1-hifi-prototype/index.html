@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hari ini — Catholic Daily (hi-fi)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-frame" id="app">
+      <header class="sticky-header" aria-label="Hari liturgi">
+        <div class="sticky-header__top">
+          <div class="sticky-header__titles">
+            <p class="sticky-header__eyebrow">Hari ini</p>
+            <h1 class="sticky-header__liturgy" id="header-liturgy">Minggu Paskah II</h1>
+            <p class="sticky-header__date" id="header-date">Minggu, 6 April 2026 · KWI</p>
+          </div>
+          <div class="sticky-header__actions">
+            <button type="button" class="icon-btn" id="btn-about" aria-label="Tentang konten">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" stroke-linecap="round" />
+              </svg>
+            </button>
+            <button type="button" class="icon-btn" id="btn-settings" aria-label="Pengaturan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M6 20v-1a6 6 0 0 1 12 0v1" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="offline-banner" id="offline-banner" role="status">
+        <span>Tidak ada koneksi. Konten mungkin tidak terbaru.</span>
+        <button type="button" id="btn-retry">Coba lagi</button>
+      </div>
+
+      <main class="main-scroll" id="main-scroll">
+        <!-- Bacaan I -->
+        <article class="reading-block" data-reading="bacaan1">
+          <div class="reading-block__head">
+            <div>
+              <p class="reading-block__label">Bacaan I</p>
+              <p class="reading-block__ref">Kis 2:14.22–33</p>
+            </div>
+            <button type="button" class="icon-btn reading-menu" data-reading="bacaan1" aria-label="Menu Bacaan I">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+                <circle cx="12" cy="6" r="1.75" />
+                <circle cx="12" cy="12" r="1.75" />
+                <circle cx="12" cy="18" r="1.75" />
+              </svg>
+            </button>
+          </div>
+          <p class="reading-block__body" id="text-bacaan1">
+            Pada hari ketiga, Peter berdiri bersama kesebelas murid itu dan memakankan suaranya: “Hai orang Yahudi dan kamu semua yang tinggal di Yerusalem! Biarlah hal ini diketahukan olehmu dan perhatikanlah perkataanku. Sebab bukan seperti yang kamu sangka, orang-orang ini mabuk; karena hanya pukul sembilan pagi. Tetapi inilah yang telah difirmankan oleh nabi Yoel: ‘Akan terjadi pada hari-hari terakhir, firman Allah, bahwa Aku akan mencurahkan Roh-Ku ke atas semua manusia; maka anak-anakmu laki-laki dan perempuan akan bernubuat, dan orang-orangmudamu akan mendapat penglihatan-penglihatan, dan orang-orangmu yang tua akan mendapat mimpi-mimpi. Dan memang kepada hamba-hamba-Ku, baik laki-laki maupun perempuan, akan Kucurahkan Roh-Ku pada zaman itu, sehingga mereka akan bernubuat.’”
+
+            (Teks di atas adalah contoh panjang untuk prototipe; teks liturgis resmi mengikuti sumber leksionar Indonesia yang disetujui.)
+          </p>
+          <p class="reading-block__source">Sumber bacaan: [mitra resmi — placeholder]</p>
+        </article>
+
+        <!-- Bacaan II — hidden on weekday -->
+        <article class="reading-block" id="block-bacaan2" data-reading="bacaan2">
+          <div class="reading-block__head">
+            <div>
+              <p class="reading-block__label">Bacaan II</p>
+              <p class="reading-block__ref">1Ptr 1:17–21</p>
+            </div>
+            <button type="button" class="icon-btn reading-menu" data-reading="bacaan2" aria-label="Menu Bacaan II">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+                <circle cx="12" cy="6" r="1.75" />
+                <circle cx="12" cy="12" r="1.75" />
+                <circle cx="12" cy="18" r="1.75" />
+              </svg>
+            </button>
+          </div>
+          <p class="reading-block__body" id="text-bacaan2">
+            Jika Bapa yang memanggil kamu adalah Allah yang tidak memandang muka, melainkan menurut perbuatan masing-masing, hendaklah dengan rasa hormat dan takut selama masa kependetaanmu ini kamu menjalani hidupmu. Ketahuilah, bahwa kamu telah ditebus dari hidupmu yang sia-sia yang telah kamu warisi dari nenek moyangmu itu, bukan dengan barang-barang yang fana, seperti emas atau perak, melainkan dengan darah yang berharga, seperti darah anak domba yang tak bernoda dan tak bercacat, yaitu darah Kristus.
+
+            Ia memang telah dipilih sebelum dunia dijadikan, tetapi baru nyata pada zaman akhir ini bagi kamu. Oleh karena kamu percaya kepada Allah, yang telah membangkitkan Dia dari antara orang mati dan telah memuliakan-Nya, sehingga kamu mempunyai keyakinan dan pengharapan kepada Allah.
+
+            (Contoh panjang untuk prototipe; teks resmi mengikuti leksionar.)
+          </p>
+          <p class="reading-block__source">Sumber bacaan: [mitra resmi — placeholder]</p>
+        </article>
+
+        <!-- Injil -->
+        <article class="reading-block reading-block--gospel" data-reading="injil">
+          <div class="reading-block__head">
+            <div>
+              <p class="reading-block__label">Injil</p>
+              <p class="reading-block__ref">Yoh 20:19–31</p>
+            </div>
+            <button type="button" class="icon-btn reading-menu" data-reading="injil" aria-label="Menu Injil">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="20" height="20">
+                <circle cx="12" cy="6" r="1.75" />
+                <circle cx="12" cy="12" r="1.75" />
+                <circle cx="12" cy="18" r="1.75" />
+              </svg>
+            </button>
+          </div>
+          <p class="reading-block__body" id="text-injil">
+            Pada malam hari itu juga, hari pertama minggu itu, pintu-pintu rumah tempat murid-murid Yesus berkumpul, tertutup karena ketakutan terhadap orang Yahudi, Yesus datang dan berdiri di tengah-tengah mereka dan berkata kepada mereka: “Damai sejahtera bagi kamu.” Sesudah Ia berkata demikian, Ia menunjukkan tangan dan lambung-Nya kepada mereka. Murid-murid itu girang melihat Tuhan.
+
+            Lalu berkatalah Yesus lagi: “Damai sejahtera bagi kamu. Sama seperti Bapa mengutus Aku, jadi Aku mengutus kamu.” Sesudah berkata demikian, Ia meniupkan napas-Nya ke atas mereka dan berkata kepada mereka: “Terimalah Roh Kudus. Jika kamu mengampuni dosa orang, dosanya diampuni; jika kamu tidak mengampuni dosa orang, dosanya tetap ada.”
+
+            Tetapi Tomas, seorang dari kedua belas murid itu, yang disebut Didimus, tidak ada bersama mereka ketika Yesus datang. Maka berkatalah murid-murid yang lain kepadanya: “Kami telah melihat Tuhan!” Tetapi Tomas berkata kepada mereka: “Jika tidak kulihat bekas paku pada tangan-Nya dan jika tidak kujasukkan jariku ke bekas paku itu dan jika tidak kujasukkan tanganku ke lambung-Nya, sekali-kali tidak akan percaya juga aku.”
+
+            (Contoh panjang untuk prototipe; teks Injil resmi mengikuti Kitab Suci leksionar.)
+          </p>
+          <p class="reading-block__source">Sumber bacaan: [mitra resmi — placeholder]</p>
+        </article>
+
+        <div class="threshold" aria-hidden="true">
+          <div class="threshold__space"></div>
+          <div class="threshold__rule"></div>
+          <p class="threshold__caption" id="threshold-caption">Setelah Injil</p>
+        </div>
+
+        <!-- Homili — seamless; full text always on screen when content exists -->
+        <section class="homily-section" id="homily-section" data-homily-state="h1">
+          <div class="homily-section__head">
+            <h2 class="homily-section__title">Homili Paus</h2>
+            <span class="chip" id="homily-chip">Bahasa Indonesia</span>
+            <p class="homily-section__meta" id="homily-meta">5 April 2026 · Vatican News</p>
+          </div>
+
+          <p class="lang-note" id="homily-lang-note" hidden>
+            Teks berikut dalam bahasa resmi publikasi Tahta Suci (bukan terjemahan mesin).
+          </p>
+
+          <div id="homily-h1" class="homily-section__body">
+            Saudara-saudari yang terkasih, dalam perayaan ini Gereja memanggil kita untuk kembali mendengar seruan damai. Damai yang pertama kali diucapkan oleh Tuhan yang bangkit bukanlah slogan, melainkan sebuah hadiah: hadiah yang membuka hati yang tertutup ketakutan dan menuntun murid-murid kepada misi. Ketika kita membiarkan diri kita disentuh oleh kehadiran-Nya, kita belajar bahwa pengampunan bukan pengabaian keadilan, melainkan cara Allah memulihkan hubungan yang rapuh.
+
+            Renungkanlah hari ini satu hal sederhana: di manakah pintu hatimu masih terkunci karena luka? Serahkanlah kunci itu kepada Kristus yang meniupkan Roh-Nya atas umat-Nya. Janganlah kita menjadi seperti Tomas yang ragu, tetapi jadilah seperti murid-murid yang menerima damai dan lalu pergi membawa kabar sukacita. Semoga setiap keluarga, setiap komunitas, dan setiap pelayanan menjadi tempat di mana “Damai sejahtera bagi kamu” diucapkan dengan tulus dan dihidupkan dengan sabar.
+
+            (Contoh teks penuh Bahasa Indonesia untuk prototipe; teks resmi mengikuti sumber Vatican News ID bila tersedia.)
+          </div>
+          <div id="homily-h2" class="homily-section__body" hidden>
+            Fratelli e sorelle carissimi, la pace del Risorto non è un’idea: è una presenza che cambia il cuore. Quando Gesù mostra le sue piaghe, non fa uno spettacolo della sofferenza: offre la prova dell’amore fedele di Dio fino alla fine. E invia i discepoli come lui è stato mandato: portatori di perdono, custodi della tenerezza, testimoni di unità.
+
+            In questo tempo, anche noi siamo chiamati a lasciare la paura e ad aprire le porte della comunità. La missione non è un titolo per pochi eletti: è il respiro normale della Chiesa che crede nella risurrezione. Camminiamo dunque con umiltà, annunciando la pace con gesti semplici: una parola che guarisce, un perdono che libera, una vicinanza che fa sentire a casa chi è fragile.
+
+            (Esempio di testo integrale in lingua ufficiale per prototipo; testo liturgico reale da fonte autorizzata.)
+          </div>
+          <div id="homily-h3" class="homily-section__body" hidden>
+            Saudara-saudari, iman bukan daftar jawaban jadi, melainkan relasi yang dibentuk dalam mendengar dan mengikuti. Tomas meminta bukti yang bisa dipegang; Yesus menawarkan relasi yang memanggilnya pada kepercayaan. Kita pun sering meminta tanda, sementara Tuhan meminta kepercayaan kecil yang setia.
+
+            Hari ini, biarlah kita berhenti sejenak dari hiruk-pikuk dan bertanya: apakah aku memberi ruang bagi Kristus untuk berbicara, atau aku hanya mencari konfirmasi untuk keputusanku sendiri? Renungan ini mengajak kita menerima Injil bukan sebagai informasi, melainkan sebagai undangan untuk hidup dalam damai yang mengutus. Marilah kita saling menguatkan dalam komunitas, dengan sabar menemani keraguan tanpa menghakimi, dan dengan penuh sukacita membawa kabar bahwa Tuhan sungguh hidup.
+
+            (Varian demo: teks penuh di layar; bukan ringkasan “baca selengkapnya”.)
+          </div>
+          <div id="homily-h4" class="homily-section__body" hidden>
+            Saudara-saudari yang terkasih, gereja perwakilan Kristus dipanggil untuk menjadi jembatan, bukan benteng. Di tengah perbedaan bahasa dan budaya, satu hal tetap menyatukan kita: sabda Allah yang kita dengar bersama dan Ekaristi yang memelihara kita. Janganlah kita mengurangi Injil menjadi slogan; biarlah kita hidupi Injil dengan kesederhanaan yang setia.
+
+            Kita diajak untuk memandang dunia dengan mata orang miskin, mendekati yang terpinggirkan, dan memelihara perdamaian tanpa kompromi terhadap kebenaran kasih. Setiap pelayanan dimulai dari doa yang jujur dan dari kemampuan untuk mengakui bahwa kita sendiri masih dipanggil untuk bertumbuh. Dengan rendah hati, marilah kita melangkah hari ini sebagai murid-murid yang tidak sempurna namun dipilih.
+
+            (Varian demo: isi penuh tetap ditampilkan; tautan sumber hanya sebagai catatan kaki, bukan pengganti bacaan.)
+          </div>
+          <div id="homily-h5" class="homily-section__body" hidden>
+            Untuk tanggal liturgi ini, teks homili resmi dalam aplikasi belum tersedia setelah pemeriksaan terakhir. Ini bisa terjadi karena jadwal penerbitan sumber resmi, penundaan terjemahan, atau pembatasan lisensi. Anda tetap dapat merenungkan bacaan Kitab Suci di atas dan berdoa dengan teks hari ini.
+
+            Kami akan memperbarui konten sesuai ketika teks resmi dapat ditampilkan sepenuhnya di dalam aplikasi sesuai izin penerbit. Terima kasih atas pengertian Anda.
+          </div>
+
+          <p class="source-foot" id="homily-source-foot">
+            <span id="homily-source-label">Sumber:</span>
+            <a id="homily-source-link" href="https://www.vaticannews.va/id/pope.html" target="_blank" rel="noopener noreferrer">Vatican News Bahasa Indonesia</a>
+          </p>
+        </section>
+
+        <!-- Renungan -->
+        <section class="renungan">
+          <p class="renungan__title">Renungan</p>
+          <h2 class="renungan__headline">Percaya tanpa melihat</h2>
+          <p class="renungan__byline">Tim redaksi · placeholder</p>
+          <p class="renungan__body">
+            Tomas meminta bukti yang bisa dipegang; Yesus menawarkan relasi yang memanggil kepercayaan. Banyak dari kita berada di antara dua sikap itu: ingin yakin dulu, baru mengikuti. Injil hari ini mengingatkan bahwa Kristus tidak menghukum keraguan, tetapi mendekati orang yang ragu dengan sabar.
+
+            Renungan ini mengajak kita membuat satu langkah kecil hari ini: sebut satu area hidup di mana kita bisa berkata “Ya Tuhan, aku percaya—bantu ketidakpercayaanku.” Biarlah bacaan dan Injil menjadi bahan doa yang panjang, bukan sekadar informasi yang lewat. Akhiri hari ini dengan satu perbuatan kasih konkret bagi seseorang yang mudah terlupakan.
+
+            (Teks renungan penuh untuk prototipe; nada pastoral dan selaras Magisterium setelah peninjauan teologis.)
+          </p>
+        </section>
+      </main>
+
+      <!-- Reading overflow menu (simplified: direct share for prototype) -->
+      <div class="sheet-backdrop" id="reading-menu-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="reading-menu-sheet" role="dialog" aria-modal="true" aria-labelledby="reading-menu-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="reading-menu-title">Bacaan</h2>
+          <p class="sheet__subtitle" id="reading-menu-subtitle"></p>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="reading-menu-share">Bagikan…</button>
+          <button type="button" class="btn btn--secondary" id="reading-menu-close">Tutup</button>
+        </div>
+      </div>
+
+      <!-- Bagikan -->
+      <div class="sheet-backdrop" id="share-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="share-sheet" role="dialog" aria-modal="true" aria-labelledby="share-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="share-title">Bagikan Injil</h2>
+          <p class="sheet__subtitle" id="share-subtitle">Minggu, 6 April 2026 · KWI</p>
+        </div>
+        <div class="sheet__body">
+          <p class="notice" id="share-trim-notice" hidden>Akan dipotong sesuai aturan sumber (maks. 560 karakter).</p>
+          <pre class="share-preview" id="share-preview"></pre>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="share-copy">Salin teks</button>
+          <button type="button" class="btn btn--secondary" id="share-native">Bagikan ke…</button>
+          <button type="button" class="btn btn--secondary" id="share-close">Tutup</button>
+        </div>
+      </div>
+
+      <!-- Tentang konten -->
+      <div class="sheet-backdrop" id="about-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="about-sheet" role="dialog" aria-modal="true" aria-labelledby="about-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="about-title">Tentang konten</h2>
+          <p class="sheet__subtitle">Kalender &amp; sumber resmi</p>
+        </div>
+        <div class="sheet__body">
+          <div class="about-block">
+            <h3>Sumber bacaan</h3>
+            <p>Mitra leksionar Indonesia yang disetujui KWI — sedang dikonfirmasi.</p>
+          </div>
+          <div class="about-block">
+            <h3>Sumber homili</h3>
+            <p>Teks dan tautan mengikuti saluran resmi Tahta Suci / Vatican News Bahasa Indonesia bila tersedia.</p>
+          </div>
+          <div class="about-block">
+            <h3>Kalender</h3>
+            <p>Konferensi Waligereja Indonesia (KWI). Zona waktu: WIB / WITA / WIT sesuai perangkat.</p>
+          </div>
+          <div class="about-block">
+            <h3>Pembaruan</h3>
+            <p>Konten dapat diperbarui. Terakhir diperbarui: <span id="about-updated">6 April 2026, 06.00 WIB</span></p>
+          </div>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="about-close">Tutup</button>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="sheet-backdrop" id="settings-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="settings-sheet" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="settings-title">Pengaturan</h2>
+          <p class="sheet__subtitle">Ukuran teks bacaan</p>
+        </div>
+        <div class="sheet__body">
+          <div class="field">
+            <label for="font-scale">Skala teks bacaan</label>
+            <input type="range" id="font-scale" min="90" max="130" value="100" step="5" />
+            <p class="reading-block__source" style="margin-top: 8px">Mempengaruhi bacaan Kitab Suci di layar ini.</p>
+          </div>
+          <div class="about-block">
+            <h3>Notifikasi</h3>
+            <p>Stub V1 — pengingat harian dapat ditambahkan setelah kebijakan produk.</p>
+          </div>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="settings-close">Selesai</button>
+        </div>
+      </div>
+
+      <details class="prototype-panel" id="prototype-panel">
+        <summary>Kontrol prototipe (demo)</summary>
+        <div class="prototype-panel__inner">
+          <div class="prototype-row">
+            <label for="day-type">Hari</label>
+            <select id="day-type" aria-label="Jenis hari liturgi">
+              <option value="sunday">Minggu / perayaan (3 bacaan)</option>
+              <option value="weekday">Hari biasa (2 bacaan)</option>
+            </select>
+          </div>
+          <div class="prototype-row">
+            <label for="homily-state">Homili</label>
+            <select id="homily-state" aria-label="Status homili">
+              <option value="h1">H1 — teks penuh Bahasa Indonesia</option>
+              <option value="h2">H2 — teks penuh bahasa resmi lain</option>
+              <option value="h3">H3 — teks penuh (varian demo)</option>
+              <option value="h4">H4 — teks penuh + catatan sumber</option>
+              <option value="h5">H5 — belum tersedia (penjelasan penuh)</option>
+            </select>
+          </div>
+          <div class="toggle-row">
+            <input type="checkbox" id="toggle-bridge" checked />
+            <label for="toggle-bridge">Tampilkan “Setelah Injil”</label>
+          </div>
+          <div class="toggle-row">
+            <input type="checkbox" id="toggle-trim" />
+            <label for="toggle-trim">Simulasikan potongan share</label>
+          </div>
+          <div class="toggle-row">
+            <input type="checkbox" id="toggle-offline" />
+            <label for="toggle-offline">Banner luring</label>
+          </div>
+          <div class="toggle-row">
+            <input type="checkbox" id="toggle-skeleton" />
+            <label for="toggle-skeleton">Skeleton memuat</label>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <script src="prototype.js"></script>
+  </body>
+</html>

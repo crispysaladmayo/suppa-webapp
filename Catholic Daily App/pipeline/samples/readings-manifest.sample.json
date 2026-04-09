@@ -1,0 +1,6 @@
+{
+  "readings_bundle_version": "2026.0.0-sample",
+  "bundle_url": "https://cdn.example.invalid/catholic-daily/readings-2026.0.0-sample.db.zip",
+  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "min_app_version": "1.0.0"
+}

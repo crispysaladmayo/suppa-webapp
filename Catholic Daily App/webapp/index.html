@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hari ini — Catholic Daily (web)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="webapp.css" />
+  </head>
+  <body>
+    <div class="app-frame" id="app">
+      <header class="sticky-header" aria-label="Hari liturgi">
+        <div class="sticky-header__top">
+          <div class="sticky-header__titles">
+            <p class="sticky-header__eyebrow">Hari ini</p>
+            <h1 class="sticky-header__liturgy" id="header-liturgy">…</h1>
+            <p class="sticky-header__date" id="header-date">…</p>
+          </div>
+          <div class="sticky-header__actions">
+            <label class="visually-hidden" for="liturgical-date">Tanggal liturgi</label>
+            <input type="date" id="liturgical-date" class="date-input" name="liturgical-date" />
+            <button type="button" class="icon-btn" id="btn-about" aria-label="Tentang konten">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" stroke-linecap="round" />
+              </svg>
+            </button>
+            <button type="button" class="icon-btn" id="btn-settings" aria-label="Pengaturan">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M6 20v-1a6 6 0 0 1 12 0v1" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="offline-banner" id="offline-banner" role="status" hidden>
+        <span>Tidak ada koneksi. Konten seed lokal tetap dapat ditampilkan.</span>
+        <button type="button" id="btn-retry">Muat ulang</button>
+      </div>
+
+      <main class="main-scroll is-skeleton" id="main-scroll">
+        <div id="load-error" class="load-error" hidden></div>
+
+        <p id="readings-fallback" class="fallback-note" hidden></p>
+        <p id="readings-meta" class="readings-meta" hidden></p>
+        <div id="readings-root"></div>
+
+        <div class="threshold" id="threshold-wrap" aria-hidden="true">
+          <div class="threshold__space"></div>
+          <div class="threshold__rule"></div>
+          <p class="threshold__caption" id="threshold-caption">Setelah Injil</p>
+        </div>
+
+        <section class="homily-section" id="homily-section">
+          <div class="homily-section__head">
+            <h2 class="homily-section__title">Homili Paus</h2>
+            <span class="chip" id="homily-chip">…</span>
+            <p class="homily-section__meta" id="homily-meta">…</p>
+          </div>
+          <p class="lang-note" id="homily-lang-note" hidden>
+            Teks berikut dalam bahasa resmi publikasi Tahta Suci (bukan terjemahan mesin).
+          </p>
+          <div id="homily-body" class="homily-section__body"></div>
+          <p class="source-foot" id="homily-source-foot">
+            <span id="homily-source-label">Sumber:</span>
+            <a id="homily-source-link" href="#" target="_blank" rel="noopener noreferrer">…</a>
+          </p>
+        </section>
+
+        <section class="renungan" id="renungan-section">
+          <p class="renungan__title">Renungan</p>
+          <div id="renungan-root"></div>
+        </section>
+      </main>
+
+      <div class="sheet-backdrop" id="reading-menu-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="reading-menu-sheet" role="dialog" aria-modal="true" aria-labelledby="reading-menu-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="reading-menu-title">Bacaan</h2>
+          <p class="sheet__subtitle" id="reading-menu-subtitle"></p>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="reading-menu-share">Bagikan…</button>
+          <button type="button" class="btn btn--secondary" id="reading-menu-close">Tutup</button>
+        </div>
+      </div>
+
+      <div class="sheet-backdrop" id="share-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="share-sheet" role="dialog" aria-modal="true" aria-labelledby="share-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="share-title">Bagikan</h2>
+          <p class="sheet__subtitle" id="share-subtitle"></p>
+        </div>
+        <div class="sheet__body">
+          <p class="notice" id="share-trim-notice" hidden>Akan dipotong sesuai aturan sumber (maks. 560 karakter).</p>
+          <pre class="share-preview" id="share-preview"></pre>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="share-copy">Salin teks</button>
+          <button type="button" class="btn btn--secondary" id="share-native">Bagikan ke…</button>
+          <button type="button" class="btn btn--secondary" id="share-close">Tutup</button>
+        </div>
+      </div>
+
+      <div class="sheet-backdrop" id="about-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="about-sheet" role="dialog" aria-modal="true" aria-labelledby="about-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="about-title">Tentang konten</h2>
+          <p class="sheet__subtitle">Kalender &amp; sumber resmi</p>
+        </div>
+        <div class="sheet__body">
+          <div class="about-block">
+            <h3>Data seed (web)</h3>
+            <p>
+              Bacaan: <code>data/readings_bundle.seed.json</code> (ekspor dari <code>readings_bundle.db</code>, skema
+              <code>pipeline/schemas/readings-import.v1.schema.json</code>). Homili: <code>data/homily_latest.seed.json</code>.
+              Renungan: <code>data/editorial.seed.json</code> (selaras <code>pipeline/schemas/editorial-piece.schema.json</code>).
+            </p>
+          </div>
+          <div class="about-block">
+            <h3>Sumber bacaan</h3>
+            <p id="about-readings-source">…</p>
+          </div>
+          <div class="about-block">
+            <h3>Versi bundel</h3>
+            <p id="about-bundle-version">…</p>
+          </div>
+          <div class="about-block">
+            <h3>Kalender</h3>
+            <p>Konferensi Waligereja Indonesia (KWI). Tanggal liturgi default: hari sipil di Asia/Jakarta (sama seperti resolver V1 Android).</p>
+          </div>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="about-close">Tutup</button>
+        </div>
+      </div>
+
+      <div class="sheet-backdrop" id="settings-backdrop" aria-hidden="true"></div>
+      <div class="sheet" id="settings-sheet" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+        <div class="sheet__handle"></div>
+        <div class="sheet__header">
+          <h2 class="sheet__title" id="settings-title">Pengaturan</h2>
+          <p class="sheet__subtitle">Ukuran teks bacaan</p>
+        </div>
+        <div class="sheet__body">
+          <div class="field">
+            <label for="font-scale">Skala teks bacaan</label>
+            <input type="range" id="font-scale" min="90" max="130" value="100" step="5" />
+            <p class="reading-block__source" style="margin-top: 8px">Mempengaruhi bacaan Kitab Suci di layar ini.</p>
+          </div>
+          <div class="toggle-row" style="margin-top: 12px">
+            <input type="checkbox" id="toggle-share-trim" />
+            <label for="toggle-share-trim">Simulasikan potongan bagikan (maks. 560 karakter)</label>
+          </div>
+        </div>
+        <div class="sheet__footer">
+          <button type="button" class="btn btn--primary" id="settings-close">Selesai</button>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+    <script src="app.js" type="module"></script>
+  </body>
+</html>

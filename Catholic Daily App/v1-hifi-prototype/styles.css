@@ -1,0 +1,667 @@
+/* Catholic Daily App — V1 hi-fi prototype (mobile-first) */
+
+:root {
+  --color-bg: #f7f4ef;
+  --color-surface: #fffcf7;
+  --color-ink: #1c1b18;
+  --color-ink-muted: #5c5852;
+  --color-hairline: rgba(28, 27, 24, 0.12);
+  --color-accent: #3d4a3a;
+  --color-gospel-tint: #e8efe8;
+  --color-gospel-border: rgba(61, 74, 58, 0.25);
+  --color-primary: #2a4a3c;
+  --color-primary-contrast: #f7f4ef;
+  --font-ui: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-reading: "Literata", "Georgia", serif;
+  --radius-card: 12px;
+  --radius-sheet: 16px 16px 0 0;
+  --space-unit: 8px;
+  --text-scale: 1;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: calc(16px * var(--text-scale));
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-ui);
+  background: #e3ded6;
+  color: var(--color-ink);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app-frame {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  background: var(--color-bg);
+  position: relative;
+  box-shadow: 0 0 0 1px var(--color-hairline);
+}
+
+/* ——— Sticky header (S2) ——— */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-hairline);
+  padding: calc(var(--space-unit) * 1.5) calc(var(--space-unit) * 2);
+}
+
+.sticky-header__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sticky-header__titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.sticky-header__eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  margin: 0 0 2px;
+}
+
+.sticky-header__liturgy {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.sticky-header__date {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin: 4px 0 0;
+}
+
+.sticky-header__actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.icon-btn:hover {
+  background: rgba(28, 27, 24, 0.06);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ——— Main scroll — seamless reading stream (no cards) ——— */
+.main-scroll {
+  padding: calc(var(--space-unit) * 2);
+  padding-bottom: calc(var(--space-unit) * 10);
+}
+
+.reading-block {
+  background: transparent;
+  border-radius: 0;
+  padding: calc(var(--space-unit) * 0.5) 0 calc(var(--space-unit) * 2.5);
+  margin: 0;
+  box-shadow: none;
+}
+
+.reading-block:not(:first-of-type)::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 0 0 calc(var(--space-unit) * 2.5);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(28, 27, 24, 0.12) 30%,
+    rgba(28, 27, 24, 0.12) 70%,
+    transparent 100%
+  );
+}
+
+.reading-block__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: calc(var(--space-unit) * 1.5);
+}
+
+.reading-block__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+  margin: 0 0 2px;
+}
+
+.reading-block__ref {
+  font-size: 0.875rem;
+  color: var(--color-ink-muted);
+  margin: 0;
+  font-family: var(--font-ui);
+}
+
+.reading-block__body {
+  font-family: var(--font-reading);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  margin: 0;
+  white-space: pre-line;
+}
+
+.reading-block__source {
+  font-size: 0.75rem;
+  color: var(--color-ink-muted);
+  margin: calc(var(--space-unit) * 2) 0 0;
+}
+
+.reading-block--gospel .reading-block__label {
+  color: var(--color-accent);
+}
+
+.reading-block--gospel .reading-block__body {
+  border-left: 3px solid rgba(61, 74, 58, 0.22);
+  padding-left: calc(var(--space-unit) * 1.75);
+  margin-left: 2px;
+}
+
+/* ——— Injil → homily threshold ——— */
+.threshold {
+  margin: calc(var(--space-unit) * 2) 0;
+}
+
+.threshold__space {
+  height: 20px;
+}
+
+.threshold__rule {
+  height: 1px;
+  border: none;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(28, 27, 24, 0.14) 35%,
+    rgba(28, 27, 24, 0.14) 65%,
+    transparent 100%
+  );
+}
+
+.threshold__caption {
+  font-size: 0.75rem;
+  color: var(--color-ink-muted);
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+.threshold__caption[hidden] {
+  display: none;
+}
+
+/* ——— Homily section (seamless, no card) ——— */
+.homily-section {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: calc(var(--space-unit) * 0.5) 0 calc(var(--space-unit) * 2.5);
+  margin: 0;
+}
+
+.homily-section__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: calc(var(--space-unit) * 1.5);
+}
+
+.homily-section__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.homily-section__meta {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin: 0;
+  width: 100%;
+}
+
+.chip {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+  margin: 0 0 4px;
+}
+
+.homily-section__body {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0 0 calc(var(--space-unit) * 1.5);
+}
+
+.homily-section__body[hidden] {
+  display: none;
+}
+
+/* Primary CTAs removed — sumber is inline foot; sheets stay for Bagikan / settings */
+
+.source-foot {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  font-family: var(--font-ui);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.source-foot #homily-source-label {
+  margin-right: 0.35em;
+}
+
+.source-foot a {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 12px 16px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.btn--primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-gospel-border);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.lang-note {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  font-family: var(--font-ui);
+  margin: 0 0 calc(var(--space-unit) * 1.5);
+}
+
+/* ——— Renungan (seamless) ——— */
+.renungan {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: calc(var(--space-unit) * 0.5) 0 calc(var(--space-unit) * 4);
+  margin: 0;
+}
+
+.renungan::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin: 0 0 calc(var(--space-unit) * 2.5);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(28, 27, 24, 0.12) 30%,
+    rgba(28, 27, 24, 0.12) 70%,
+    transparent 100%
+  );
+}
+
+.renungan__title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-muted);
+  margin: 0 0 4px;
+}
+
+.renungan__headline {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.renungan__byline {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin: 0 0 calc(var(--space-unit) * 2);
+}
+
+.renungan__body {
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 1.65;
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* ——— Bottom sheet overlay ——— */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 16, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 50;
+}
+
+.sheet-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sheet {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 100%);
+  width: 100%;
+  max-width: 430px;
+  max-height: 85dvh;
+  background: var(--color-surface);
+  border-radius: var(--radius-sheet);
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.12);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.sheet.is-open {
+  transform: translate(-50%, 0);
+}
+
+.sheet__handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-hairline);
+  margin: 10px auto 6px;
+}
+
+.sheet__header {
+  padding: 0 calc(var(--space-unit) * 2) calc(var(--space-unit) * 1.5);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.sheet__title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.sheet__subtitle {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin: 0;
+}
+
+.sheet__body {
+  flex: 1;
+  overflow: auto;
+  padding: calc(var(--space-unit) * 2);
+  -webkit-overflow-scrolling: touch;
+}
+
+.sheet__footer {
+  padding: calc(var(--space-unit) * 2);
+  padding-bottom: calc(var(--space-unit) * 2.5);
+  border-top: 1px solid var(--color-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.share-preview {
+  font-family: var(--font-reading);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  padding: 12px;
+  background: var(--color-bg);
+  border-radius: 8px;
+  max-height: 40dvh;
+  overflow: auto;
+}
+
+.notice {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  background: rgba(42, 74, 60, 0.08);
+  border-radius: 8px;
+}
+
+.about-block {
+  margin-bottom: calc(var(--space-unit) * 2);
+}
+
+.about-block h3 {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink-muted);
+  margin: 0 0 6px;
+}
+
+.about-block p {
+  font-size: 0.9375rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.field {
+  margin-bottom: calc(var(--space-unit) * 2);
+}
+
+.field label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.field input[type="range"] {
+  width: 100%;
+}
+
+/* ——— Prototype dev controls ——— */
+.prototype-panel {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  z-index: 40;
+  background: var(--color-ink);
+  color: var(--color-primary-contrast);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  font-size: 0.8125rem;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.prototype-panel summary {
+  padding: 12px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.prototype-panel summary::-webkit-details-marker {
+  display: none;
+}
+
+.prototype-panel__inner {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.prototype-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.prototype-row label {
+  min-width: 100px;
+  opacity: 0.85;
+}
+
+.prototype-row select,
+.prototype-row button.small {
+  flex: 1;
+  min-width: 120px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: inherit;
+  font: inherit;
+}
+
+.prototype-row button.small {
+  cursor: pointer;
+}
+
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* Skeleton loading demo */
+.main-scroll.is-skeleton .reading-block__body,
+.main-scroll.is-skeleton .homily-section__body,
+.main-scroll.is-skeleton .renungan__body {
+  min-height: 120px;
+  background: linear-gradient(
+    90deg,
+    var(--color-hairline) 0%,
+    rgba(28, 27, 24, 0.06) 50%,
+    var(--color-hairline) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+  color: transparent;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.offline-banner {
+  display: none;
+  margin: 0 calc(var(--space-unit) * -2) calc(var(--space-unit) * 2);
+  padding: 10px 16px;
+  background: #3a2f2a;
+  color: #f7f4ef;
+  font-size: 0.875rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.offline-banner.is-visible {
+  display: flex;
+}
+
+.offline-banner button {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: inherit;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
