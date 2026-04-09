@@ -23,6 +23,54 @@
     try { return localStorage.getItem("suppa_child_id") || "ch_1"; } catch (e) { return "ch_1"; }
   }
 
+  // ── Child profile hydration ───────────────────────────────
+  // Replaces hardcoded placeholder name/age with real values from localStorage.
+  // Must be called before initTodayGreeting() so data-child-first is updated first.
+  var AGE_BAND_LABELS = {
+    "0-5":  "0–5 bulan",
+    "6-12": "6–12 bulan",
+    "1-2":  "1–2 tahun",
+    "3-5":  "3–5 tahun",
+    "6-8":  "6–8 tahun",
+    "9-11": "9–11 tahun",
+    "12":   "12 tahun"
+  };
+
+  function formatAgeBand(band) {
+    return AGE_BAND_LABELS[band] || band;
+  }
+
+  function replaceTextNodes(root, from, to) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null, false);
+    var nodes = [];
+    var node;
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.indexOf(from) !== -1) nodes.push(node);
+    }
+    nodes.forEach(function (n) {
+      n.nodeValue = n.nodeValue.split(from).join(to);
+    });
+  }
+
+  function initChildProfile() {
+    var storedName, storedAge;
+    try {
+      storedName = localStorage.getItem("suppa_child_name") || "";
+      storedAge  = localStorage.getItem("suppa_child_age_band") || "";
+    } catch (e) { return; }
+    if (!storedName) return;
+
+    var ageLabel = formatAgeBand(storedAge);
+
+    // Update data-child-first so initTodayGreeting() uses the correct name
+    var greetingEl = document.getElementById("today-greeting");
+    if (greetingEl) greetingEl.setAttribute("data-child-first", storedName);
+
+    // Replace all text node occurrences of the placeholder name and age
+    replaceTextNodes(document.body, "Dimas", storedName);
+    if (ageLabel) replaceTextNodes(document.body, "7 bulan", ageLabel);
+  }
+
   function initDisclaimer(root) {
     var el = (root || document).querySelector("[data-disclaimer]");
     if (!el) return;
@@ -231,6 +279,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    initChildProfile();
     injectVersionBar();
     initTodayGreeting();
     initDisclaimer(document);
@@ -410,6 +459,11 @@
       var allergyOther = allergyOtherEl ? allergyOtherEl.value.trim() : "";
       if (allergyOther) allergyNames.push(allergyOther);
       var allergiesCsv = allergyNames.join(",");
+
+      try {
+        localStorage.setItem("suppa_child_name", childName);
+        localStorage.setItem("suppa_child_age_band", ageBand);
+      } catch (_) {}
 
       apiPost("households", {
         country: country,
