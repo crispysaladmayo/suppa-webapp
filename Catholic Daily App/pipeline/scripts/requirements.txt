@@ -1,3 +1,0 @@
-# Optional: JSON Schema validation with the reference implementation.
-# The repo validates samples using stdlib-only logic in validate_content_assets.py.
-# jsonschema>=4.22.0

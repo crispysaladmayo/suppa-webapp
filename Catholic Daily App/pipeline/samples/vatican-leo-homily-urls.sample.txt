@@ -1,6 +1,0 @@
-# Vatican source URLs (sample starter list, update monthly).
-https://www.vatican.va/content/leo-xiv/en/homilies/2026/documents/20260218-ceneri.html
-https://www.vatican.va/content/leo-xiv/en/homilies/2026/documents/20260301-visita-pastorale-settore-est.html
-https://www.vatican.va/content/leo-xiv/en/homilies/2026/documents/20260315-visita-pastorale-sacro-cuore.html
-https://www.vatican.va/content/leo-xiv/en/homilies/2026/documents/20260329-domenica-palme.html
-https://www.vatican.va/content/leo-xiv/en/homilies/2026/documents/20260402-crismale.html
