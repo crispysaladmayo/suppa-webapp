@@ -6,7 +6,7 @@
 **Owner:** Alvin
 **Session agents:** CPO · Designer
 
-> This document translates the strategic vision and research findings from [`suppa-vision-brainstorm-2026-04-09.md`](./suppa-vision-brainstorm-2026-04-09.md) into actionable design direction. It is the primary reference for UX and UI decisions on Suppa and should be read alongside [`child-nutrition-app-context.md`](../child-nutrition-app-context.md) and [`prd-milestone-1.md`](../prd-milestone-1.md).
+> This document translates the strategic vision and research findings from `[suppa-vision-brainstorm-2026-04-09.md](./suppa-vision-brainstorm-2026-04-09.md)` into actionable design direction. It is the primary reference for UX and UI decisions on Suppa and should be read alongside `[child-nutrition-app-context.md](../child-nutrition-app-context.md)` and `[prd-milestone-1.md](../prd-milestone-1.md)`.
 
 ---
 
@@ -26,15 +26,17 @@
 
 > **CPO:** These are gates, not wish-list cuts. Any design work that creeps into these areas must be escalated before it enters the spec.
 
-| Non-goal | Reason |
-|---|---|
+
+| Non-goal                              | Reason                                                                                   |
+| ------------------------------------- | ---------------------------------------------------------------------------------------- |
 | Medical diagnosis or clinical scoring | Not a medical device — framing as "practical companion" is a legal and trust requirement |
-| Social / community feed | Resolved: no community tab. WhatsApp integration handles sharing |
-| Partner or nenek profiles | Caregiver reference card post-M1; multi-profile is Future |
-| Regional food availability maps | Place-aware via city dropdown, not store finder |
-| Photo meal recognition (AI) | Post-M1 — manual log only in M1 |
-| Subscription or paywall flows | Phase 2+ revenue; M1 is trust-building, ad-free |
-| Immunization tracking | Trust anchor feature, post-M1 |
+| Social / community feed               | Resolved: no community tab. WhatsApp integration handles sharing                         |
+| Partner or nenek profiles             | Caregiver reference card post-M1; multi-profile is Future                                |
+| Regional food availability maps       | Place-aware via city dropdown, not store finder                                          |
+| Photo meal recognition (AI)           | Post-M1 — manual log only in M1                                                          |
+| Subscription or paywall flows         | Phase 2+ revenue; M1 is trust-building, ad-free                                          |
+| Immunization tracking                 | Trust anchor feature, post-M1                                                            |
+
 
 ---
 
@@ -54,16 +56,19 @@ Most nutrition apps make the dashboard the default. Suppa's position says Mode E
 
 > **CPO:** These four features are what no current Indonesian app does together. Design quality on these specific flows is where Suppa either wins or loses against PrimaKu adding nutrition tracking within 12 months.
 
-| Moat feature | Design requirement | Risk if executed poorly |
-|---|---|---|
-| Zinc + iron gap hints (distinct, food-specific) | Two separate hint cards — different colors, different food language | Collapsing into "protein kurang" erases the differentiation entirely |
-| Pelangi makan (WHO 8-group diversity visual) | Secondary placement on dashboard; weekly cadence | Overemphasizing daily → shame spiral for incomplete days |
-| Allergen binary filter | Hard filter — no "may contain" gray zone | One unsafe recipe suggestion ends the relationship permanently |
-| Fridge → allergen-safe recipe with Indonesian food database | DKBM-sourced, allergen-filtered, regional food names | Generic "international" recipes signal the app was not built for this user |
+
+| Moat feature                                                | Design requirement                                                  | Risk if executed poorly                                                    |
+| ----------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Zinc + iron gap hints (distinct, food-specific)             | Two separate hint cards — different colors, different food language | Collapsing into "protein kurang" erases the differentiation entirely       |
+| Pelangi makan (WHO 8-group diversity visual)                | Secondary placement on dashboard; weekly cadence                    | Overemphasizing daily → shame spiral for incomplete days                   |
+| Allergen binary filter                                      | Hard filter — no "may contain" gray zone                            | One unsafe recipe suggestion ends the relationship permanently             |
+| Fridge → allergen-safe recipe with Indonesian food database | DKBM-sourced, allergen-filtered, regional food names                | Generic "international" recipes signal the app was not built for this user |
+
 
 ### What M1 must prove to unlock Phase 2
 
 > **CPO:** M1 is not about feature completeness. It is about proving three things that justify brand sponsorship conversations (Phase 2) and clinical channel investment (Phase 3):
+>
 > 1. Moms return to log meals across multiple days (retention signal)
 > 2. At least one recipe suggestion per week leads to a cook action (action completion signal)
 > 3. The allergen filter is trusted enough that Linda-type users do not cross-check on a second app (trust signal)
@@ -80,38 +85,45 @@ Design decisions that do not advance at least one of these three signals should 
 
 Design decisions should always specify which season they serve. A feature that serves Season 1 moms (pre-MPASI anticipatory anxiety) may actively harm Season 3 moms (chronic picky-eating guilt) if framing is not season-aware.
 
-| Season | Child age | Core emotion | Primary mode | Design priority |
-|---|---|---|---|---|
-| **Season 1 — Persiapan** | 0–5 months | "Am I ready for MPASI?" | Mode Edukasi (pre-MPASI track) | Anticipation-building, milestone countdown, reassurance |
-| **Season 2 — Introduksi** | 6–9 months | "Did I do the allergen rule right?" | Mode Log Harian + MPASI tracker | Procedural confidence, allergen safety, texture progression |
-| **Season 3 — Konsistensi** | 18–36 months | "Picky eating = am I failing?" | Mode Masak + weekly aggregate | Reassurance-first, diversity without shame, streak compassion |
+
+| Season                     | Child age    | Core emotion                        | Primary mode                    | Design priority                                               |
+| -------------------------- | ------------ | ----------------------------------- | ------------------------------- | ------------------------------------------------------------- |
+| **Season 1 — Persiapan**   | 0–5 months   | "Am I ready for MPASI?"             | Mode Edukasi (pre-MPASI track)  | Anticipation-building, milestone countdown, reassurance       |
+| **Season 2 — Introduksi**  | 6–9 months   | "Did I do the allergen rule right?" | Mode Log Harian + MPASI tracker | Procedural confidence, allergen safety, texture progression   |
+| **Season 3 — Konsistensi** | 18–36 months | "Picky eating = am I failing?"      | Mode Masak + weekly aggregate   | Reassurance-first, diversity without shame, streak compassion |
+
 
 ### Persona design implications
 
 **Anya — First-time mom (Season 1 → early Season 2)**
+
 - Reads at night during feeding sessions (22:00–23:00)
 - Mode Edukasi must work one-handed in low light — large text, high contrast, minimal interaction required
 - Wants to bookmark articles to return to later
 - High-value early adopter: onboarding should acknowledge the pre-MPASI phase as legitimate, not just a waiting room
 
 **Dewi — Working mom (Season 2–3)**
+
 - Opens app at 17:00–19:00 — "I have 20 minutes to decide what to cook"
 - Mode Masak is her primary entry. Speed is the UX metric, not thoroughness
 - Time filter (20 min / 45 min) is not optional — it is the entry condition
 - Cannot tolerate more than 3 taps to reach a cookable recipe
 
 **Siti — Stay-at-home picky-eater mom (Season 3)**
+
 - Chronic guilt pattern — any daily-gap emphasis risks triggering shame
 - Pelangi makan visual must frame variety as progress, not deficit
 - Weekly aggregate view ("week looks okay") is the reassurance mechanism she needs most
 - Neophobia content ("10–15 exposure rule is normal") is her most requested content type
 
 **Ratna — Two-child juggler (Season 2 + Season 3 simultaneously)**
+
 - Needs one app, not two profiles that feel like two apps
 - Age-appropriate content for two different children must not require manual context-switching
 - Quick-switch between child profiles is a navigation requirement, not a settings flow
 
 **Linda — Allergy-alert mom (Season 2)**
+
 - Zero tolerance for ambiguity in allergen filtering
 - "Kalau aplikasinya salah kasih saran dan Dimas kena reaksi — aku nggak akan pernah pakai lagi dan aku akan bilang ke semua orang."
 - The allergen confirmation flow during onboarding must feel serious, not incidental
@@ -128,6 +140,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** Never frame a missed day as failure. The product's emotional promise is cumulative reassurance, not daily scoring.
 
 > **Designer:** Implementation consequences:
+>
 > - The weekly adequacy view must be the hero of the Today dashboard — not hidden under a scroll
 > - A day with no log entries shows as "no data" — neutral gray, no broken ring, no "0%"
 > - The completion badge triggers on weekly pattern, not daily streak alone
@@ -138,6 +151,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** 38.7% zinc deficiency, 34.2% iron deficiency in Indonesian children. Naming both explicitly is the core product differentiation.
 
 > **Designer:** Implementation consequences:
+>
 > - Two distinct gap hint cards — different visual treatments, not nested under a single "micronutrient" label
 > - Zinc card copy: "Tambahkan daging sapi, ayam, atau tempe untuk zinc si kecil"
 > - Iron card copy: "Coba hati ayam, ikan teri, atau bayam untuk iron si kecil"
@@ -149,6 +163,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** Mode Edukasi articles that do not connect to Mode Masak recipes are incomplete product flows. The article → quiz → recipe pipeline is the behavioral loop that differentiates Suppa from a content app.
 
 > **Designer:** Implementation consequences:
+>
 > - Every Mode Edukasi article ends with a "Coba resep ini" CTA that links to a pre-filtered Mode Masak result matching the article's featured nutrient
 > - The quiz appears between the article body and the recipe CTA — not as a separate page
 > - Recipe CTA must carry the article's nutrient context: "Resep kaya zinc untuk si kecil" — not a generic "See recipes"
@@ -159,6 +174,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** 3 of 5 personas have active grandparent/mertua conflict. The design mechanism to resolve this is shifting authority from "kata saya" (mom's voice) to "kata penelitian" or "kata IDAI."
 
 > **Designer:** Implementation consequences:
+>
 > - Caregiver reference card uses: "Berdasarkan panduan IDAI dan penelitian terkini..." — not "Mama bilang..."
 > - Myth-busting articles use "Kata penelitian terbaru" framing in the headline — not clinical corrections
 > - Error states and warnings use institutional language: "Bahan ini tidak direkomendasikan untuk usia [X] menurut panduan IDAI" — not "You shouldn't feed this to your child"
@@ -169,6 +185,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** Shame causes churn in this audience. The gamification design must be provably shame-free. No leaderboards, no "you missed X days" messages, no broken-streak notifications.
 
 > **Designer:** Implementation consequences:
+>
 > - Streak counter shows only the current active streak — not "your longest streak was X"
 > - On a missed day: streak counter simply resets without commentary — no notification, no message
 > - Grace day behavior: if a mom logs on day N+2 (one day skip), streak resumes — shown as unbroken
@@ -180,6 +197,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** Regional food names signal "this was built for me." Generic nutritional language signals the app was built for someone else.
 
 > **Designer:** Implementation consequences:
+>
 > - All recipe names use Indonesian food names: "Nasi tim hati ayam," "Bubur kacang hijau," "Tumis bayam tempe" — not "Iron-rich rice porridge"
 > - Food substitution engine uses regional equivalents: "wortel → labu kuning" (both Vitamin A–rich), not "carrots → butternut squash"
 > - Gap hint copy names specific Indonesian foods — see Principle 2 for the zinc/iron examples
@@ -190,6 +208,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** This is a legal and trust requirement, not a UX preference. One confirmed allergen appearing in a recipe suggestion is a permanent relationship-ending event.
 
 > **Designer:** Implementation consequences:
+>
 > - Recipe filter is a hard exclude — if an ingredient contains a confirmed allergen, the recipe does not appear in any result set
 > - No "may contain" states for confirmed allergens. "May contain" language is only allowed for cross-contamination disclosure on packaged foods (post-M1 scope)
 > - Allergen-clear confirmation: every recipe result shows "Aman untuk [child name]" badge — visible in the card, not just on the recipe detail
@@ -201,6 +220,7 @@ Design decisions should always specify which season they serve. A feature that s
 > **CPO:** Meeting 5/8 WHO MDD groups is a positive signal, but it does not guarantee micronutrient adequacy. The visual must communicate variety without creating false confidence.
 
 > **Designer:** Implementation consequences:
+>
 > - Pelangi makan visual placement: secondary on Today dashboard, below the macro rings — it is supporting context, not the primary metric
 > - Weekly cadence is the right frame: "Minggu ini si kecil sudah makan 5 dari 8 kelompok makanan" — not "Today: 3/8"
 > - Color segments show filled groups without implying the others are failures: missing segments are neutral gray, not red
@@ -229,14 +249,16 @@ Dismissable. Never repeats in same session.
 
 ### Time-of-day contextual hint mapping
 
-| Time | Hint | Target persona |
-|---|---|---|
-| 06:00–09:00 | No hint (morning log is default behavior) | All |
-| 10:00–13:00 | No hint (mid-morning log is default behavior) | Siti, Ratna |
-| 15:00–17:00 | No hint (snack log is default behavior) | All |
-| 17:00–19:00 | "Mau masak apa malam ini? Mode Masak siap →" | Dewi, Ratna |
-| 19:00–20:00 | No hint (dinner log is default behavior) | All |
-| 20:00–22:00 | "Punya waktu baca malam ini? Mode Edukasi →" | Anya, Siti, Linda |
+
+| Time        | Hint                                          | Target persona    |
+| ----------- | --------------------------------------------- | ----------------- |
+| 06:00–09:00 | No hint (morning log is default behavior)     | All               |
+| 10:00–13:00 | No hint (mid-morning log is default behavior) | Siti, Ratna       |
+| 15:00–17:00 | No hint (snack log is default behavior)       | All               |
+| 17:00–19:00 | "Mau masak apa malam ini? Mode Masak siap →"  | Dewi, Ratna       |
+| 19:00–20:00 | No hint (dinner log is default behavior)      | All               |
+| 20:00–22:00 | "Punya waktu baca malam ini? Mode Edukasi →"  | Anya, Siti, Linda |
+
 
 ### Mode Log Harian — UX direction
 
@@ -245,6 +267,7 @@ Dismissable. Never repeats in same session.
 **Entry trigger:** Post-meal (3× daily — breakfast, lunch, dinner). Mid-morning and snack logs are secondary.
 
 **3-tap constraint design:**
+
 - Tap 1: "Catat makan" CTA — visible above the fold on Today dashboard
 - Tap 2: Select a recent/frequent food (shortcut list shows top 5 recent meals by default)
 - Tap 3: Confirm portion size (visual guide, age-appropriate)
@@ -269,17 +292,21 @@ Catat makan flow:
 ```
 
 **Key states:**
+
 - No logs today: macro rings shown as empty outlines (neutral) — no percentage, no broken state
 - Partial log (1–2 meals): rings partially filled, weekly bar unaffected
 - Allergen detected in manual entry: warning before save — "Bahan ini ada di daftar alergi [nama anak]. Tetap catat?"
 
 **M1-consider decision — Allergen 3-day introduction tracker:**
+
 > **Designer:** This is a distinct flow from the allergen filter on recipes. It is an active parent-managed tracker: "Hari 1 → 2 → 3 of introducing udang — any reaction?" The flow requires a dedicated entry point separate from the standard meal log. Recommend including in M1 given the safety criticality (Linda-type users).
 
 **M1-consider decision — Frequent foods shortcut:**
+
 > **Designer:** This is the enabler of the 3-tap constraint. Without a shortcut list, returning to search for "nasi tim hati ayam" every morning is 6–8 taps. Recommend including in M1.
 
 **M1-consider decision — Weekly aggregate view:**
+
 > **Designer:** The weekly adequacy bar ("Minggu ini sudah cukup baik") is a single row on the Today dashboard. It is the emotional product. It must be in M1 — deferring it means the daily-score framing dominates, which conflicts with Principle 1.
 
 ### Mode Masak — UX direction
@@ -309,6 +336,7 @@ Cook mode:
 ```
 
 **Key states:**
+
 - No matching recipes (allergen + time constraints): "Belum ada resep yang cocok. Coba tambahkan bahan lain?" — never a dead end
 - Recipe with missing ingredient: show substitution ("wortel bisa diganti labu kuning — sama-sama kaya vitamin A")
 - Article → recipe bridge: when entering from Mode Edukasi, the recipe list pre-filters to the article's featured nutrient — shown as a banner: "Resep kaya zinc dari artikel tadi"
@@ -338,17 +366,20 @@ Article flow:
 ```
 
 **Age-gating logic:**
+
 - Season 1 (0–5m): pre-MPASI track — visible from birth date entry, not hidden
 - Season 2 (6–9m): MPASI introduction track — triggered at child age = 6 months
 - Season 3 (18–36m): picky-eating track — triggered at 18 months
 - Extended milestone articles (9m, 12m, 24m): unlocked on the date, not before
 
 **MPASI hari pertama journey:**
+
 - Triggered by calendar: child's birth date + 6 months
 - Curated sequence: 5 articles in order, with action checklist between articles
 - Celebratory framing: "Si kecil [nama] siap mulai MPASI! 🌟" — not an alert or warning
 
 **Key states:**
+
 - No articles read yet (new user): show Season 1 article even if child is already in Season 2 — let mom catch up
 - Quiz answered incorrectly: show explanation without any shame language — "Jawabannya adalah X, karena..." not "Salah! Coba lagi"
 - WhatsApp share card: 1080×1080px image format, branded Suppa, key learning in Bahasa Indonesia
@@ -361,41 +392,47 @@ Article flow:
 
 ### In scope for M1
 
-| Flow | Mode | Priority | Note |
-|---|---|---|---|
-| Onboarding (account creation, child profile, allergen setup) | All | M1 ✅ | Allergen setup must be deliberate, not skippable |
-| Today dashboard (macro rings, gap hints, weekly bar) | Log Harian | M1 ✅ | Weekly bar is required — see Principle 1 |
-| Meal log entry (text search + frequent foods shortcut) | Log Harian | M1 ✅ | 3-tap constraint must hold |
-| Iron + Zinc gap hint cards | Log Harian | M1 ✅ | Both distinct — not collapsed |
-| WHO growth chart | Log Harian | M1 ✅ | |
-| Fridge → recipe suggestion (allergen-filtered) | Masak | M1 ✅ | Core loop |
-| Weekly meal prep planner | Masak | M1 ✅ | |
-| Recipe detail + Cook mode | Masak | M1 ✅ | Screen-on, large font |
-| Child profile management (add/edit allergies, dislikes) | Settings | M1 ✅ | |
+
+| Flow                                                         | Mode       | Priority | Note                                             |
+| ------------------------------------------------------------ | ---------- | -------- | ------------------------------------------------ |
+| Onboarding (account creation, child profile, allergen setup) | All        | M1 ✅     | Allergen setup must be deliberate, not skippable |
+| Today dashboard (macro rings, gap hints, weekly bar)         | Log Harian | M1 ✅     | Weekly bar is required — see Principle 1         |
+| Meal log entry (text search + frequent foods shortcut)       | Log Harian | M1 ✅     | 3-tap constraint must hold                       |
+| Iron + Zinc gap hint cards                                   | Log Harian | M1 ✅     | Both distinct — not collapsed                    |
+| WHO growth chart                                             | Log Harian | M1 ✅     |                                                  |
+| Fridge → recipe suggestion (allergen-filtered)               | Masak      | M1 ✅     | Core loop                                        |
+| Weekly meal prep planner                                     | Masak      | M1 ✅     |                                                  |
+| Recipe detail + Cook mode                                    | Masak      | M1 ✅     | Screen-on, large font                            |
+| Child profile management (add/edit allergies, dislikes)      | Settings   | M1 ✅     |                                                  |
+
 
 ### M1-consider (design decision required before backlog finalization)
 
-| Flow | Mode | Recommendation | Rationale |
-|---|---|---|---|
-| Frequent foods shortcut (1-tap recurring) | Log Harian | **Include** | Enables 3-tap constraint — without it, the constraint is unachievable |
-| Allergen 3-day introduction tracker | Log Harian | **Include** | Safety-critical; Linda-type churn risk is permanent if absent |
-| Weekly adequacy aggregate view | Log Harian | **Include** | Emotional product; without it, daily-gap framing dominates and contradicts Principle 1 |
+
+| Flow                                      | Mode       | Recommendation | Rationale                                                                              |
+| ----------------------------------------- | ---------- | -------------- | -------------------------------------------------------------------------------------- |
+| Frequent foods shortcut (1-tap recurring) | Log Harian | **Include**    | Enables 3-tap constraint — without it, the constraint is unachievable                  |
+| Allergen 3-day introduction tracker       | Log Harian | **Include**    | Safety-critical; Linda-type churn risk is permanent if absent                          |
+| Weekly adequacy aggregate view            | Log Harian | **Include**    | Emotional product; without it, daily-gap framing dominates and contradicts Principle 1 |
+
 
 ### Post-M1 (deliberately deferred)
 
-| Flow | Mode | Reason for deferral |
-|---|---|---|
-| Photo meal log (AI recognition) | Log Harian | Requires ML infrastructure; manual log proves concept first |
-| Compassionate streak + badges | Log Harian | Gamification layer — core loop first, engagement layer second |
-| Feeding mood tracker | Log Harian | Nice-to-have; no blockers on core tracking without it |
-| Texture progression tracker | Log Harian | Season 2 enrichment — not a loop-blocker |
-| Time-based recipe filter (20/45 min) | Masak | Dewi's request — include in M1 if engineering effort is <1 day; otherwise post-M1 |
-| Ingredient substitution engine | Masak | Helpful but not a loop-blocker |
-| Pelangi makan visual (full) | Masak | Full WHO 8-group visual is post-M1; simplified 3-group indicator is M1-consider |
-| Full Mode Edukasi article feed | Edukasi | Seed content required; can launch with Season 2 only if Season 1 + 3 seed data is not ready |
-| Post-article quiz | Edukasi | Requires quiz question bank; article reading alone proves value in M1 |
-| Caregiver reference card | Family | Post-M1 — safety feature, but not a loop-blocker for M1 |
-| Pediatrician-shareable monthly summary | Family | Post-M1 — Phase 2 clinical channel |
+
+| Flow                                   | Mode       | Reason for deferral                                                                         |
+| -------------------------------------- | ---------- | ------------------------------------------------------------------------------------------- |
+| Photo meal log (AI recognition)        | Log Harian | Requires ML infrastructure; manual log proves concept first                                 |
+| Compassionate streak + badges          | Log Harian | Gamification layer — core loop first, engagement layer second                               |
+| Feeding mood tracker                   | Log Harian | Nice-to-have; no blockers on core tracking without it                                       |
+| Texture progression tracker            | Log Harian | Season 2 enrichment — not a loop-blocker                                                    |
+| Time-based recipe filter (20/45 min)   | Masak      | Dewi's request — include in M1 if engineering effort is <1 day; otherwise post-M1           |
+| Ingredient substitution engine         | Masak      | Helpful but not a loop-blocker                                                              |
+| Pelangi makan visual (full)            | Masak      | Full WHO 8-group visual is post-M1; simplified 3-group indicator is M1-consider             |
+| Full Mode Edukasi article feed         | Edukasi    | Seed content required; can launch with Season 2 only if Season 1 + 3 seed data is not ready |
+| Post-article quiz                      | Edukasi    | Requires quiz question bank; article reading alone proves value in M1                       |
+| Caregiver reference card               | Family     | Post-M1 — safety feature, but not a loop-blocker for M1                                     |
+| Pediatrician-shareable monthly summary | Family     | Post-M1 — Phase 2 clinical channel                                                          |
+
 
 ---
 
@@ -406,23 +443,27 @@ Article flow:
 ### Compassionate streak UI
 
 **Behavior:**
+
 - Streak counter: "🔥 [N] hari berturut-turut"
 - Grace day: if one day is skipped, the streak continues — the counter does not break
 - After a missed streak: counter resets to "0 hari" with no commentary, no notification
 - No "longest streak" display anywhere
 
 **Copy rules:**
+
 - DO: "Mama sudah konsisten [N] hari — tetap semangat!"
 - DO NOT: "Kamu melewatkan kemarin. Streakmu terputus."
 - DO NOT: "Streak terbaik: 14 hari" (comparative, pressure-inducing)
 
 **Visual:**
+
 - Streak badge: warm orange, flame icon
 - Broken/reset state: neutral gray, no broken icon
 
 ### Iron + Zinc gap hint cards
 
 **Zinc card:**
+
 ```
 ╔══════════════════════════════════╗
 ║  🟡  Zinc minggu ini sedikit rendah
@@ -435,6 +476,7 @@ Article flow:
 ```
 
 **Iron card:**
+
 ```
 ╔══════════════════════════════════╗
 ║  🔴  Iron minggu ini sedikit rendah
@@ -447,6 +489,7 @@ Article flow:
 ```
 
 **Rules:**
+
 - Cards appear only when the weekly average for that nutrient is below threshold (not daily — weekly)
 - Cards are dismissable — tapping "✕" hides for 24 hours
 - Both cards can appear simultaneously — they are never merged
@@ -456,6 +499,7 @@ Article flow:
 ### Allergen binary filter UI
 
 **Recipe card (safe):**
+
 ```
 [Recipe name]
 Prep: 20 menit
@@ -463,6 +507,7 @@ Prep: 20 menit
 ```
 
 **Recipe card (allergen conflict — should not appear in results, but if shown in non-filtered browse):**
+
 ```
 [Recipe name]
 Prep: 20 menit
@@ -470,6 +515,7 @@ Prep: 20 menit
 ```
 
 **Onboarding allergen setup:**
+
 - Step label: "Keamanan si kecil" — not "Food preferences"
 - Instruction copy: "Masukkan semua alergi yang sudah dikonfirmasi dokter. Suppa akan menyaring semua resep berdasarkan ini secara otomatis."
 - Confirmation step: "Kami akan menyembunyikan semua resep yang mengandung [allergen list]. Ini tidak bisa dilewati secara tidak sengaja."
@@ -479,25 +525,29 @@ Prep: 20 menit
 
 Use these templates consistently across all content that references clinical guidelines:
 
-| Context | Template |
-|---|---|
-| Article attribution | "Berdasarkan panduan IDAI dan rekomendasi WHO" |
-| Allergen warning | "Bahan ini tidak direkomendasikan untuk usia [X] menurut panduan IDAI" |
-| Myth-busting headline | "Kata penelitian terbaru: [correct information]" |
-| Caregiver reference card header | "Panduan pemberian makan si kecil berdasarkan rekomendasi IDAI" |
-| Recipe safety confirmation | "Resep ini sesuai untuk usia [X] berdasarkan panduan tekstur IDAI" |
+
+| Context                         | Template                                                               |
+| ------------------------------- | ---------------------------------------------------------------------- |
+| Article attribution             | "Berdasarkan panduan IDAI dan rekomendasi WHO"                         |
+| Allergen warning                | "Bahan ini tidak direkomendasikan untuk usia [X] menurut panduan IDAI" |
+| Myth-busting headline           | "Kata penelitian terbaru: [correct information]"                       |
+| Caregiver reference card header | "Panduan pemberian makan si kecil berdasarkan rekomendasi IDAI"        |
+| Recipe safety confirmation      | "Resep ini sesuai untuk usia [X] berdasarkan panduan tekstur IDAI"     |
+
 
 ### Pelangi makan visual
 
 **Placement:** Secondary section on Today dashboard — below macro rings, visible on scroll. Weekly view is the primary frame.
 
 **Visual format:**
+
 - 8 colored segments representing WHO food groups arranged as a rainbow arc or horizontal strip
 - Filled segments: food groups logged this week
 - Empty segments: neutral gray — not red, not empty/broken
 - Label below: "Minggu ini: [N]/8 kelompok makanan 🌈"
 
 **Tooltip/explainer (tap on visual):**
+
 > "Pelangi makan membantu memastikan si kecil mendapat variasi dari berbagai kelompok makanan. Ini bukan pengganti pemantauan gizi individual — tapi cara mudah melihat apakah makanannya sudah beragam minggu ini."
 
 **DO NOT show** a daily Pelangi makan score. Weekly cadence only.
@@ -511,6 +561,7 @@ Use these templates consistently across all content that references clinical gui
 ### Language register rules
 
 **Always use:**
+
 - "Si kecil" for the child — never "anak Anda," "your child," or "bayi"
 - "Mama" for the user — never "Anda," "ibu," or "user"
 - Present tense, active voice: "Suppa membantu Mama" — not "Suppa is designed to help mothers"
@@ -518,6 +569,7 @@ Use these templates consistently across all content that references clinical gui
 - "Kata penelitian terbaru" for clinical framing — not "menurut ilmu pengetahuan" or "scientifically proven"
 
 **Never use:**
+
 - Clinical or Western nutrition terminology as primary labels: no "micronutrient deficiency," no "macronutrient targets," no "dietary intake assessment"
 - Alarm or shame language: no "KEKURANGAN," no "bahaya," no "gagal," no "terlewat"
 - Comparative language: no "dibanding ibu-ibu lain," no "rata-rata pengguna Suppa"
@@ -525,22 +577,26 @@ Use these templates consistently across all content that references clinical gui
 
 ### Empty state copy
 
-| Screen | Empty state copy |
-|---|---|
-| Today dashboard (no logs yet) | "Selamat pagi, Mama [nama]! Catat makan pertama si kecil hari ini yuk 🌟" |
-| Mode Masak (no ingredients entered) | "Punya apa di kulkas? Ketik 2–3 bahan dan Suppa carikan resep yang aman untuk si kecil." |
-| Mode Edukasi (first visit) | "Halo, Mama [nama]! Suppa siapkan artikel yang pas untuk si kecil usia [X] bulan. Mulai dari sini yuk →" |
-| Recipe results (no match) | "Belum ada resep yang cocok untuk bahan itu. Coba tambahkan 1 bahan lain, atau lihat semua resep aman untuk si kecil →" |
-| Growth chart (no measurements) | "Belum ada data pertumbuhan. Tambahkan berat dan tinggi si kecil untuk mulai memantau." |
+
+| Screen                              | Empty state copy                                                                                                        |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Today dashboard (no logs yet)       | "Selamat pagi, Mama [nama]! Catat makan pertama si kecil hari ini yuk 🌟"                                               |
+| Mode Masak (no ingredients entered) | "Punya apa di kulkas? Ketik 2–3 bahan dan Suppa carikan resep yang aman untuk si kecil."                                |
+| Mode Edukasi (first visit)          | "Halo, Mama [nama]! Suppa siapkan artikel yang pas untuk si kecil usia [X] bulan. Mulai dari sini yuk →"                |
+| Recipe results (no match)           | "Belum ada resep yang cocok untuk bahan itu. Coba tambahkan 1 bahan lain, atau lihat semua resep aman untuk si kecil →" |
+| Growth chart (no measurements)      | "Belum ada data pertumbuhan. Tambahkan berat dan tinggi si kecil untuk mulai memantau."                                 |
+
 
 ### Error and warning copy
 
-| Situation | Copy |
-|---|---|
-| Allergen detected in manual log | "Bahan ini ada di daftar alergi [nama anak]. Mama yakin mau catat ini? [Tetap catat] [Batal]" |
-| Age-inappropriate food in log | "Menurut panduan IDAI, [food] biasanya aman mulai usia [X] bulan. Si kecil [nama] sekarang [age]. [Tetap catat] [Lihat alternatif]" |
-| Recipe not safe for age band | "Resep ini untuk anak usia [X] bulan ke atas. Si kecil [nama] belum siap untuk ini — tapi ini bisa jadi pilihan nanti!" |
-| Network error | "Koneksi sedang tidak stabil. Data log Mama sudah tersimpan, coba lagi sebentar." |
+
+| Situation                       | Copy                                                                                                                                |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Allergen detected in manual log | "Bahan ini ada di daftar alergi [nama anak]. Mama yakin mau catat ini? [Tetap catat] [Batal]"                                       |
+| Age-inappropriate food in log   | "Menurut panduan IDAI, [food] biasanya aman mulai usia [X] bulan. Si kecil [nama] sekarang [age]. [Tetap catat] [Lihat alternatif]" |
+| Recipe not safe for age band    | "Resep ini untuk anak usia [X] bulan ke atas. Si kecil [nama] belum siap untuk ini — tapi ini bisa jadi pilihan nanti!"             |
+| Network error                   | "Koneksi sedang tidak stabil. Data log Mama sudah tersimpan, coba lagi sebentar."                                                   |
+
 
 ### WhatsApp share card format
 
@@ -558,20 +614,24 @@ Use these templates consistently across all content that references clinical gui
 
 ### P1 — Blocks design decisions before M1 ship
 
-| Question | What it blocks | Suggested method |
-|---|---|---|
-| At what tap count does the log flow get abandoned? | 3-tap constraint validation — if 3 taps is not achievable, frequent foods shortcut design needs revision | Prototype usability test: time + drop-off per screen, n=10 |
-| Do allergen-mom users (Linda-type) trust app-generated filtering enough to act on it without cross-checking? | Allergen binary design decision — if trust is low, we need an additional confirmation layer in the recipe result | Depth interview + prototype test, 3–5 allergy moms |
-| Does weekly aggregate view reduce log-gap anxiety vs. daily-only view? | Weekly bar placement and emphasis — if it doesn't reduce anxiety, the framing needs revision | A/B comparison: daily-only vs weekly bar prototype, n=10 |
+
+| Question                                                                                                     | What it blocks                                                                                                   | Suggested method                                           |
+| ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| At what tap count does the log flow get abandoned?                                                           | 3-tap constraint validation — if 3 taps is not achievable, frequent foods shortcut design needs revision         | Prototype usability test: time + drop-off per screen, n=10 |
+| Do allergen-mom users (Linda-type) trust app-generated filtering enough to act on it without cross-checking? | Allergen binary design decision — if trust is low, we need an additional confirmation layer in the recipe result | Depth interview + prototype test, 3–5 allergy moms         |
+| Does weekly aggregate view reduce log-gap anxiety vs. daily-only view?                                       | Weekly bar placement and emphasis — if it doesn't reduce anxiety, the framing needs revision                     | A/B comparison: daily-only vs weekly bar prototype, n=10   |
+
 
 ### P2 — Informs design improvements after M1 launches
 
-| Question | What it informs | Suggested method |
-|---|---|---|
-| Photo log vs text log — which has lower friction for Indonesian moms? | Post-M1 photo log feature prioritization | Comparative usability test |
-| Does "si kecil / Mama" register vs formal "anak Anda" measurably affect trust? | Copy strategy confidence level | A/B copy test post-launch |
-| How does Siti-type mom respond to Pelangi makan — motivating or shame-inducing? | Pelangi makan display framing | Usability test with picky-eater mom segment, n=5 |
-| What is Dewi-type mom's actual recipe shortlist size? (How many unique recipes per week?) | Frequent foods shortcut list length | Survey, n=50 active users |
+
+| Question                                                                                  | What it informs                          | Suggested method                                 |
+| ----------------------------------------------------------------------------------------- | ---------------------------------------- | ------------------------------------------------ |
+| Photo log vs text log — which has lower friction for Indonesian moms?                     | Post-M1 photo log feature prioritization | Comparative usability test                       |
+| Does "si kecil / Mama" register vs formal "anak Anda" measurably affect trust?            | Copy strategy confidence level           | A/B copy test post-launch                        |
+| How does Siti-type mom respond to Pelangi makan — motivating or shame-inducing?           | Pelangi makan display framing            | Usability test with picky-eater mom segment, n=5 |
+| What is Dewi-type mom's actual recipe shortlist size? (How many unique recipes per week?) | Frequent foods shortcut list length      | Survey, n=50 active users                        |
+
 
 ---
 
@@ -579,14 +639,16 @@ Use these templates consistently across all content that references clinical gui
 
 > **Designer:** These questions must be resolved before the relevant screens can be finalized. Each has a decision owner and a current hypothesis.
 
-| # | Question | Owner | Current hypothesis | Blocking |
-|---|---|---|---|---|
-| DQ-1 | Compassionate streak grace period: 1 day or 2 days? | Designer + Alvin | 1 day (default). Validate via churn analytics post-launch. | Streak UI spec |
-| DQ-2 | Pelangi makan daily vs weekly framing on Today dashboard — does showing daily (even as supplement) create shame? | Designer | Weekly only in M1. Daily framing post-M1 only after Siti-type usability test. | Pelangi makan placement |
-| DQ-3 | Time-based recipe filter (20/45 min) — M1 or post-M1? | CPO + PO | M1 if engineering cost is <1 day estimate; otherwise post-M1. Dewi's core need. | Mode Masak spec |
-| DQ-4 | How does the allergen 3-day intro tracker surface — in-flow during log entry, or as a separate tracker screen? | Designer | Separate tracker screen reachable from Today dashboard and child profile. In-flow prompt during new food entry. | M1-consider spec |
-| DQ-5 | Child profile quick-switch pattern for Ratna (2+ children) — tab bar, dropdown, or swipe? | Designer | Profile switcher in top nav (avatar/name tap → drawer). Not a bottom nav tab — that space is reserved for modes. | Navigation spec |
-| DQ-6 | IDAI alignment status at M1 launch — does the design use IDAI attribution language before formal advisor is named? | CPO + Alvin | Use "berdasarkan panduan IDAI" as general attribution. Named IDAI-affiliated nutritionist is the 12–18 month goal (OQ-8). | All authority-transfer copy |
+
+| #    | Question                                                                                                           | Owner            | Current hypothesis                                                                                                        | Blocking                    |
+| ---- | ------------------------------------------------------------------------------------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| DQ-1 | Compassionate streak grace period: 1 day or 2 days?                                                                | Designer + Alvin | 1 day (default). Validate via churn analytics post-launch.                                                                | Streak UI spec              |
+| DQ-2 | Pelangi makan daily vs weekly framing on Today dashboard — does showing daily (even as supplement) create shame?   | Designer         | Weekly only in M1. Daily framing post-M1 only after Siti-type usability test.                                             | Pelangi makan placement     |
+| DQ-3 | Time-based recipe filter (20/45 min) — M1 or post-M1?                                                              | CPO + PO         | M1 if engineering cost is <1 day estimate; otherwise post-M1. Dewi's core need.                                           | Mode Masak spec             |
+| DQ-4 | How does the allergen 3-day intro tracker surface — in-flow during log entry, or as a separate tracker screen?     | Designer         | Separate tracker screen reachable from Today dashboard and child profile. In-flow prompt during new food entry.           | M1-consider spec            |
+| DQ-5 | Child profile quick-switch pattern for Ratna (2+ children) — tab bar, dropdown, or swipe?                          | Designer         | Profile switcher in top nav (avatar/name tap → drawer). Not a bottom nav tab — that space is reserved for modes.          | Navigation spec             |
+| DQ-6 | IDAI alignment status at M1 launch — does the design use IDAI attribution language before formal advisor is named? | CPO + Alvin      | Use "berdasarkan panduan IDAI" as general attribution. Named IDAI-affiliated nutritionist is the 12–18 month goal (OQ-8). | All authority-transfer copy |
+
 
 ---
 
