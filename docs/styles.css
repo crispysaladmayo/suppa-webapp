@@ -2120,3 +2120,13 @@ textarea:focus-visible,
 .btn--whatsapp:hover {
   background: #1fb855;
 }
+
+/* ── Version bar ─────────────────────────────────────────── */
+.version-bar {
+  text-align: center;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  padding: 1.25rem 0 0.5rem;
+  letter-spacing: 0.03em;
+  user-select: none;
+}

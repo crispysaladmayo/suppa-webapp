@@ -40,6 +40,21 @@
     el.textContent = salam + ", Mama " + name;
   }
 
+  // ── Version bar ──────────────────────────────────────────
+  // Injected into every .app-frame so all pages show the version
+  // without editing each HTML file. Change PROTO_VERSION here to update everywhere.
+  var PROTO_VERSION = "M1 · v0.2 · 2026-04-09";
+
+  function injectVersionBar() {
+    var frame = document.querySelector(".app-frame");
+    if (!frame) return;
+    var bar = document.createElement("p");
+    bar.className = "version-bar";
+    bar.setAttribute("aria-hidden", "true");
+    bar.textContent = "Suppa Prototype · " + PROTO_VERSION;
+    frame.appendChild(bar);
+  }
+
   // ── Mode contextual hint banner ──────────────────────────
   // Shows at 17:00–19:00 on Log Harian; dismissed per session (sessionStorage).
   function initModeHint() {
@@ -194,6 +209,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    injectVersionBar();
     initTodayGreeting();
     initDisclaimer(document);
     initModeHint();
