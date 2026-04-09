@@ -1,5 +1,7 @@
 package com.catholicdaily.app.data.repository
 
+import android.app.Application
+import android.util.Log
 import androidx.room.withTransaction
 import com.catholicdaily.app.data.homily.HomilyDataSource
 import com.catholicdaily.app.data.local.CatholicDatabase
@@ -17,10 +19,13 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okio.buffer
+import okio.source
 
 class DefaultContentRepository(
     private val database: CatholicDatabase,
     private val okHttpClient: OkHttpClient,
+    private val application: Application,
     editorialBaseUrl: String,
     private val homilyDataSource: HomilyDataSource,
 ) : ContentRepository {
@@ -44,17 +49,28 @@ class DefaultContentRepository(
                         emit(null)
                         return@flow
                     }
-                    val day = readingsDao.getDayForBundle(liturgicalDate, bundle.id)
+                    val day =
+                        readingsDao.getDayForBundle(liturgicalDate, bundle.id)
+                            ?: readingsDao.getNearestDayOnOrBefore(liturgicalDate, bundle.id)
+                            ?: readingsDao.getLatestDayForBundle(bundle.id)
                     if (day == null) {
+                        Log.w(TAG, "No readings_day rows available in imported bundle")
                         emit(null)
                         return@flow
+                    }
+                    if (day.liturgicalDate != liturgicalDate) {
+                        Log.i(
+                            TAG,
+                            "Readings fallback used: requested=$liturgicalDate resolved=${day.liturgicalDate}",
+                        )
                     }
                     val blocks = readingsDao.blocksForDay(day.id)
                     emit(
                         ReadingsDayContent(
-                            liturgicalDate = liturgicalDate,
+                            liturgicalDate = day.liturgicalDate,
                             bundleVersion = bundle.bundleVersion,
                             sourceAttribution = bundle.sourceAttribution,
+                            cycleMetadata = day.cycleMetadata,
                             blocks = blocks,
                         ),
                     )
@@ -74,29 +90,60 @@ class DefaultContentRepository(
         }
     }
 
-    override suspend fun refreshHomilyIfNeeded() =
+    override suspend fun refreshHomilyIfNeeded() {
         withContext(Dispatchers.IO) {
             val entity = homilyDataSource.fetchLatest() ?: return@withContext
             database.withTransaction {
                 homilyDao.clearLatestFlags()
                 homilyDao.insertHomily(entity.copy(isLatest = true))
             }
+            Log.i(TAG, "Homily refreshed from configured source")
         }
+    }
 
-    override suspend fun refreshEditorial(liturgicalDate: String) =
+    override suspend fun refreshEditorial(liturgicalDate: String) {
         withContext(Dispatchers.IO) {
             if (editorialBaseUrl.isEmpty() ||
                 editorialBaseUrl.contains("example.invalid", ignoreCase = true)
             ) {
+                seedEditorialFromAsset(liturgicalDate)
                 return@withContext
             }
             val url = "$editorialBaseUrl/editorial/$liturgicalDate.json"
             val request = Request.Builder().url(url).build()
             okHttpClient.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) return@use
+                if (!response.isSuccessful) {
+                    Log.w(TAG, "Editorial fetch failed (${response.code}) for $url; using seed")
+                    seedEditorialFromAsset(liturgicalDate)
+                    return@use
+                }
                 val body = response.body?.string() ?: return@use
                 val dto = editorialAdapter.fromJson(body) ?: return@use
                 editorialDao.insert(dto.toEntity())
+                Log.i(TAG, "Editorial refreshed from remote for $liturgicalDate")
             }
         }
+    }
+
+    private suspend fun seedEditorialFromAsset(liturgicalDate: String) {
+        runCatching {
+            application.assets.open(EDITORIAL_SEED_FILE).use { input ->
+                val dto = editorialAdapter.fromJson(input.source().buffer()) ?: return@use
+                editorialDao.insert(
+                    dto.toEntity().copy(
+                        liturgicalDate = liturgicalDate,
+                        externalId = "seed-editorial-$liturgicalDate",
+                    ),
+                )
+                Log.i(TAG, "Editorial seeded from local asset for $liturgicalDate")
+            }
+        }.onFailure {
+            Log.w(TAG, "Failed loading editorial seed asset", it)
+        }
+    }
+
+    companion object {
+        private const val TAG = "DefaultContentRepository"
+        private const val EDITORIAL_SEED_FILE = "editorial.seed.json"
+    }
 }

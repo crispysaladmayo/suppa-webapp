@@ -1,5 +1,12 @@
-# Deploy Catholic Daily static webapp (folder with spaces → GitHub Pages).
-# After first push: Repo → Settings → Pages → Build: GitHub Actions.
+# Deploy Catholic Daily static webapp to GitHub Pages.
+#
+# One-time (required before the first deploy succeeds):
+#   Repo → Settings → Pages → Build and deployment → Source: "GitHub Actions"
+#   (Do not use "Deploy from a branch" for this workflow.)
+#
+# Note: We intentionally omit actions/configure-pages. That action calls GET /repos/.../pages
+# and returns 404 until Pages has been enabled in the UI; it is not required for
+# upload-pages-artifact + deploy-pages.
 name: Deploy Catholic Daily webapp
 
 on:
@@ -17,7 +24,7 @@ permissions:
 
 concurrency:
   group: pages-catholic-daily-webapp
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -27,7 +34,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: "Catholic Daily App/webapp"

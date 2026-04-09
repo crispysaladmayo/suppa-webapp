@@ -2,6 +2,7 @@ package com.catholicdaily.app.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.catholicdaily.app.data.local.entity.HomilyDocumentEntity
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +15,6 @@ interface HomilyDao {
     @Query("UPDATE homily_document SET is_latest = 0")
     suspend fun clearLatestFlags()
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHomily(entity: HomilyDocumentEntity): Long
 }

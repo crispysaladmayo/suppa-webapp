@@ -8,6 +8,7 @@ data class ReadingsDayContent(
     val liturgicalDate: String,
     val bundleVersion: String,
     val sourceAttribution: String,
+    val cycleMetadata: String? = null,
     val blocks: List<ReadingBlockEntity>,
 )
 

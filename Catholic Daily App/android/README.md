@@ -24,14 +24,20 @@ The workflow links this folder to `android-ci` (no spaces) before Gradle runs ‚Ä
 
 ## Readings bundle in the app
 
-1. Build a DB from the pipeline:
+V1 now includes a dev-seed bundle at:
+
+`app/src/main/assets/readings_bundle.db`
+
+So a fresh debug install can show non-empty content immediately.
+
+To regenerate the bundle from pipeline samples:
 
    ```bash
    cd ../pipeline/scripts
    python3 build_readings_bundle.py -i ../samples/readings-import.sample.json -o ../out/readings-sample.db
    ```
 
-2. Copy the file **exactly** as:
+Copy the output file **exactly** as:
 
    `app/src/main/assets/readings_bundle.db`
 
@@ -39,9 +45,17 @@ The workflow links this folder to `android-ci` (no spaces) before Gradle runs ‚Ä
 
 Use **licensed** lectionary data for production; the sample is placeholders only.
 
+For a licensed monthly window build (`today-3 months .. today+3 months`), use:
+
+`cd ../pipeline/scripts && python3 build_kwi_seed_window.py --licensed-import ../in/readings-kwi-licensed.json --output-import ../out/readings-import.kwi-window.json --output-db ../out/readings-kwi-window.db --report ../out/readings-kwi-window.report.json`
+
 ## Editorial URL
 
 `app/build.gradle.kts` sets `BuildConfig.EDITORIAL_BASE_URL`. Point it at your static CDN (see packaging doc). The app skips fetch if the host contains `example.invalid`.
+
+If URL is empty/placeholder, app falls back to local seed:
+
+`app/src/main/assets/editorial.seed.json`
 
 ## Homily (JSON feed)
 
@@ -49,11 +63,28 @@ Use **licensed** lectionary data for production; the sample is placeholders only
 
 Shape matches [`../pipeline/samples/homily-latest.sample.json`](../pipeline/samples/homily-latest.sample.json) and `HomilyLatestJsonDto` in the app. On success, the app **replaces** the cached ‚Äúlatest‚Äù homily (`is_latest`) in Room.
 
-If `HOMILY_FEED_URL` is empty, homily fetch is a no-op. Use **official or licensed** sources in production (PRD FR-9).
+If `HOMILY_FEED_URL` is empty **or placeholder** (contains `example.invalid`), the app falls back to local seed asset mode. Use **official or licensed** sources in production (PRD FR-9).
+
+For dev-seed mode, the app uses:
+
+`app/src/main/assets/homily_latest.seed.json`
+
+Optional historical audit file (not read by runtime yet):
+
+`app/src/main/assets/homily_history.seed.json`
 
 ## Background refresh
 
 `ContentRefreshScheduler` enqueues a **12-hour** `WorkManager` job (network required) to call `refreshHomilyIfNeeded()` and `refreshEditorial(today)` using `LiturgicalDateResolver` (default civil date in `Asia/Jakarta` until KWI logic is added).
+
+Additionally, app startup triggers one immediate refresh pass so local seed content is inserted without waiting for periodic work.
+
+## Quick verification (dev-seed)
+
+1. Install debug APK on a fresh device/emulator.
+2. Launch app: readings should appear from local `readings_bundle.db`.
+3. Homily + renungan should appear from seed assets even with placeholder URLs.
+4. Tap refresh FAB: content remains available; when production URLs are configured later, remote fetch replaces seed rows.
 
 ## Package name
 

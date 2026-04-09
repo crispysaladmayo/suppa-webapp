@@ -1,5 +1,6 @@
 package com.catholicdaily.app.data.homily
 
+import android.util.Log
 import com.catholicdaily.app.data.local.entity.HomilyDocumentEntity
 import com.catholicdaily.app.data.remote.HomilyLatestJsonDto
 import com.catholicdaily.app.data.remote.toEntity
@@ -29,14 +30,22 @@ class JsonHomilyFeedDataSource(
         withContext(Dispatchers.IO) {
             val url = feedUrl.trim()
             if (url.isEmpty() || url.contains("example.invalid", ignoreCase = true)) {
+                Log.i(TAG, "Remote homily feed disabled by config")
                 return@withContext null
             }
             val request = Request.Builder().url(url).build()
             okHttpClient.newCall(request).execute().use { response ->
-                if (!response.isSuccessful) return@use null
+                if (!response.isSuccessful) {
+                    Log.w(TAG, "Homily fetch failed (${response.code}) for $url")
+                    return@use null
+                }
                 val body = response.body?.string() ?: return@use null
                 val dto = adapter.fromJson(body) ?: return@use null
                 dto.toEntity()
             }
         }
+
+    companion object {
+        private const val TAG = "JsonHomilyFeedSource"
+    }
 }

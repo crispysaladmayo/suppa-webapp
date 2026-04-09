@@ -36,6 +36,8 @@ abstract class CatholicDatabase : RoomDatabase() {
     companion object {
         fun create(context: Context): CatholicDatabase =
             Room.databaseBuilder(context, CatholicDatabase::class.java, "catholic.db")
+                // Readings importer uses ATTACH/DETACH; WAL can fail on some OEM builds during this flow.
+                .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 .fallbackToDestructiveMigration()
                 .build()
     }
