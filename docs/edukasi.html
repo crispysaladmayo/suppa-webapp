@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mode Edukasi — Suppa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-frame">
+
+      <!-- Top bar -->
+      <header class="top-bar">
+        <div>
+          <h1 class="display" style="font-size: 1.25rem; margin-bottom: 0.25rem">Mode Edukasi</h1>
+          <!-- Season badge — current season for this child -->
+          <span class="season-badge season-badge--s2" aria-label="Season 2: Introduksi MPASI">
+            📍 Season 2 — Introduksi
+          </span>
+        </div>
+        <a href="settings.html" class="top-bar__settings" aria-label="Pengaturan">⚙</a>
+      </header>
+
+      <!-- Child context line -->
+      <p class="body-muted" style="margin: 0.5rem 0 1.25rem">
+        Artikel yang dikurasi untuk <strong>Dimas · 7 bulan</strong>
+      </p>
+
+      <main>
+
+        <!-- Featured article — Season 2, milestone-matched -->
+        <section aria-labelledby="featured-heading">
+          <h2 id="featured-heading" class="overline" style="margin-bottom: 0.625rem">Artikel pilihan</h2>
+
+          <a class="article-card article-card--featured" href="edukasi-article.html" aria-label="Baca artikel: Makanan kaya iron untuk MPASI si kecil, Season 2, 8 menit baca">
+            <div class="article-card__thumb article-card__thumb--gizi">🥩</div>
+            <div class="article-card__body">
+              <div class="article-card__meta">
+                <span class="article-card__season-tag">Season 2 · Gizi</span>
+                <span class="article-card__dot" aria-hidden="true"></span>
+                <span class="article-card__time">8 menit baca</span>
+              </div>
+              <h3 class="article-card__title">
+                Makanan kaya iron untuk MPASI si kecil
+              </h3>
+              <p class="article-card__desc">
+                Iron adalah mineral paling penting di bulan-bulan pertama MPASI. Simak panduan lengkap
+                cara memenuhi kebutuhan iron Dimas dari makanan sehari-hari.
+              </p>
+            </div>
+          </a>
+        </section>
+
+        <!-- Continue reading — article in progress -->
+        <section aria-labelledby="continue-heading" style="margin-top: 1.25rem">
+          <h2 id="continue-heading" class="overline" style="margin-bottom: 0.625rem">Lanjutkan membaca</h2>
+
+          <a class="article-card article-card--continue" href="edukasi-article.html" aria-label="Lanjutkan membaca: Aturan 3 hari pengenalan alergi">
+            <div class="article-card__thumb article-card__thumb--alergi">🛡️</div>
+            <div class="article-card__body">
+              <div class="article-card__meta">
+                <span class="article-card__season-tag">Season 2 · Alergi</span>
+                <span class="article-card__dot" aria-hidden="true"></span>
+                <span class="article-card__time">6 menit baca</span>
+              </div>
+              <h3 class="article-card__title">Aturan 3 hari pengenalan alergi</h3>
+              <p class="article-card__desc">Lanjutkan dari halaman 2 — cara mengenali reaksi dan langkah selanjutnya.</p>
+            </div>
+          </a>
+        </section>
+
+        <!-- Browse by topic -->
+        <section aria-labelledby="topics-heading" style="margin-top: 1.5rem">
+          <h2 id="topics-heading" class="overline" style="margin-bottom: 0.625rem">Telusuri topik</h2>
+          <div class="topic-chips" role="list">
+            <button class="topic-chip topic-chip--active" type="button" role="listitem" aria-pressed="true">
+              🌾 Semua
+            </button>
+            <button class="topic-chip" type="button" role="listitem" aria-pressed="false">
+              💊 Gizi
+            </button>
+            <button class="topic-chip" type="button" role="listitem" aria-pressed="false">
+              🛡️ Alergi
+            </button>
+            <button class="topic-chip" type="button" role="listitem" aria-pressed="false">
+              🥄 Tekstur
+            </button>
+            <button class="topic-chip" type="button" role="listitem" aria-pressed="false">
+              😤 Neofobia
+            </button>
+            <button class="topic-chip" type="button" role="listitem" aria-pressed="false">
+              📏 Tumbuh kembang
+            </button>
+          </div>
+        </section>
+
+        <!-- Article list -->
+        <section aria-labelledby="articles-heading">
+          <h2 id="articles-heading" class="overline" style="margin-bottom: 0.625rem">Artikel untuk Season 2</h2>
+
+          <a class="article-card" href="edukasi-article.html" aria-label="Zinc: mineral diam-diam penting untuk si kecil, 7 menit baca">
+            <div class="article-card__thumb article-card__thumb--gizi">🌟</div>
+            <div class="article-card__body">
+              <div class="article-card__meta">
+                <span class="article-card__season-tag">Season 2 · Gizi</span>
+                <span class="article-card__dot" aria-hidden="true"></span>
+                <span class="article-card__time">7 menit baca</span>
+              </div>
+              <h3 class="article-card__title">Zinc: mineral diam-diam penting untuk si kecil</h3>
+              <p class="article-card__desc">
+                Kata penelitian terbaru: zinc lebih sering kurang dari iron, tapi jarang dibicarakan.
+                Kenali sumber zinc terbaik dari bahan MPASI harian.
+              </p>
+            </div>
+          </a>
+
+          <a class="article-card" href="edukasi-article.html" aria-label="Tekstur MPASI usia 6-9 bulan: panduan tahap demi tahap, 6 menit baca">
+            <div class="article-card__thumb article-card__thumb--tekstur">🥄</div>
+            <div class="article-card__body">
+              <div class="article-card__meta">
+                <span class="article-card__season-tag">Season 2 · Tekstur</span>
+                <span class="article-card__dot" aria-hidden="true"></span>
+                <span class="article-card__time">6 menit baca</span>
+              </div>
+              <h3 class="article-card__title">Tekstur MPASI usia 6–9 bulan: panduan tahap demi tahap</h3>
+              <p class="article-card__desc">
+                Dari puree halus ke bubur kasar — kapan waktunya naik tekstur dan bagaimana tanda-tandanya.
+              </p>
+            </div>
+          </a>
+
+          <a class="article-card" href="edukasi-article.html" aria-label="MPASI hari pertama: mitos nenek vs panduan IDAI, 5 menit baca">
+            <div class="article-card__thumb article-card__thumb--neofobia">💡</div>
+            <div class="article-card__body">
+              <div class="article-card__meta">
+                <span class="article-card__season-tag">Season 2 · Panduan IDAI</span>
+                <span class="article-card__dot" aria-hidden="true"></span>
+                <span class="article-card__time">5 menit baca</span>
+              </div>
+              <h3 class="article-card__title">MPASI hari pertama: kata penelitian terbaru vs mitos umum</h3>
+              <p class="article-card__desc">
+                Bubur nasi dulu atau protein? Berdasarkan panduan IDAI dan rekomendasi WHO, begini urutan
+                yang benar.
+              </p>
+            </div>
+          </a>
+
+          <a class="article-card" href="edukasi-article.html" aria-label="Usus sehat si kecil: serat dan makanan fermentasi MPASI, 7 menit baca">
+            <div class="article-card__thumb article-card__thumb--tumbuh">🦠</div>
+            <div class="article-card__body">
+              <div class="article-card__meta">
+                <span class="article-card__season-tag">Season 2 · Gizi</span>
+                <span class="article-card__dot" aria-hidden="true"></span>
+                <span class="article-card__time">7 menit baca</span>
+              </div>
+              <h3 class="article-card__title">Usus sehat si kecil: serat dan makanan fermentasi dalam MPASI</h3>
+              <p class="article-card__desc">
+                Tempe, tahu, dan sayur hijau bukan hanya soal gizi — mereka membantu membangun
+                mikrobioma usus si kecil sejak dini.
+              </p>
+            </div>
+          </a>
+
+          <!-- Pre-MPASI track teaser (Season 1 articles — not hidden) -->
+          <div class="card" style="margin-top: 0.5rem; padding: 0.875rem 1rem; background: #eff6ff; border-radius: var(--radius-card);">
+            <p class="overline" style="color: #1d4ed8; margin-bottom: 0.375rem">Season 1 — Persiapan</p>
+            <p class="body-muted" style="font-size: 0.875rem; margin-bottom: 0.625rem">
+              Mau tahu perjalanan MPASI dari awal? Artikel Season 1 tetap bisa dibaca kapan saja.
+            </p>
+            <a href="edukasi.html" class="btn btn--ghost" style="font-size: 0.875rem; padding: 0.375rem 0.75rem; color: #1d4ed8;">
+              Lihat artikel Season 1 →
+            </a>
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+
+    <!-- 3-mode bottom nav (Edukasi active) -->
+    <nav class="bottom-nav bottom-nav--3" aria-label="Navigasi utama">
+      <a href="today.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+          <rect x="9" y="3" width="6" height="4" rx="1"/>
+          <line x1="9" y1="12" x2="15" y2="12"/>
+          <line x1="9" y1="16" x2="13" y2="16"/>
+        </svg>
+        Log Harian
+      </a>
+      <a href="fridge.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 12h18"/>
+          <path d="M5 12V6a1 1 0 011-1h12a1 1 0 011 1v6"/>
+          <path d="M5 12c0 4 2 7 7 7s7-3 7-7"/>
+          <path d="M9 4V3M15 4V3"/>
+        </svg>
+        Masak
+      </a>
+      <a href="edukasi.html" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
+          <line x1="9" y1="7" x2="15" y2="7"/>
+          <line x1="9" y1="11" x2="13" y2="11"/>
+        </svg>
+        Edukasi
+      </a>
+    </nav>
+
+    <script src="app.js"></script>
+  </body>
+</html>
