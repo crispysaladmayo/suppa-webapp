@@ -1,6 +1,28 @@
 (function () {
   "use strict";
 
+  // ── API integration ───────────────────────────────────────
+  var API_BASE = window.SUPPA_API_BASE || "http://localhost:8787/api";
+
+  function apiPost(entity, payload) {
+    return fetch(API_BASE + "/" + entity, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      if (!res.ok) throw new Error("API " + res.status);
+      return res.json();
+    });
+  }
+
+  function getHouseholdId() {
+    try { return localStorage.getItem("suppa_household_id") || "hh_1"; } catch (e) { return "hh_1"; }
+  }
+
+  function getChildId() {
+    try { return localStorage.getItem("suppa_child_id") || "ch_1"; } catch (e) { return "ch_1"; }
+  }
+
   function initDisclaimer(root) {
     var el = (root || document).querySelector("[data-disclaimer]");
     if (!el) return;
@@ -238,10 +260,33 @@
           return;
         }
         if (err) err.hidden = true;
-        showToast("Tersimpan", 1800);
-        setTimeout(function () {
-          window.location.href = "today.html";
-        }, 600);
+
+        var mealNameEl = document.getElementById("meal-name");
+        var mealName = mealNameEl ? mealNameEl.value.trim() : "";
+        var mtimeRadio = document.querySelector('input[name="mtime"]:checked');
+        var mtime = mtimeRadio
+          ? (mtimeRadio.closest("label").querySelector("span") || {}).textContent || ""
+          : "";
+        var portionRadio = document.querySelector('input[name="portion"]:checked');
+        var portionLabel = portionRadio
+          ? (portionRadio.closest("label").querySelector("span") || {}).textContent || "medium"
+          : "medium";
+        var foodGroupsCsv = Array.from(groups)
+          .map(function (g) { return g.getAttribute("data-food-group"); })
+          .join(",");
+
+        function finishSave() {
+          showToast("Tersimpan", 1800);
+          setTimeout(function () { window.location.href = "today.html"; }, 600);
+        }
+
+        apiPost("meal_logs", {
+          child_id: getChildId(),
+          meal_name: mealName || mtime.trim(),
+          food_groups_csv: foodGroupsCsv,
+          portion: portionLabel.trim().toLowerCase(),
+          logged_at: new Date().toISOString()
+        }).then(finishSave, finishSave);
       });
     }
 
@@ -280,12 +325,114 @@
         if (steps && !steps.value.trim()) mark(steps, true);
         else if (steps) mark(steps, false);
         if (!ok) return;
-        showToast("Resep tersimpan", 1800);
-        setTimeout(function () {
-          window.location.href = "recipe-detail.html?mine=1";
-        }, 500);
+
+        var emphasisEl = document.getElementById("macro-emphasis");
+        var ingLines = ing
+          ? ing.value.trim().split(/\n+/).filter(Boolean).join(",")
+          : "";
+
+        function finishRecipeSave() {
+          showToast("Resep tersimpan", 1800);
+          setTimeout(function () { window.location.href = "recipe-detail.html?mine=1"; }, 500);
+        }
+
+        apiPost("recipes", {
+          household_id: getHouseholdId(),
+          title: title ? title.value.trim() : "",
+          ingredients_csv: ingLines,
+          macro_emphasis: emphasisEl ? emphasisEl.value : "",
+          total_minutes: ""
+        }).then(finishRecipeSave, finishRecipeSave);
       });
     }
+    // ── Save growth entry ─────────────────────────────────────
+    var growthSave = document.getElementById("growth-save");
+    if (growthSave) {
+      growthSave.addEventListener("click", function (e) {
+        e.preventDefault();
+        var dateEl = document.getElementById("g-date");
+        var weightEl = document.getElementById("g-weight");
+        var heightEl = document.getElementById("g-height");
+        var typeEl = document.getElementById("g-type");
+
+        var weight = weightEl ? weightEl.value.trim() : "";
+        var height = heightEl ? heightEl.value.trim() : "";
+        if (!weight && !height) {
+          showToast("Isi berat atau tinggi terlebih dahulu", 2000);
+          return;
+        }
+
+        var recordedOn = (dateEl && dateEl.value) || new Date().toISOString().slice(0, 10);
+        var measureType = typeEl ? typeEl.value : "standing_height";
+
+        function finishGrowthSave() {
+          showToast("Data pertumbuhan tersimpan", 1800);
+        }
+
+        apiPost("growth_entries", {
+          child_id: getChildId(),
+          recorded_on: recordedOn,
+          weight_kg: weight,
+          height_cm: height,
+          measurement_type: measureType
+        }).then(finishGrowthSave, finishGrowthSave);
+      });
+    }
+  });
+
+  // ── Onboarding finish — persist household + child ─────────
+  // Runs after DOMContentLoaded; intercepts #get-started click
+  // to POST data before navigating.
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.querySelector("[data-onboarding-finish]");
+    if (!btn) return;
+    btn.addEventListener("click", function (e) {
+      var understand = document.getElementById("understand");
+      if (understand && !understand.checked) return;
+      e.preventDefault();
+
+      var cityEl = document.getElementById("city");
+      var countryEl = document.getElementById("country");
+      var childNameEl = document.getElementById("child-name");
+      var ageRadio = document.querySelector('input[name="age"]:checked');
+      var allergyChips = document.querySelectorAll('[data-allergy-chip][aria-pressed="true"]');
+      var noAllergyEl = document.getElementById("no-allergy");
+      var allergyOtherEl = document.getElementById("allergy-other");
+
+      var city = cityEl ? cityEl.value : "";
+      var country = countryEl ? countryEl.value : "ID";
+      var childName = (childNameEl && childNameEl.value.trim()) || "Anak";
+      var ageBand = ageRadio ? ageRadio.value : "";
+
+      var allergyNames = (noAllergyEl && noAllergyEl.checked)
+        ? []
+        : Array.from(allergyChips).map(function (c) { return c.textContent.trim(); });
+      var allergyOther = allergyOtherEl ? allergyOtherEl.value.trim() : "";
+      if (allergyOther) allergyNames.push(allergyOther);
+      var allergiesCsv = allergyNames.join(",");
+
+      apiPost("households", {
+        country: country,
+        city: city,
+        created_at: new Date().toISOString().slice(0, 10)
+      }).then(function (hhRes) {
+        var hhId = hhRes.data.id;
+        try { localStorage.setItem("suppa_household_id", hhId); } catch (_) {}
+        return apiPost("children", {
+          household_id: hhId,
+          name: childName,
+          age_band: ageBand,
+          sex: "",
+          allergies_csv: allergiesCsv
+        });
+      }).then(function (childRes) {
+        try { localStorage.setItem("suppa_child_id", childRes.data.id); } catch (_) {}
+        window.location.href = "today.html";
+      }).catch(function () {
+        // If API is unreachable, still allow prototype navigation
+        window.location.href = "today.html";
+      });
+    });
   });
 
   window.M1Proto = { initDisclaimer: initDisclaimer, showToast: showToast };
