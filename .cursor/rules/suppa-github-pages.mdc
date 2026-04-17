@@ -1,0 +1,13 @@
+---
+description: Suppa (Suppa/) — GitHub Pages dual deploy; avoid stale github.io
+globs: Suppa/**
+alwaysApply: false
+---
+
+# Suppa / GitHub Pages
+
+Applies when working under `Suppa/`. See the canonical rule in `Suppa/.cursor/rules/github-pages.mdc`.
+
+**Summary:** `Suppa/.github/workflows/pages.yml` must keep **both** jobs (`peaceiris` → `gh-pages` **and** `deploy-pages` for GitHub Actions) unless repo **Settings → Pages** is changed to use only one source. Otherwise https://crispysaladmayo.github.io/suppa/ can stay on old HTML while `main` is correct.
+
+**Quick check:** https://crispysaladmayo.github.io/suppa/.deploy-info.txt (`sha=` vs latest `main`).
