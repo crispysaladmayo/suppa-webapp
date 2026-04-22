@@ -8,22 +8,7 @@ type Props = {
 
 export function RencanaInsightCard({ insight, insightOpen, setInsightOpen }: Props) {
   return (
-    <button
-      type="button"
-      className="hifi-card"
-      onClick={() => setInsightOpen(!insightOpen)}
-      style={{
-        width: '100%',
-        marginTop: 14,
-        marginBottom: 14,
-        display: 'flex',
-        gap: 14,
-        alignItems: 'flex-start',
-        textAlign: 'left',
-        cursor: 'pointer',
-        border: '1px solid var(--border-soft)',
-      }}
-    >
+    <button type="button" className="tab-insight-card" onClick={() => setInsightOpen(!insightOpen)}>
       <div
         style={{
           width: 44,
@@ -36,12 +21,13 @@ export function RencanaInsightCard({ insight, insightOpen, setInsightOpen }: Pro
           fontSize: '1.25rem',
           flexShrink: 0,
         }}
+        aria-hidden
       >
         🌿
       </div>
-      <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ fontWeight: 700, fontSize: '1rem' }}>{insight.title}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text)' }}>{insight.title}</span>
           {insight.badge > 0 ? (
             <span
               style={{
@@ -57,15 +43,19 @@ export function RencanaInsightCard({ insight, insightOpen, setInsightOpen }: Pro
             </span>
           ) : null}
         </div>
-        <p style={{ margin: '6px 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>{insight.sub}</p>
+        <p style={{ margin: '6px 0 0', fontSize: '0.86rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
+          {insight.sub}
+        </p>
         {insightOpen ? (
-          <p style={{ margin: '10px 0 0', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-            Alur: catat menu per hari → hubungkan atau simpan resep → finalisasi untuk menghasilkan daftar
-            belanja dengan perkiraan berat dan biaya.
+          <p style={{ margin: '10px 0 0', fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
+            Alur disarankan: isi menu per hari → lengkapi kalori dan protein bila perlu → hubungkan resep
+            untuk belanja otomatis → finalisasi.
           </p>
         ) : null}
       </div>
-      <span style={{ color: 'var(--text-muted)' }}>{insightOpen ? '⌃' : '⌄'}</span>
+      <span style={{ color: 'var(--text-muted)', flexShrink: 0 }} aria-hidden>
+        {insightOpen ? '⌃' : '⌄'}
+      </span>
     </button>
   );
 }

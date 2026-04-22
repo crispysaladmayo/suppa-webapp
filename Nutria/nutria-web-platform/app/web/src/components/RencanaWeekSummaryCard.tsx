@@ -17,26 +17,30 @@ export function RencanaWeekSummaryCard({
   mealCountByDay,
 }: Props) {
   return (
-    <div ref={summaryRef} className="hifi-card" style={{ marginTop: 12 }}>
-      <h3 className="h-serif" style={{ fontSize: '1.05rem', margin: 0 }}>
-        Ringkasan minggu ini
-      </h3>
-      <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: '8px 0 0', lineHeight: 1.45 }}>
-        {mealsTotal} menu tercatat · {recipeBacked} terhubung resep Nutria (untuk agregasi belanja).
+    <div ref={summaryRef} className="tab-meta-card">
+      <p className="tab-module-kicker" style={{ color: 'var(--accent)', marginBottom: 8 }}>
+        Gambaran minggu
       </p>
-      <div style={{ display: 'flex', gap: 6, marginTop: 12, flexWrap: 'wrap' }}>
+      <h3 className="h-serif" style={{ fontSize: '1.12rem', margin: 0 }}>
+        Ringkasan rencana
+      </h3>
+      <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', margin: '8px 0 0', lineHeight: 1.45 }}>
+        {mealsTotal} menu tercatat · {recipeBacked} terhubung ke resep Nutria (untuk menghitung belanja).
+      </p>
+      <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}>
         {mealCountByDay.map((n, i) => (
           <div
             key={i}
             style={{
               padding: '6px 10px',
               borderRadius: 10,
-              background: n > 0 ? 'var(--accent-soft)' : 'var(--surface-elevated)',
+              background: n > 0 ? 'var(--accent-soft)' : 'var(--canvas)',
               fontSize: '0.72rem',
               fontWeight: 700,
+              color: n > 0 ? 'var(--text)' : 'var(--text-muted)',
             }}
           >
-            {weekStripLabel(i, weekStart)}:{n}
+            {weekStripLabel(i, weekStart)} · {n}
           </div>
         ))}
       </div>

@@ -1,8 +1,15 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../api/client.js';
 import { FormField } from '../components/FormField.js';
+import {
+  IllustrationEmptyCart,
+  NutriaEmptyState,
+} from '../components/NutriaEmptyState.js';
+import { BelanjaSkeleton } from '../components/PageLoadSkeleton.js';
+import { useToast } from '../context/ToastContext.js';
 import { startOfWeekSunday } from '../lib/week.js';
 import { log } from '../logger.js';
+import { useTabNav } from '../navigation/TabNavContext.js';
 
 const SECTION_LABEL: Record<string, { label: string; emoji: string; tint: string }> = {
   produce: { label: 'Sayur & buah', emoji: '🥬', tint: '#e3efe0' },
@@ -18,8 +25,12 @@ function sectionMeta(key: string) {
 }
 
 export function Belanja() {
+  const { goToTab } = useTabNav();
+  const { showToast } = useToast();
+  const addFormRef = useRef<HTMLDivElement>(null);
   const [weekStart] = useState(startOfWeekSunday());
   const [items, setItems] = useState<Array<Record<string, unknown>>>([]);
+  const [listLoading, setListLoading] = useState(true);
   const [total, setTotal] = useState(0);
   const [pantryCount, setPantryCount] = useState(0);
   const [openMap, setOpenMap] = useState<Record<string, boolean>>({});
@@ -40,6 +51,7 @@ export function Belanja() {
   const [editError, setEditError] = useState<string | null>(null);
 
   async function load() {
+    setListLoading(true);
     try {
       const [g, p] = await Promise.all([api.grocery(weekStart), api.pantry()]);
       setListError(null);
@@ -48,7 +60,9 @@ export function Belanja() {
       setPantryCount(p.items.length);
     } catch (e) {
       log.error('belanja_load_failed', { err: String(e) });
-      setListError('Gagal memuat belanja');
+      setListError('Daftar belanja tidak bisa dimuat. Periksa sambungan, lalu coba lagi.');
+    } finally {
+      setListLoading(false);
     }
   }
 
@@ -98,7 +112,7 @@ export function Belanja() {
     e.preventDefault();
     setAddError(null);
     if (!name.trim()) {
-      setAddError('Isi nama barang.');
+      setAddError('Isi nama barang terlebih dahulu.');
       return;
     }
     try {
@@ -125,7 +139,7 @@ export function Belanja() {
     if (!editingId) return;
     setEditError(null);
     if (!editName.trim()) {
-      setEditError('Nama tidak boleh kosong.');
+      setEditError('Nama barang tidak boleh kosong.');
       return;
     }
     try {
@@ -143,12 +157,22 @@ export function Belanja() {
     }
   }
 
-  async function toggle(id: string, checked: boolean) {
+  async function toggle(id: string, wasChecked: boolean) {
+    const nextChecked = !wasChecked;
     try {
-      await api.patchGrocery(id, { checked: !checked });
+      await api.patchGrocery(id, { checked: nextChecked });
       await load();
+      showToast(nextChecked ? 'Ditandai masuk keranjang' : 'Tanda keranjang dihapus', {
+        actionLabel: 'Urungkan',
+        onAction: async () => {
+          await api.patchGrocery(id, { checked: wasChecked });
+          await load();
+        },
+      });
     } catch (err) {
-      setListError(err instanceof Error ? err.message : 'Gagal update');
+      setListError(
+        err instanceof Error ? err.message : 'Perubahan tidak tersimpan. Periksa sambungan, lalu coba lagi.',
+      );
     }
   }
 
@@ -156,20 +180,46 @@ export function Belanja() {
     setOpenMap((m) => ({ ...m, [key]: !(m[key] ?? true) }));
   }
 
+  function scrollToAdd() {
+    addFormRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const first = document.getElementById('g-add-name');
+    window.setTimeout(() => first?.focus(), 350);
+  }
+
+  if (listLoading && totalCount === 0 && !listError) {
+    return (
+      <div>
+        <p className="eyebrow">Belanja mingguan</p>
+        <div className="fab-row">
+          <h1 className="screen-title" style={{ flex: 1 }}>
+            Belanja
+          </h1>
+        </div>
+        <BelanjaSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div>
       <p className="eyebrow">Belanja mingguan</p>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <h2 className="screen-title">Grocery</h2>
+      <div className="fab-row">
+        <h1 className="screen-title" style={{ flex: 1 }}>
+          Belanja
+        </h1>
         <button
           type="button"
-          className="btn-ghost"
-          style={{ padding: '10px 12px', borderRadius: 12 }}
-          aria-label="Filter"
+          className="btn-icon"
+          aria-label="Tambah barang — scroll ke formulir"
+          onClick={scrollToAdd}
         >
-          ⚙
+          +
         </button>
       </div>
+      <p className="tab-hero-lede">
+        Satu daftar untuk belanja: tandai barang saat masuk keranjang; total perkiraan hanya menghitung
+        yang belum ditandai. Sunting detail langsung dari barisnya.
+      </p>
 
       {listError ? (
         <div
@@ -187,18 +237,9 @@ export function Belanja() {
         </div>
       ) : null}
 
-      <div
-        style={{
-          background: 'var(--grocery-hero)',
-          color: 'var(--grocery-hero-text)',
-          borderRadius: 'var(--radius-lg)',
-          padding: '22px 20px 20px',
-          marginTop: 14,
-          boxShadow: 'var(--shadow-card)',
-        }}
-      >
+      <div className="belanja-hero">
         <p className="eyebrow" style={{ color: 'var(--grocery-hero-muted)' }}>
-          Perkiraan total
+          Perkiraan total (belum dicentang)
         </p>
         <div className="h-serif" style={{ fontSize: '2rem', marginTop: 4, color: '#fff' }}>
           Rp{total.toLocaleString('id-ID')}
@@ -220,12 +261,28 @@ export function Belanja() {
           />
         </div>
         <p style={{ margin: '10px 0 0', fontSize: '0.8rem', color: 'var(--grocery-hero-muted)' }}>
-          {checkedCount} dari {totalCount || 1} sudah masuk keranjang
+          {checkedCount} dari {totalCount || 1} sudah ditandai masuk keranjang
         </p>
       </div>
 
+      <p className="belanja-section-kicker">Daftar per kategori</p>
+
+      {!listLoading && totalCount === 0 && !listError ? (
+        <div className="hifi-card belanja-empty-wrap" style={{ marginTop: 0, padding: 0, overflow: 'hidden' }}>
+          <NutriaEmptyState
+            title="Daftar belanja masih kosong"
+            body="Tambahkan barang di bawah, atau isi Rencana dengan resep Nutria lalu finalisasi untuk mengisi daftar secara otomatis."
+            illustration={<IllustrationEmptyCart />}
+            ctaLabel="Tambah barang"
+            onCta={scrollToAdd}
+            secondaryLabel="Buka Rencana"
+            onSecondary={() => goToTab('rencana')}
+          />
+        </div>
+      ) : null}
+
       {editingId ? (
-        <div className="hifi-card" style={{ marginTop: 14, border: '2px solid var(--accent-soft)' }}>
+        <div className="hifi-card tab-module-form" style={{ marginTop: 0, border: '2px solid var(--accent-soft)' }}>
           <h3 className="h-serif" style={{ fontSize: '1.05rem' }}>
             Sunting barang
           </h3>
@@ -250,7 +307,7 @@ export function Belanja() {
             >
               <input id="g-edit-qty" className="input" value={editQtyText} onChange={(ev) => setEditQtyText(ev.target.value)} aria-describedby="g-edit-qty-hint" />
             </FormField>
-            <FormField label="Perkiraan harga (IDR)" hint="Satu baris ini di pasar" fieldId="g-edit-price">
+            <FormField label="Perkiraan harga (IDR)" hint="Perkiraan untuk satu baris ini" fieldId="g-edit-price">
               <input
                 id="g-edit-price"
                 className="input"
@@ -277,7 +334,8 @@ export function Belanja() {
         </div>
       ) : null}
 
-      {grouped.map(([sec, rows]) => {
+      {totalCount > 0
+        ? grouped.map(([sec, rows]) => {
         const meta = sectionMeta(sec);
         const open = openMap[sec] !== false;
         const checked = rows.filter((r) => r.checked).length;
@@ -352,7 +410,7 @@ export function Belanja() {
                           flexShrink: 0,
                           marginTop: 2,
                         }}
-                        aria-label={checkedIt ? 'Batal centang' : 'Centang'}
+                        aria-label={checkedIt ? 'Hapus tanda masuk keranjang' : 'Tandai masuk keranjang'}
                       />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div
@@ -392,11 +450,13 @@ export function Belanja() {
             ) : null}
           </div>
         );
-      })}
+      })
+        : null}
 
-      <div className="hifi-card" style={{ marginTop: 14 }}>
+      <p className="belanja-section-kicker">Tambah barang</p>
+      <div ref={addFormRef} className="hifi-card tab-module-form" style={{ marginTop: 0 }}>
         <h3 className="h-serif" style={{ fontSize: '1.05rem' }}>
-          Tambah barang
+          Detail barang
         </h3>
         <form onSubmit={addItem} style={{ display: 'grid', gap: 14, marginTop: 12 }}>
           <FormField label="Nama barang" hint="Contoh: Bayam, Dada ayam fillet" fieldId="g-add-name">

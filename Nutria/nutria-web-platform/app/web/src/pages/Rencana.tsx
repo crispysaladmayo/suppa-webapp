@@ -6,6 +6,12 @@ import { RencanaMealDayList } from '../components/RencanaMealDayList.js';
 import { RencanaMealForm } from '../components/RencanaMealForm.js';
 import { RencanaWeekDayStrip } from '../components/RencanaWeekDayStrip.js';
 import { RencanaWeekSummaryCard } from '../components/RencanaWeekSummaryCard.js';
+import { ConflictOrErrorBanner } from '../components/ConflictBanner.js';
+import {
+  IllustrationEmptyPlate,
+  NutriaEmptyState,
+} from '../components/NutriaEmptyState.js';
+import { RencanaSkeleton } from '../components/PageLoadSkeleton.js';
 import { dayFullName, weekRangeLabel } from '../lib/formatId.js';
 import { startOfWeekSunday } from '../lib/week.js';
 import { log } from '../logger.js';
@@ -25,11 +31,17 @@ export function Rencana() {
   const [slot, setSlot] = useState<(typeof SLOT_ORDER)[number]>('breakfast');
   const [personId, setPersonId] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [loadBusy, setLoadBusy] = useState(true);
+  /** One successful fetch per `weekStart` so refetches after “Simpan” do not swap the page for a skeleton. */
+  const [weekListReady, setWeekListReady] = useState(false);
   const [insightOpen, setInsightOpen] = useState(false);
   const [finalizeBusy, setFinalizeBusy] = useState(false);
   const [bootstrapNote, setBootstrapNote] = useState<string | null>(null);
 
   async function load() {
+    setLoadBusy(true);
+    setLoadError(null);
     try {
       const [m, p] = await Promise.all([api.meals(weekStart), api.persons()]);
       setMeals(m.meals);
@@ -37,7 +49,9 @@ export function Rencana() {
       if (!personId && p.persons[0]?.id) setPersonId(String(p.persons[0].id));
     } catch (e) {
       log.error('rencana_load_failed', { err: String(e) });
-      setError('Gagal memuat rencana');
+      setLoadError('Rencana minggu tidak bisa dimuat. Periksa sambungan, lalu coba lagi.');
+    } finally {
+      setLoadBusy(false);
     }
   }
 
@@ -55,6 +69,10 @@ export function Rencana() {
       setPrepItemOptions([]);
     }
   }
+
+  useEffect(() => {
+    setWeekListReady(false);
+  }, [weekStart]);
 
   useEffect(() => {
     void load();
@@ -83,13 +101,15 @@ export function Rencana() {
             toWeekStart: p.targetWeek,
             replaceExisting: Boolean(p.replaceExisting),
           });
-          setBootstrapNote(`Disalin ${res.cloned} menu ke minggu tujuan.`);
+          setBootstrapNote(`${res.cloned} menu disalin ke minggu yang Anda buka.`);
         } else {
-          setBootstrapNote('Minggu tujuan dibuka — mulai catat menu dari kosong.');
+          setBootstrapNote('Minggu tujuan dibuka. Mulai catat menu dari halaman ini.');
         }
         setWeekStart(p.targetWeek);
       } catch (e) {
-        setError(e instanceof Error ? e.message : 'Gagal menyiapkan minggu');
+        setError(
+          e instanceof Error ? e.message : 'Minggu tidak bisa disiapkan. Muat ulang halaman lalu coba lagi.',
+        );
       }
     })();
   }, []);
@@ -131,21 +151,27 @@ export function Rencana() {
     if (noMacro === 0 && noRecipe === 0) {
       return {
         badge: 0,
-        title: 'Rencana siap dihitung belanja',
-        sub: 'Semua menu punya makro & resep · finalisasi di bawah',
+        title: 'Siap dijadikan daftar belanja',
+        sub: 'Semua menu punya data makro dan resep · gunakan finalisasi di bawah',
       };
     }
     if (noMacro === 0) {
       return {
         badge: Math.min(3, noRecipe || 1),
-        title: 'Hubungkan resep untuk belanja otomatis',
-        sub: `${noRecipe} menu belum punya resep Nutria`,
+        title: 'Hubungkan resep agar belanja terisi otomatis',
+        sub:
+          noRecipe === 1
+            ? '1 menu belum terhubung ke resep Nutria'
+            : `${noRecipe} menu belum terhubung ke resep Nutria`,
       };
     }
     return {
       badge,
-      title: 'Lengkapi data makro',
-      sub: `${noMacro} menu belum ada kkal/protein · ketuk untuk detail`,
+      title: 'Lengkapi kalori dan protein',
+      sub:
+        noMacro === 1
+          ? '1 menu belum punya angka kalori atau protein · ketuk untuk panduan'
+          : `${noMacro} menu belum punya angka kalori atau protein · ketuk untuk panduan`,
     };
   }, [meals]);
 
@@ -169,69 +195,113 @@ export function Rencana() {
     setError(null);
     try {
       const res = await api.groceryFromPlan({ weekStart, replaceGenerated: true });
-      setBootstrapNote(`Belanja: ${res.itemsAdded} baris dari resep ditambahkan.`);
+      setBootstrapNote(`${res.itemsAdded} baris belanja dari resep ditambahkan ke daftar.`);
       goToTab('belanja');
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Gagal membuat belanja');
+      setError(
+        e instanceof Error ? e.message : 'Daftar belanja tidak bisa dibuat. Periksa resep lalu coba lagi.',
+      );
     } finally {
       setFinalizeBusy(false);
     }
+  }
+
+  if (loadBusy && !weekListReady && !loadError) {
+    return (
+      <div>
+        <p className="eyebrow">{weekRangeLabel(weekStart)}</p>
+        <div className="fab-row">
+          <h1 className="screen-title" style={{ flex: 1 }}>
+            Rencana minggu
+          </h1>
+        </div>
+        <RencanaSkeleton />
+      </div>
+    );
   }
 
   return (
     <div>
       <p className="eyebrow">{weekRangeLabel(weekStart)}</p>
       <div className="fab-row">
-        <h2 className="screen-title" style={{ flex: 1 }}>
+        <h1 className="screen-title" style={{ flex: 1 }}>
           Rencana minggu
-        </h2>
-        <button type="button" className="btn-icon" aria-label="Tambah menu" onClick={scrollToForm}>
+        </h1>
+        <button type="button" className="btn-icon" aria-label="Tambah menu — scroll ke formulir" onClick={scrollToForm}>
           +
         </button>
       </div>
+      <p className="tab-hero-lede">
+        Pilih hari, tambah menu, dan hubungkan resep bila perlu — satu alur untuk seluruh minggu tanpa
+        bolak-balik konteks.
+      </p>
+
+      {loadError ? (
+        <ConflictOrErrorBanner
+          error={new Error(loadError)}
+          onRefresh={() => void load()}
+        />
+      ) : null}
 
       {bootstrapNote ? (
         <div
           className="hifi-card"
-          style={{ marginTop: 10, background: 'var(--tag-fresh-bg)', borderColor: 'transparent' }}
+          style={{ marginTop: 14, background: 'var(--tag-fresh-bg)', borderColor: 'transparent' }}
         >
           <p style={{ margin: 0, fontSize: '0.88rem' }}>{bootstrapNote}</p>
         </div>
       ) : null}
 
-      <RencanaWeekSummaryCard
-        summaryRef={summaryRef}
-        weekStart={weekStart}
-        mealsTotal={meals.length}
-        recipeBacked={recipeBacked}
-        mealCountByDay={mealCountByDay}
-      />
+      <div className="tab-module-focus">
+        <p className="tab-module-kicker">Pilih hari</p>
+        <RencanaWeekDayStrip
+          weekStart={weekStart}
+          dayIndex={dayIndex}
+          setDayIndex={setDayIndex}
+          mealCountByDay={mealCountByDay}
+        />
+        <button type="button" className="link-quiet" onClick={() => setWeekStart(startOfWeekSunday())}>
+          Kembali ke minggu berjalan
+        </button>
+      </div>
 
-      <RencanaFinalizeCard
-        recipeBacked={recipeBacked}
-        finalizeBusy={finalizeBusy}
-        error={error}
-        onFinalize={() => void finalizePlan()}
-      />
+      <h2 className="tab-day-heading">{dayFullName(dayIndex)}</h2>
+      <p className="tab-day-sub">
+        Menu untuk hari yang dipilih · ubah waktu makan di formulir saat menambah menu
+      </p>
+
+      {groupedSlots.length === 0 ? (
+        <div className="hifi-card" style={{ marginTop: 10, padding: 0, overflow: 'hidden' }}>
+          <NutriaEmptyState
+            title={`${dayFullName(dayIndex)} belum berisi menu`}
+            body="Tambahkan dari formulir di bawah — waktu makan (sarapan, makan siang, dan seterusnya) bisa diubah sebelum menyimpan."
+            illustration={<IllustrationEmptyPlate />}
+            ctaLabel="Tambah menu"
+            onCta={scrollToForm}
+          />
+        </div>
+      ) : (
+        <RencanaMealDayList groupedSlots={groupedSlots} persons={persons} />
+      )}
+
+      <div className="tab-meta-stack">
+        <RencanaWeekSummaryCard
+          summaryRef={summaryRef}
+          weekStart={weekStart}
+          mealsTotal={meals.length}
+          recipeBacked={recipeBacked}
+          mealCountByDay={mealCountByDay}
+        />
+
+        <RencanaFinalizeCard
+          recipeBacked={recipeBacked}
+          finalizeBusy={finalizeBusy}
+          error={error}
+          onFinalize={() => void finalizePlan()}
+        />
+      </div>
 
       <RencanaInsightCard insight={insight} insightOpen={insightOpen} setInsightOpen={setInsightOpen} />
-
-      <RencanaWeekDayStrip weekStart={weekStart} dayIndex={dayIndex} setDayIndex={setDayIndex} />
-
-      <button
-        type="button"
-        className="btn-ghost"
-        style={{ marginBottom: 14, fontSize: '0.82rem' }}
-        onClick={() => setWeekStart(startOfWeekSunday())}
-      >
-        Lompat ke minggu ini
-      </button>
-
-      <h3 className="h-serif" style={{ fontSize: '1.25rem', marginBottom: 12 }}>
-        {dayFullName(dayIndex)}
-      </h3>
-
-      <RencanaMealDayList groupedSlots={groupedSlots} persons={persons} />
 
       <RencanaMealForm
         formRef={formRef}

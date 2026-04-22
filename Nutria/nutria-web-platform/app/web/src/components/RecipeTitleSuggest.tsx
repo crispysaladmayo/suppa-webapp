@@ -20,62 +20,41 @@ export function RecipeTitleSuggest({
   onClearRecipe,
 }: Props) {
   return (
-    <div style={{ position: 'relative' }}>
+    <div className="recipe-title-field">
       <FormField
         label="Nama makanan"
-        hint="Mengetik akan mencari resep Nutria. Satu nama unik = satu resep di basis data."
+        hint="Ketik untuk mencari resep Nutria, atau nama baru jika Anda membuat resep sendiri."
         fieldId="meal-title"
       >
         <input
           id="meal-title"
-          className="input"
+          className="input recipe-title-field__input"
           value={title}
           onChange={(ev) => setTitle(ev.target.value)}
           autoComplete="off"
           aria-describedby="meal-title-hint"
+          aria-autocomplete="list"
+          aria-expanded={!recipeLocked && suggestions.length > 0}
           disabled={busy}
         />
       </FormField>
       {recipeLocked ? (
-        <button type="button" className="btn-inline" style={{ marginTop: 6 }} onClick={onClearRecipe}>
-          Lepas resep · edit manual
+        <button type="button" className="btn-inline recipe-title-field__unlink" onClick={onClearRecipe}>
+          Lepas resep, edit manual
         </button>
       ) : null}
       {!recipeLocked && suggestions.length > 0 ? (
-        <ul
-          className="hifi-card"
-          style={{
-            position: 'absolute',
-            zIndex: 5,
-            left: 0,
-            right: 0,
-            top: '100%',
-            marginTop: 4,
-            listStyle: 'none',
-            padding: 8,
-            maxHeight: 220,
-            overflowY: 'auto',
-            boxShadow: 'var(--shadow-card)',
-          }}
-        >
+        <ul className="recipe-suggest-panel" role="listbox" aria-label="Resep Nutria yang cocok">
           {suggestions.map((s) => (
-            <li key={String(s.id)}>
+            <li key={String(s.id)} role="none">
               <button
                 type="button"
+                role="option"
+                className="recipe-suggest-item"
                 onClick={() => onPickRecipe(String(s.id))}
-                style={{
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '10px 8px',
-                  border: 'none',
-                  background: 'transparent',
-                  cursor: 'pointer',
-                  borderRadius: 8,
-                  fontSize: '0.9rem',
-                }}
               >
-                <strong>{String(s.title)}</strong>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Resep Nutria</div>
+                <span className="recipe-suggest-item__title">{String(s.title)}</span>
+                <span className="recipe-suggest-item__meta">Resep Nutria · ketuk untuk memilih</span>
               </button>
             </li>
           ))}

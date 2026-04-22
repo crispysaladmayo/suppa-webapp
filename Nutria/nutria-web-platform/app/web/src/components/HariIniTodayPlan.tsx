@@ -66,7 +66,7 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
             <span className="today-plan-lede-muted">Minggu {weekLabel}</span>
           </p>
           {sorted.length > 0 ? (
-            <p className="today-plan-meta">{sorted.length} entri · urut seperti jadwal makan</p>
+            <p className="today-plan-meta">{sorted.length} menu · urut waktu makan</p>
           ) : null}
         </div>
         <button type="button" className="btn-today-plan-edit" onClick={onEditInPlanner}>
@@ -78,8 +78,8 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
         <div className="today-plan-empty">
           <p className="today-plan-empty-title">Belum ada menu untuk hari ini</p>
           <p className="today-plan-empty-body">
-            Tambahkan sarapan, makan siang, dan makan malam di Rencana supaya keluarga melihat satu
-            jadwal yang sama — tanpa tebak-tebakan.
+            Isi sarapan, makan siang, dan makan malam di Rencana agar semua anggota melihat jadwal yang
+            sama — tanpa tebak-tebakan di grup chat.
           </p>
           <button type="button" className="btn-primary today-plan-empty-cta" onClick={onEditInPlanner}>
             Buka Rencana

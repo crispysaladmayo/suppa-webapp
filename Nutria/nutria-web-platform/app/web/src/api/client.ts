@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { createApiError } from './ApiError.js';
 import { log } from '../logger.js';
 import {
   ConsumptionLogsResponse,
@@ -25,7 +26,15 @@ import {
 async function parseJson(res: Response): Promise<unknown> {
   const text = await res.text();
   if (!text) return null;
-  return JSON.parse(text);
+  try {
+    return JSON.parse(text) as unknown;
+  } catch {
+    throw new Error(
+      res.ok
+        ? 'Invalid JSON from server'
+        : `Server returned non-JSON (${res.status}). Is the API running on port 3001?`,
+    );
+  }
 }
 
 async function request<T>(
@@ -47,7 +56,7 @@ async function request<T>(
     const err = ErrorResponse.safeParse(raw);
     log.warn('api_error', { path, status: res.status, body: raw });
     const msg = err.success ? err.data.error.message : 'Request failed';
-    throw new Error(msg);
+    throw createApiError(msg, res.status);
   }
   const parsed = schema.safeParse(raw);
   if (!parsed.success) {

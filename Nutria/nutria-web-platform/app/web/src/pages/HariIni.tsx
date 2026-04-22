@@ -5,7 +5,9 @@ import { headerDayMonth } from '../lib/formatId.js';
 import { addDaysYmd, startOfWeekSunday } from '../lib/week.js';
 import { log } from '../logger.js';
 import { useTabNav } from '../navigation/TabNavContext.js';
+import { ConflictOrErrorBanner } from '../components/ConflictBanner.js';
 import { HariIniTodayPlan } from '../components/HariIniTodayPlan.js';
+import { HariIniSkeleton } from '../components/PageLoadSkeleton.js';
 import type { z } from 'zod';
 
 type Summary = z.infer<typeof SummaryResponse>;
@@ -40,6 +42,7 @@ export function HariIni() {
   const [groceryOpen, setGroceryOpen] = useState(0);
   const [sessions, setSessions] = useState<Array<Record<string, unknown>>>([]);
   const [pantryCount, setPantryCount] = useState(0);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [prepItemId, setPrepItemId] = useState('');
   const [personId, setPersonId] = useState('');
@@ -52,6 +55,7 @@ export function HariIni() {
   const nextWeekStart = useMemo(() => addDaysYmd(weekStart, 7), [weekStart]);
 
   async function load() {
+    setLoadError(null);
     try {
       const [s, p, g, sess, pan] = await Promise.all([
         api.summary(weekStart),
@@ -73,7 +77,7 @@ export function HariIni() {
       }
     } catch (e) {
       log.error('hari_ini_load_failed', { err: String(e) });
-      setError('Gagal memuat ringkasan');
+      setLoadError('Ringkasan hari ini tidak bisa dimuat. Periksa sambungan, lalu coba lagi.');
     }
   }
 
@@ -98,8 +102,8 @@ export function HariIni() {
     const row = crit ?? low;
     if (!row) return null;
     const name = String((row.prepItem as { name?: string }).name ?? 'Item');
-    if (crit) return `⚠️ ${name} kritis — segera restock atau prep.`;
-    return `⚠️ ${name} menipis — habis beberapa hari lagi.`;
+    if (crit) return `⚠️ Stok ${name} kritis — restock atau siapkan batch prep.`;
+    return `⚠️ ${name} menipis — perkiraan habis dalam beberapa hari.`;
   }, [summary]);
 
   const activeSession = useMemo(
@@ -114,7 +118,7 @@ export function HariIni() {
     try {
       const g = Number(grams);
       if (!prepItemId || !personId || !Number.isFinite(g) || g <= 0) {
-        setError('Lengkapi log konsumsi');
+        setError('Pilih batch prep, anggota keluarga, dan berat dalam gram (lebih dari 0).');
         return;
       }
       await api.logConsumption({
@@ -133,11 +137,20 @@ export function HariIni() {
   }
 
   if (!summary) {
+    if (loadError) {
+      return (
+        <div>
+          <p className="eyebrow">{headerDayMonth()}</p>
+          <h1 className="screen-title hari-ini-hero-title">Stok meal prep</h1>
+          <ConflictOrErrorBanner error={new Error(loadError)} onRefresh={() => void load()} contextLabel="Ringkasan" />
+        </div>
+      );
+    }
     return (
       <div>
         <p className="eyebrow">{headerDayMonth()}</p>
-        <h1 className="screen-title hari-ini-hero-title">Hari ini</h1>
-        <p style={{ color: 'var(--text-muted)' }}>{error ?? 'Memuat…'}</p>
+        <h1 className="screen-title hari-ini-hero-title">Stok meal prep</h1>
+        <HariIniSkeleton />
       </div>
     );
   }
@@ -157,8 +170,10 @@ export function HariIni() {
   return (
     <div>
       <p className="eyebrow">{headerDayMonth()}</p>
-      <h1 className="screen-title hari-ini-hero-title">Hari ini</h1>
-      <p className="hari-ini-hero-sub">Stok prep · menu keluarga · belanja — satu layar, urut prioritas.</p>
+      <h1 className="screen-title hari-ini-hero-title">Stok meal prep</h1>
+      <p className="hari-ini-hero-sub">
+        Lihat stok prep, menu hari ini, dan belanja terbuka — tanpa pindah tab bolak-balik.
+      </p>
 
       {alertLine ? (
         <div
@@ -188,7 +203,9 @@ export function HariIni() {
           Tersisa dari prep minggu
         </p>
         {summary.prep.items.length === 0 ? (
-          <p style={{ color: 'var(--text-muted)', margin: '8px 0 0' }}>Belum ada batch aktif.</p>
+          <p style={{ color: 'var(--text-muted)', margin: '8px 0 0' }}>
+            Belum ada batch prep yang tercatat untuk minggu ini.
+          </p>
         ) : (
           <div style={{ display: 'flex', gap: 20, alignItems: 'center', marginTop: 8 }}>
             <div style={{ position: 'relative', width: 88, height: 88 }}>
@@ -250,9 +267,9 @@ export function HariIni() {
             lineHeight: 1.45,
           }}
         >
-          Rencana minggu:{' '}
+          Rencana minggu ini:{' '}
           <strong style={{ color: 'var(--text)' }}>{weekPlan.totalMeals} menu</strong>{' '}
-          · {weekPlan.daysWithMeals} hari terisi · {weekPlan.recipeBackedMeals} dengan resep Nutria
+          · {weekPlan.daysWithMeals} hari berisi menu · {weekPlan.recipeBackedMeals} terhubung resep Nutria
         </p>
 
         <div style={{ display: 'grid', gap: 10, marginTop: 16 }}>
@@ -272,7 +289,7 @@ export function HariIni() {
               goToTab('rencana');
             }}
           >
-            Lihat detail rencana minggu ›
+            Buka ringkasan rencana minggu ›
           </button>
           <button
             type="button"
@@ -280,7 +297,7 @@ export function HariIni() {
             style={{ width: '100%', marginTop: 0 }}
             onClick={() => setPrepModalOpen(true)}
           >
-            Susun prep minggu depan ›
+            Atur prep untuk minggu depan ›
           </button>
         </div>
       </div>
@@ -300,12 +317,12 @@ export function HariIni() {
             style={{ border: '1px solid var(--border-soft)', margin: 0 }}
           >
             <h3 id="prep-modal-title" className="h-serif" style={{ fontSize: '1.15rem', margin: 0 }}>
-              Mulai isi menu prep
+              Atur menu untuk prep minggu depan
             </h3>
             <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.5 }}>
-              Target: minggu mulai <strong>{nextWeekStart}</strong>. Gunakan menu minggu ini (
-              {weekStart}) sebagai awalan, atau mulai kosong lalu catat makanan per hari di tab Rencana.
-              Setelah menu memakai resep Nutria, finalisasi untuk membuat daftar belanja.
+              Minggu tujuan dimulai <strong>{nextWeekStart}</strong>. Anda bisa menyalin menu dari minggu
+              berjalan ({weekStart}) atau mulai dari nol lalu mengisi per hari di tab Rencana. Setelah menu
+              memakai resep Nutria, gunakan finalisasi di Rencana untuk mengisi daftar belanja.
             </p>
             <label
               style={{
@@ -321,7 +338,9 @@ export function HariIni() {
                 checked={replaceNextWeek}
                 onChange={(ev) => setReplaceNextWeek(ev.target.checked)}
               />
-              <span>Jika minggu depan sudah ada menu, timpa dengan salinan dari minggu ini</span>
+              <span>
+                Jika minggu depan sudah berisi menu, ganti seluruhnya dengan salinan dari minggu ini
+              </span>
             </label>
             <div style={{ display: 'grid', gap: 10, marginTop: 18 }}>
               <button
@@ -341,7 +360,7 @@ export function HariIni() {
                   goToTab('rencana');
                 }}
               >
-                Ya, pakai ulang menu minggu ini
+                Salin menu dari minggu ini
               </button>
               <button
                 type="button"
@@ -359,7 +378,7 @@ export function HariIni() {
                   goToTab('rencana');
                 }}
               >
-                Tidak, mulai kosong
+                Mulai minggu depan dari nol
               </button>
               <button type="button" className="btn-ghost" onClick={() => setPrepModalOpen(false)}>
                 Batal
@@ -381,7 +400,7 @@ export function HariIni() {
           <div style={{ fontSize: '1.25rem', marginBottom: 6 }} aria-hidden>
             🛒
           </div>
-          <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{groceryOpen} item belanjaan</div>
+          <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{groceryOpen} item belanja terbuka</div>
           <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', marginTop: 4 }}>
             Rp{groceryTotal.toLocaleString('id-ID')}
           </div>
@@ -396,16 +415,16 @@ export function HariIni() {
           <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 6, lineHeight: 1.4 }}>
             {activeSession
               ? `Mulai ${String(activeSession.startedAt).slice(11, 16)}`
-              : 'Mulai dari tab Prep'}
+              : 'Buka tab Prep untuk memulai'}
           </div>
         </div>
       </div>
 
       <details className="hifi-details hifi-card" style={{ marginTop: 16, padding: '14px 16px' }}>
-        <summary style={{ marginBottom: 8 }}>Log konsumsi cepat</summary>
+        <summary style={{ marginBottom: 8 }}>Catat konsumsi cepat</summary>
         {summary.prep.items.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Tambah batch prep dulu untuk mencatat konsumsi.
+            Tambahkan batch prep dulu agar konsumsi bisa dicatat.
           </p>
         ) : (
           <form onSubmit={onLog} style={{ display: 'grid', gap: 10, marginTop: 10 }}>
@@ -436,18 +455,18 @@ export function HariIni() {
               value={grams}
               onChange={(ev) => setGrams(ev.target.value)}
               inputMode="decimal"
-              placeholder="Gram"
+              placeholder="contoh: 80"
             />
             {error ? <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div> : null}
             <button className="btn-primary" type="submit" disabled={busy}>
-              Simpan log
+              Simpan catatan
             </button>
           </form>
         )}
       </details>
 
       <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 16 }}>
-        {pantryCount} barang di pantry · {groceryOpen} belum dicentang belanja
+        {pantryCount} barang di pantry · {groceryOpen} belum ditandai di daftar belanja
       </p>
     </div>
   );

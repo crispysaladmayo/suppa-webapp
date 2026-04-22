@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { useAuth } from '../auth/AuthContext.js';
+import { NutriaMark } from '../components/NutriaMark.js';
 
 export function LoginPage() {
   const { login, register } = useAuth();
@@ -28,16 +29,17 @@ export function LoginPage() {
   }
 
   return (
-    <div className="app-shell" style={{ maxWidth: 440 }}>
-      <p className="eyebrow" style={{ textAlign: 'center' }}>
-        Nutria
-      </p>
+    <div className="app-shell login-wrap" style={{ maxWidth: 440 }}>
+      <div className="login-mark">
+        <NutriaMark />
+      </div>
+      <p className="login-eyebrow">Nutria</p>
       <div className="login-card">
-        <h1 className="screen-title" style={{ fontSize: '1.85rem' }}>
-          Selamat datang
+        <h1 className="screen-title" style={{ fontSize: '1.92rem' }}>
+          Rencana makan keluarga dalam satu akun
         </h1>
-        <p style={{ color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.5 }}>
-          Masuk untuk menyinkronkan stok prep, rencana, dan belanja.
+        <p className="login-lede" style={{ color: 'var(--text-muted)', marginTop: 10, marginBottom: 0 }}>
+          Lacak stok prep, isi menu mingguan, dan satukan daftar belanja untuk semua anggota rumah tangga.
         </p>
         <div className="login-toggle">
           <button type="button" data-on={mode === 'login'} onClick={() => setMode('login')}>
@@ -87,7 +89,8 @@ export function LoginPage() {
           </button>
         </form>
         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 20, lineHeight: 1.45 }}>
-          Demo lokal: jalankan seed server lalu gunakan akun contoh di dokumentasi platform.
+          Demo lokal: jalankan seed backend, lalu ikuti akun contoh di README folder{' '}
+          <code style={{ fontSize: '0.9em' }}>nutria-web-platform</code>.
         </p>
       </div>
     </div>

@@ -4,32 +4,38 @@ type Props = {
   weekStart: string;
   dayIndex: number;
   setDayIndex: (i: number) => void;
+  mealCountByDay?: number[];
 };
 
-export function RencanaWeekDayStrip({ weekStart, dayIndex, setDayIndex }: Props) {
+export function RencanaWeekDayStrip({ weekStart, dayIndex, setDayIndex, mealCountByDay }: Props) {
   return (
     <div
+      className="week-day-strip"
       style={{
         display: 'flex',
         gap: 8,
         overflowX: 'auto',
-        paddingBottom: 10,
-        marginBottom: 6,
+        paddingBottom: 4,
+        marginBottom: 0,
         scrollbarWidth: 'none',
       }}
     >
       {Array.from({ length: 7 }, (_, i) => {
         const active = i === dayIndex;
+        const n = mealCountByDay?.[i] ?? 0;
+        const hasMeals = n > 0;
         return (
           <button
             key={i}
             type="button"
             onClick={() => setDayIndex(i)}
+            aria-current={active ? 'true' : undefined}
+            aria-label={`${weekStripLabel(i, weekStart)}, ${n} menu`}
             style={{
               flex: '0 0 auto',
-              minWidth: 56,
-              padding: '10px 12px',
-              borderRadius: 14,
+              minWidth: 58,
+              padding: '12px 12px',
+              borderRadius: 16,
               border: active ? 'none' : '1px solid var(--border)',
               background: active ? 'var(--text)' : 'var(--surface-elevated)',
               color: active ? '#fff' : 'var(--text)',
@@ -41,12 +47,13 @@ export function RencanaWeekDayStrip({ weekStart, dayIndex, setDayIndex }: Props)
           >
             {weekStripLabel(i, weekStart)}
             <div
+              className={hasMeals && !active ? 'week-strip-dot--has-meals' : undefined}
               style={{
                 width: 6,
                 height: 6,
                 borderRadius: 999,
-                background: active ? 'var(--accent)' : 'var(--accent-soft)',
-                margin: '6px auto 0',
+                background: active ? 'var(--accent)' : hasMeals ? 'var(--sage-deep)' : 'var(--accent-soft)',
+                margin: '8px auto 0',
               }}
             />
           </button>

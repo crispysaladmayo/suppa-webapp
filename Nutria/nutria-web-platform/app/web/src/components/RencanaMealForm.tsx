@@ -1,8 +1,10 @@
-import { FormEvent, RefObject, useEffect, useState } from 'react';
+import { FormEvent, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../api/client.js';
+import { estimateNutritionFromIngredients, scaleNutrition, type NutritionTotals } from '../lib/estimateFromIngredients.js';
 import { MealFreshPrepSection } from './MealFreshPrepSection.js';
-import { MealMacroFields } from './MealMacroFields.js';
+import { MealMacroSummary } from './MealMacroSummary.js';
 import { MealPortionSection } from './MealPortionSection.js';
+import { useToast } from '../context/ToastContext.js';
 import { MealSlotPersonFields } from './MealSlotPersonFields.js';
 import { RecipeIngredientBlock } from './RecipeIngredientBlock.js';
 import { RecipeTitleSuggest } from './RecipeTitleSuggest.js';
@@ -12,6 +14,43 @@ function numOrNull(s: string): number | null {
   if (t === '') return null;
   const n = Number(t.replace(',', '.'));
   return Number.isFinite(n) ? n : null;
+}
+
+function round1(n: number): number {
+  return Math.round(n * 10) / 10;
+}
+
+function nutritionFromLockedForm(
+  kcal: string,
+  proteinG: string,
+  carbsG: string,
+  fatG: string,
+  fiberG: string,
+  ironMg: string,
+  calciumMg: string,
+  vitaminCMg: string,
+): NutritionTotals | null {
+  const k = numOrNull(kcal);
+  const p = numOrNull(proteinG);
+  const c = numOrNull(carbsG);
+  const f = numOrNull(fatG);
+  const fi = numOrNull(fiberG);
+  const i = numOrNull(ironMg);
+  const ca = numOrNull(calciumMg);
+  const v = numOrNull(vitaminCMg);
+  if (k == null && p == null && c == null && f == null && fi == null && i == null && ca == null && v == null) {
+    return null;
+  }
+  return {
+    kcal: Math.round(k ?? 0),
+    proteinG: round1(p ?? 0),
+    carbsG: round1(c ?? 0),
+    fatG: round1(f ?? 0),
+    fiberG: round1(fi ?? 0),
+    ironMg: round1(i ?? 0),
+    calciumMg: round1(ca ?? 0),
+    vitaminCMg: round1(v ?? 0),
+  };
 }
 
 function buildMealNotes(takaran: string, jumlahPorsi: string, catatan: string): string | null {
@@ -52,6 +91,8 @@ export function RencanaMealForm({
   prepItemOptions,
   onMealSaved,
 }: Props) {
+  const { showToast } = useToast();
+  const feedbackRef = useRef<HTMLDivElement>(null);
   const [title, setTitle] = useState('');
   const [takaran, setTakaran] = useState('');
   const [jumlahPorsi, setJumlahPorsi] = useState('1');
@@ -72,9 +113,9 @@ export function RencanaMealForm({
   const [ingredientRows, setIngredientRows] = useState<Array<{ name: string; grams: string }>>([
     { name: '', grams: '' },
   ]);
-  const [saveAsRecipe, setSaveAsRecipe] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saveFeedback, setSaveFeedback] = useState<{ title: string; sub: string } | null>(null);
 
   const recipeLocked = selectedRecipeId != null;
 
@@ -97,6 +138,74 @@ export function RencanaMealForm({
     return () => window.clearTimeout(id);
   }, [title, recipeLocked]);
 
+  useEffect(() => {
+    if (!saveFeedback) return;
+    const id = window.setTimeout(() => setSaveFeedback(null), 7000);
+    return () => window.clearTimeout(id);
+  }, [saveFeedback]);
+
+  const validIngredientRows = useMemo(
+    () => ingredientRows.filter((r) => r.name.trim() && numOrNull(r.grams) != null),
+    [ingredientRows],
+  );
+
+  const estimateBreakdown = useMemo(
+    () => estimateNutritionFromIngredients(ingredientRows),
+    [ingredientRows],
+  );
+
+  const portionsFactor = Math.max(0.001, numOrNull(jumlahPorsi) ?? 1);
+
+  const macroPresentation = useMemo(() => {
+    if (recipeLocked) {
+      return {
+        values: nutritionFromLockedForm(
+          kcal,
+          proteinG,
+          carbsG,
+          fatG,
+          fiberG,
+          ironMg,
+          calciumMg,
+          vitaminCMg,
+        ),
+        unmatched: [] as string[],
+        portionsNote: 'Per porsi sesuai data resep Nutria (satu entri log).',
+      };
+    }
+    if (validIngredientRows.length === 0) {
+      return {
+        values: null as NutritionTotals | null,
+        unmatched: estimateBreakdown.unmatched,
+        portionsNote: '',
+      };
+    }
+    const per = scaleNutrition(estimateBreakdown.total, 1 / portionsFactor);
+    const hasMatch = estimateBreakdown.matched.length > 0;
+    const portionsNote =
+      portionsFactor === 1
+        ? 'Perkiraan per 1 porsi (total bahan ÷ 1).'
+        : `Perkiraan per porsi: total bahan ÷ ${portionsFactor}.`;
+    return {
+      values: hasMatch ? per : null,
+      unmatched: estimateBreakdown.unmatched,
+      portionsNote,
+    };
+  }, [
+    recipeLocked,
+    validIngredientRows.length,
+    estimateBreakdown,
+    portionsFactor,
+    kcal,
+    proteinG,
+    carbsG,
+    fatG,
+    fiberG,
+    ironMg,
+    calciumMg,
+    vitaminCMg,
+  ]);
+
   function resetForm() {
     setTitle('');
     setTakaran('');
@@ -114,7 +223,6 @@ export function RencanaMealForm({
     setLinkedPrepItemId('');
     setSelectedRecipeId(null);
     setIngredientRows([{ name: '', grams: '' }]);
-    setSaveAsRecipe(false);
     setSuggestions([]);
   }
 
@@ -139,7 +247,6 @@ export function RencanaMealForm({
           grams: String(x.grams),
         })),
       );
-      setSaveAsRecipe(false);
       setSuggestions([]);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Gagal memuat resep');
@@ -149,45 +256,69 @@ export function RencanaMealForm({
   function clearRecipe() {
     setSelectedRecipeId(null);
     setIngredientRows([{ name: '', grams: '' }]);
+    setKcal('');
+    setProteinG('');
+    setCarbsG('');
+    setFatG('');
+    setFiberG('');
+    setIronMg('');
+    setCalciumMg('');
+    setVitaminCMg('');
   }
 
   async function addMeal(e: FormEvent) {
     e.preventDefault();
     setError(null);
+    setSaveFeedback(null);
     if (!title.trim()) {
-      setError('Isi nama makanan.');
+      setError('Isi nama makanan terlebih dahulu.');
       return;
     }
     setBusy(true);
+    const savedTitle = title.trim();
+    let createdNewRecipe = false;
     try {
       let recipeId: string | null = selectedRecipeId;
-      if (saveAsRecipe && !selectedRecipeId) {
-        const ings = ingredientRows.filter((r) => r.name.trim() && numOrNull(r.grams) != null);
-        if (ings.length < 1) {
-          setError('Untuk menyimpan resep baru, isi minimal satu bahan dan berat (gram).');
-          setBusy(false);
-          return;
-        }
+      let mealKcal = numOrNull(kcal);
+      let mealProtein = numOrNull(proteinG);
+      let mealCarbs = numOrNull(carbsG);
+      let mealFat = numOrNull(fatG);
+      let mealFiber = numOrNull(fiberG);
+      let mealIron = numOrNull(ironMg);
+      let mealCalcium = numOrNull(calciumMg);
+
+      if (!selectedRecipeId && validIngredientRows.length >= 1) {
+        const batch = estimateNutritionFromIngredients(
+          validIngredientRows.map((r) => ({ name: r.name.trim(), grams: r.grams })),
+        ).total;
         const micros: Record<string, number> = {};
-        const vc = numOrNull(vitaminCMg);
-        if (vc != null) micros.vitaminCMg = vc;
+        if (batch.vitaminCMg > 0) micros.vitaminCMg = batch.vitaminCMg;
         const created = await api.createRecipe({
-          title: title.trim(),
-          ingredients: ings.map((r, i) => ({
+          title: savedTitle,
+          ingredients: validIngredientRows.map((r, i) => ({
             name: r.name.trim(),
             grams: Number(numOrNull(r.grams)),
             sortOrder: i,
           })),
-          kcal: numOrNull(kcal),
-          proteinG: numOrNull(proteinG),
-          carbsG: numOrNull(carbsG),
-          fatG: numOrNull(fatG),
-          fiberG: numOrNull(fiberG),
-          ironMg: numOrNull(ironMg),
-          calciumMg: numOrNull(calciumMg),
+          kcal: batch.kcal,
+          proteinG: batch.proteinG,
+          carbsG: batch.carbsG,
+          fatG: batch.fatG,
+          fiberG: batch.fiberG,
+          ironMg: batch.ironMg,
+          calciumMg: batch.calciumMg,
           micros: Object.keys(micros).length ? micros : undefined,
         });
         recipeId = String(created.recipe.id);
+        createdNewRecipe = true;
+        const per = scaleNutrition(batch, 1 / portionsFactor);
+        mealKcal = per.kcal;
+        mealProtein = per.proteinG;
+        mealCarbs = per.carbsG;
+        mealFat = per.fatG;
+        mealFiber = per.fiberG;
+        mealIron = per.ironMg;
+        mealCalcium = per.calciumMg;
       }
 
       const notes = buildMealNotes(takaran, jumlahPorsi, catatan);
@@ -196,16 +327,16 @@ export function RencanaMealForm({
         dayIndex,
         slot,
         personId,
-        title: title.trim(),
+        title: savedTitle,
         isFresh,
         notes: notes ?? null,
-        kcal: numOrNull(kcal),
-        proteinG: numOrNull(proteinG),
-        carbsG: numOrNull(carbsG),
-        fatG: numOrNull(fatG),
-        fiberG: numOrNull(fiberG),
-        ironMg: numOrNull(ironMg),
-        calciumMg: numOrNull(calciumMg),
+        kcal: mealKcal,
+        proteinG: mealProtein,
+        carbsG: mealCarbs,
+        fatG: mealFat,
+        fiberG: mealFiber,
+        ironMg: mealIron,
+        calciumMg: mealCalcium,
         recipeId: recipeId ?? null,
       };
       if (!isFresh && linkedPrepItemId) {
@@ -216,6 +347,20 @@ export function RencanaMealForm({
       await api.createMeal(body);
       resetForm();
       onMealSaved();
+      const successTitle = createdNewRecipe
+        ? 'Tersimpan — resep Nutria baru'
+        : 'Menu tersimpan';
+      const successSub = createdNewRecipe
+        ? `“${savedTitle}” tersimpan di Nutria dan terhubung ke menu ini. Cari lagi dengan mengetik nama yang sama.`
+        : `“${savedTitle}” muncul di rencana untuk hari dan waktu makan yang Anda pilih.`;
+      setSaveFeedback({ title: successTitle, sub: successSub });
+      const toastMsg = createdNewRecipe
+        ? `Resep baru tersimpan: ${savedTitle}`
+        : `Menu tersimpan: ${savedTitle}`;
+      showToast(toastMsg, { durationMs: 5500 });
+      window.requestAnimationFrame(() => {
+        feedbackRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Gagal menambah');
     } finally {
@@ -224,15 +369,28 @@ export function RencanaMealForm({
   }
 
   return (
-    <div className="hifi-card" ref={formRef} style={{ marginTop: 8 }}>
+    <div className="hifi-card tab-module-form" ref={formRef} style={{ marginTop: 8 }}>
       <h3 className="h-serif" style={{ fontSize: '1.1rem' }}>
-        Catat menu & resep
+        Catat menu dan resep
       </h3>
       <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 6, lineHeight: 1.45 }}>
-        Ketik nama: pilih resep Nutria yang sudah ada, atau isi bahan lalu simpan sebagai resep baru
-        (bisa dipakai ulang oleh keluarga lain). Menu dengan resep dipakai untuk menghitung belanja.
+        Ketik nama untuk mencari resep, atau isi daftar bahan — Nutria menghitung perkiraan nutrisi dari
+        tabel komposisi pangan Indonesia. Bahan yang lengkap disimpan sebagai resep baru saat Anda menekan
+        simpan.
       </p>
       <form onSubmit={addMeal} style={{ display: 'grid', gap: 14, marginTop: 14 }}>
+        {saveFeedback ? (
+          <div
+            ref={feedbackRef}
+            className="save-feedback save-feedback--success"
+            role="status"
+            aria-live="polite"
+          >
+            <p className="save-feedback__title">{saveFeedback.title}</p>
+            <p className="save-feedback__sub">{saveFeedback.sub}</p>
+          </div>
+        ) : null}
+
         <div className="form-section-title">Dasar</div>
         <RecipeTitleSuggest
           title={title}
@@ -265,8 +423,6 @@ export function RencanaMealForm({
           busy={busy}
           ingredientRows={ingredientRows}
           setIngredientRows={setIngredientRows}
-          saveAsRecipe={saveAsRecipe}
-          setSaveAsRecipe={setSaveAsRecipe}
         />
 
         <MealFreshPrepSection
@@ -277,28 +433,20 @@ export function RencanaMealForm({
           prepItemOptions={prepItemOptions}
         />
 
-        <MealMacroFields
-          kcal={kcal}
-          setKcal={setKcal}
-          proteinG={proteinG}
-          setProteinG={setProteinG}
-          carbsG={carbsG}
-          setCarbsG={setCarbsG}
-          fatG={fatG}
-          setFatG={setFatG}
-          fiberG={fiberG}
-          setFiberG={setFiberG}
-          ironMg={ironMg}
-          setIronMg={setIronMg}
-          calciumMg={calciumMg}
-          setCalciumMg={setCalciumMg}
-          vitaminCMg={vitaminCMg}
-          setVitaminCMg={setVitaminCMg}
+        <MealMacroSummary
+          recipeLocked={recipeLocked}
+          values={macroPresentation.values}
+          unmatchedIngredientNames={macroPresentation.unmatched}
+          portionsNote={macroPresentation.portionsNote}
         />
 
-        {error ? <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div> : null}
+        {error ? (
+          <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }} role="alert">
+            {error}
+          </div>
+        ) : null}
         <button className="btn-primary" type="submit" disabled={busy}>
-          Simpan ke rencana
+          Simpan menu ke rencana
         </button>
       </form>
     </div>

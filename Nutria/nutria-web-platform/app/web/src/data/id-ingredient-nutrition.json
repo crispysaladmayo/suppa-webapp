@@ -1,0 +1,1553 @@
+[
+  {
+    "aliases": [
+      "beras putih",
+      "beras kering",
+      "beras"
+    ],
+    "kcal": 365,
+    "proteinG": 6.7,
+    "carbsG": 80,
+    "fatG": 0.7,
+    "fiberG": 1.3,
+    "ironMg": 0.9,
+    "calciumMg": 14,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "nasi putih",
+      "nasi matang",
+      "nasi"
+    ],
+    "kcal": 130,
+    "proteinG": 2.7,
+    "carbsG": 28,
+    "fatG": 0.3,
+    "fiberG": 0.4,
+    "ironMg": 0.2,
+    "calciumMg": 10,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "beras merah"
+    ],
+    "kcal": 360,
+    "proteinG": 7.5,
+    "carbsG": 76,
+    "fatG": 2.7,
+    "fiberG": 3.5,
+    "ironMg": 1.2,
+    "calciumMg": 24,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "jagung pipil",
+      "jagung kering"
+    ],
+    "kcal": 365,
+    "proteinG": 9.4,
+    "carbsG": 74,
+    "fatG": 4.7,
+    "fiberG": 7.3,
+    "ironMg": 2.7,
+    "calciumMg": 7,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "jagung manis rebus",
+      "jagung manis"
+    ],
+    "kcal": 96,
+    "proteinG": 3.4,
+    "carbsG": 21,
+    "fatG": 1.5,
+    "fiberG": 2.4,
+    "ironMg": 0.5,
+    "calciumMg": 3,
+    "vitaminCMg": 6
+  },
+  {
+    "aliases": [
+      "gandum utuh",
+      "gandum"
+    ],
+    "kcal": 339,
+    "proteinG": 13.7,
+    "carbsG": 72,
+    "fatG": 2.5,
+    "fiberG": 10.7,
+    "ironMg": 3.6,
+    "calciumMg": 35,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "terigu",
+      "tepung terigu",
+      "tepung gandum"
+    ],
+    "kcal": 364,
+    "proteinG": 10.3,
+    "carbsG": 76,
+    "fatG": 1,
+    "fiberG": 2.7,
+    "ironMg": 4.4,
+    "calciumMg": 18,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "tepung beras"
+    ],
+    "kcal": 366,
+    "proteinG": 6.7,
+    "carbsG": 80,
+    "fatG": 0.5,
+    "fiberG": 1.4,
+    "ironMg": 1.2,
+    "calciumMg": 7,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "tepung tapioka",
+      "tepung kanji"
+    ],
+    "kcal": 360,
+    "proteinG": 0.2,
+    "carbsG": 88,
+    "fatG": 0.1,
+    "fiberG": 0.1,
+    "ironMg": 0.5,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "tepung maizena",
+      "tepung jagung"
+    ],
+    "kcal": 381,
+    "proteinG": 0.3,
+    "carbsG": 91,
+    "fatG": 0.1,
+    "fiberG": 0.3,
+    "ironMg": 0.5,
+    "calciumMg": 2,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "mie kering",
+      "mie telur"
+    ],
+    "kcal": 471,
+    "proteinG": 14,
+    "carbsG": 64,
+    "fatG": 16,
+    "fiberG": 3.7,
+    "ironMg": 3.6,
+    "calciumMg": 58,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "bihun",
+      "kwetiau kering"
+    ],
+    "kcal": 350,
+    "proteinG": 7,
+    "carbsG": 78,
+    "fatG": 1,
+    "fiberG": 1,
+    "ironMg": 2,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "sagu"
+    ],
+    "kcal": 354,
+    "proteinG": 0.2,
+    "carbsG": 87,
+    "fatG": 0.2,
+    "fiberG": 0.5,
+    "ironMg": 2,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ubi jalar",
+      "kentang madu"
+    ],
+    "kcal": 86,
+    "proteinG": 1.6,
+    "carbsG": 20,
+    "fatG": 0.1,
+    "fiberG": 3,
+    "ironMg": 0.6,
+    "calciumMg": 30,
+    "vitaminCMg": 19
+  },
+  {
+    "aliases": [
+      "ubi kayu",
+      "singkong",
+      "ketela pohon"
+    ],
+    "kcal": 160,
+    "proteinG": 1.4,
+    "carbsG": 38,
+    "fatG": 0.3,
+    "fiberG": 1.8,
+    "ironMg": 0.6,
+    "calciumMg": 16,
+    "vitaminCMg": 20
+  },
+  {
+    "aliases": [
+      "talas",
+      "taro"
+    ],
+    "kcal": 112,
+    "proteinG": 1.5,
+    "carbsG": 26,
+    "fatG": 0.2,
+    "fiberG": 4.1,
+    "ironMg": 0.6,
+    "calciumMg": 43,
+    "vitaminCMg": 5
+  },
+  {
+    "aliases": [
+      "kentang",
+      "kentang rebus"
+    ],
+    "kcal": 77,
+    "proteinG": 2,
+    "carbsG": 17,
+    "fatG": 0.1,
+    "fiberG": 2.2,
+    "ironMg": 0.8,
+    "calciumMg": 9,
+    "vitaminCMg": 20
+  },
+  {
+    "aliases": [
+      "pisang ambon",
+      "pisang"
+    ],
+    "kcal": 89,
+    "proteinG": 1.1,
+    "carbsG": 23,
+    "fatG": 0.3,
+    "fiberG": 2.6,
+    "ironMg": 0.3,
+    "calciumMg": 5,
+    "vitaminCMg": 8.7
+  },
+  {
+    "aliases": [
+      "pisang raja"
+    ],
+    "kcal": 90,
+    "proteinG": 1.3,
+    "carbsG": 23,
+    "fatG": 0.3,
+    "fiberG": 2,
+    "ironMg": 0.3,
+    "calciumMg": 5,
+    "vitaminCMg": 8.5
+  },
+  {
+    "aliases": [
+      "apel"
+    ],
+    "kcal": 52,
+    "proteinG": 0.3,
+    "carbsG": 14,
+    "fatG": 0.2,
+    "fiberG": 2.4,
+    "ironMg": 0.1,
+    "calciumMg": 6,
+    "vitaminCMg": 4.6
+  },
+  {
+    "aliases": [
+      "pepaya"
+    ],
+    "kcal": 43,
+    "proteinG": 0.5,
+    "carbsG": 11,
+    "fatG": 0.3,
+    "fiberG": 1.7,
+    "ironMg": 0.3,
+    "calciumMg": 20,
+    "vitaminCMg": 61
+  },
+  {
+    "aliases": [
+      "mangga"
+    ],
+    "kcal": 60,
+    "proteinG": 0.8,
+    "carbsG": 15,
+    "fatG": 0.4,
+    "fiberG": 1.6,
+    "ironMg": 0.2,
+    "calciumMg": 11,
+    "vitaminCMg": 36
+  },
+  {
+    "aliases": [
+      "jeruk",
+      "jeruk manis"
+    ],
+    "kcal": 47,
+    "proteinG": 0.9,
+    "carbsG": 12,
+    "fatG": 0.1,
+    "fiberG": 2.4,
+    "ironMg": 0.1,
+    "calciumMg": 40,
+    "vitaminCMg": 53
+  },
+  {
+    "aliases": [
+      "salak"
+    ],
+    "kcal": 82,
+    "proteinG": 0.8,
+    "carbsG": 22,
+    "fatG": 0.4,
+    "fiberG": 5.3,
+    "ironMg": 1.5,
+    "calciumMg": 38,
+    "vitaminCMg": 8
+  },
+  {
+    "aliases": [
+      "semangka"
+    ],
+    "kcal": 30,
+    "proteinG": 0.6,
+    "carbsG": 8,
+    "fatG": 0.2,
+    "fiberG": 0.4,
+    "ironMg": 0.2,
+    "calciumMg": 7,
+    "vitaminCMg": 8.1
+  },
+  {
+    "aliases": [
+      "melon"
+    ],
+    "kcal": 34,
+    "proteinG": 0.8,
+    "carbsG": 8,
+    "fatG": 0.2,
+    "fiberG": 0.9,
+    "ironMg": 0.2,
+    "calciumMg": 9,
+    "vitaminCMg": 27
+  },
+  {
+    "aliases": [
+      "anggur"
+    ],
+    "kcal": 69,
+    "proteinG": 0.7,
+    "carbsG": 18,
+    "fatG": 0.2,
+    "fiberG": 0.9,
+    "ironMg": 0.4,
+    "calciumMg": 10,
+    "vitaminCMg": 3.2
+  },
+  {
+    "aliases": [
+      "alpukat"
+    ],
+    "kcal": 160,
+    "proteinG": 2,
+    "carbsG": 8.5,
+    "fatG": 14.7,
+    "fiberG": 6.7,
+    "ironMg": 0.6,
+    "calciumMg": 12,
+    "vitaminCMg": 10
+  },
+  {
+    "aliases": [
+      "tomat"
+    ],
+    "kcal": 18,
+    "proteinG": 0.9,
+    "carbsG": 3.9,
+    "fatG": 0.2,
+    "fiberG": 1.2,
+    "ironMg": 0.3,
+    "calciumMg": 10,
+    "vitaminCMg": 14
+  },
+  {
+    "aliases": [
+      "timun"
+    ],
+    "kcal": 16,
+    "proteinG": 0.7,
+    "carbsG": 3.6,
+    "fatG": 0.1,
+    "fiberG": 0.5,
+    "ironMg": 0.3,
+    "calciumMg": 16,
+    "vitaminCMg": 2.8
+  },
+  {
+    "aliases": [
+      "wortel"
+    ],
+    "kcal": 41,
+    "proteinG": 0.9,
+    "carbsG": 10,
+    "fatG": 0.2,
+    "fiberG": 2.8,
+    "ironMg": 0.3,
+    "calciumMg": 33,
+    "vitaminCMg": 5.9
+  },
+  {
+    "aliases": [
+      "bayam"
+    ],
+    "kcal": 23,
+    "proteinG": 2.9,
+    "carbsG": 3.6,
+    "fatG": 0.4,
+    "fiberG": 2.2,
+    "ironMg": 3.6,
+    "calciumMg": 99,
+    "vitaminCMg": 28
+  },
+  {
+    "aliases": [
+      "kangkung"
+    ],
+    "kcal": 19,
+    "proteinG": 2.6,
+    "carbsG": 3.1,
+    "fatG": 0.2,
+    "fiberG": 2.1,
+    "ironMg": 1.3,
+    "calciumMg": 77,
+    "vitaminCMg": 55
+  },
+  {
+    "aliases": [
+      "sawi hijau",
+      "sawi"
+    ],
+    "kcal": 16,
+    "proteinG": 1.5,
+    "carbsG": 2.2,
+    "fatG": 0.3,
+    "fiberG": 1,
+    "ironMg": 0.8,
+    "calciumMg": 105,
+    "vitaminCMg": 45
+  },
+  {
+    "aliases": [
+      "kol",
+      "kubis"
+    ],
+    "kcal": 25,
+    "proteinG": 1.3,
+    "carbsG": 6,
+    "fatG": 0.1,
+    "fiberG": 2.5,
+    "ironMg": 0.5,
+    "calciumMg": 40,
+    "vitaminCMg": 37
+  },
+  {
+    "aliases": [
+      "brokoli"
+    ],
+    "kcal": 34,
+    "proteinG": 2.8,
+    "carbsG": 7,
+    "fatG": 0.4,
+    "fiberG": 2.6,
+    "ironMg": 0.7,
+    "calciumMg": 47,
+    "vitaminCMg": 89
+  },
+  {
+    "aliases": [
+      "buncis",
+      "kacang panjang"
+    ],
+    "kcal": 31,
+    "proteinG": 1.8,
+    "carbsG": 7,
+    "fatG": 0.1,
+    "fiberG": 3.4,
+    "ironMg": 1,
+    "calciumMg": 37,
+    "vitaminCMg": 16
+  },
+  {
+    "aliases": [
+      "kacang tanah",
+      "kacang kulit"
+    ],
+    "kcal": 567,
+    "proteinG": 26,
+    "carbsG": 16,
+    "fatG": 49,
+    "fiberG": 8.5,
+    "ironMg": 4.6,
+    "calciumMg": 92,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "kacang hijau"
+    ],
+    "kcal": 347,
+    "proteinG": 24,
+    "carbsG": 63,
+    "fatG": 1.2,
+    "fiberG": 16.3,
+    "ironMg": 6.7,
+    "calciumMg": 132,
+    "vitaminCMg": 2
+  },
+  {
+    "aliases": [
+      "kacang merah"
+    ],
+    "kcal": 333,
+    "proteinG": 24,
+    "carbsG": 60,
+    "fatG": 0.8,
+    "fiberG": 24,
+    "ironMg": 5.4,
+    "calciumMg": 143,
+    "vitaminCMg": 1
+  },
+  {
+    "aliases": [
+      "kedelai"
+    ],
+    "kcal": 446,
+    "proteinG": 36,
+    "carbsG": 30,
+    "fatG": 20,
+    "fiberG": 9.3,
+    "ironMg": 15.7,
+    "calciumMg": 277,
+    "vitaminCMg": 6
+  },
+  {
+    "aliases": [
+      "tempe"
+    ],
+    "kcal": 192,
+    "proteinG": 20,
+    "carbsG": 8,
+    "fatG": 11,
+    "fiberG": 6,
+    "ironMg": 2.7,
+    "calciumMg": 111,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "tahu",
+      "tahu putih"
+    ],
+    "kcal": 76,
+    "proteinG": 8,
+    "carbsG": 1.9,
+    "fatG": 4.8,
+    "fiberG": 0.3,
+    "ironMg": 5,
+    "calciumMg": 350,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "oncom"
+    ],
+    "kcal": 155,
+    "proteinG": 13,
+    "carbsG": 18,
+    "fatG": 6,
+    "fiberG": 5,
+    "ironMg": 2,
+    "calciumMg": 50,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "dada ayam mentah",
+      "ayam fillet",
+      "ayam dada"
+    ],
+    "kcal": 120,
+    "proteinG": 22.5,
+    "carbsG": 0,
+    "fatG": 2.6,
+    "fiberG": 0,
+    "ironMg": 0.9,
+    "calciumMg": 15,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "paha ayam",
+      "ayam paha"
+    ],
+    "kcal": 177,
+    "proteinG": 17,
+    "carbsG": 0,
+    "fatG": 12,
+    "fiberG": 0,
+    "ironMg": 1.2,
+    "calciumMg": 11,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ayam kampung"
+    ],
+    "kcal": 143,
+    "proteinG": 24,
+    "carbsG": 0,
+    "fatG": 4.5,
+    "fiberG": 0,
+    "ironMg": 1.3,
+    "calciumMg": 12,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "bebek"
+    ],
+    "kcal": 337,
+    "proteinG": 19,
+    "carbsG": 0,
+    "fatG": 28,
+    "fiberG": 0,
+    "ironMg": 2.7,
+    "calciumMg": 11,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "daging sapi",
+      "daging sapi tanpa lemak"
+    ],
+    "kcal": 250,
+    "proteinG": 26,
+    "carbsG": 0,
+    "fatG": 15,
+    "fiberG": 0,
+    "ironMg": 2.6,
+    "calciumMg": 12,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "daging kambing"
+    ],
+    "kcal": 294,
+    "proteinG": 25,
+    "carbsG": 0,
+    "fatG": 21,
+    "fiberG": 0,
+    "ironMg": 2.8,
+    "calciumMg": 13,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ati ayam"
+    ],
+    "kcal": 167,
+    "proteinG": 25,
+    "carbsG": 1,
+    "fatG": 7,
+    "fiberG": 0,
+    "ironMg": 9.5,
+    "calciumMg": 9,
+    "vitaminCMg": 27
+  },
+  {
+    "aliases": [
+      "telur ayam",
+      "telur"
+    ],
+    "kcal": 155,
+    "proteinG": 13,
+    "carbsG": 1.1,
+    "fatG": 11,
+    "fiberG": 0,
+    "ironMg": 1.8,
+    "calciumMg": 56,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "telur bebek"
+    ],
+    "kcal": 185,
+    "proteinG": 13,
+    "carbsG": 1.5,
+    "fatG": 14,
+    "fiberG": 0,
+    "ironMg": 3.1,
+    "calciumMg": 70,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ikan kembung"
+    ],
+    "kcal": 109,
+    "proteinG": 20,
+    "carbsG": 0,
+    "fatG": 3,
+    "fiberG": 0,
+    "ironMg": 1.2,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ikan tongkol",
+      "cakalang"
+    ],
+    "kcal": 132,
+    "proteinG": 23,
+    "carbsG": 0,
+    "fatG": 4,
+    "fiberG": 0,
+    "ironMg": 1.4,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ikan salmon"
+    ],
+    "kcal": 208,
+    "proteinG": 20,
+    "carbsG": 0,
+    "fatG": 13,
+    "fiberG": 0,
+    "ironMg": 0.8,
+    "calciumMg": 9,
+    "vitaminCMg": 3.9
+  },
+  {
+    "aliases": [
+      "ikan lele"
+    ],
+    "kcal": 105,
+    "proteinG": 18,
+    "carbsG": 0,
+    "fatG": 2.5,
+    "fiberG": 0,
+    "ironMg": 0.8,
+    "calciumMg": 50,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ikan nila"
+    ],
+    "kcal": 96,
+    "proteinG": 19,
+    "carbsG": 0,
+    "fatG": 2,
+    "fiberG": 0,
+    "ironMg": 0.6,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "udang",
+      "udang windu"
+    ],
+    "kcal": 99,
+    "proteinG": 24,
+    "carbsG": 0,
+    "fatG": 0.3,
+    "fiberG": 0,
+    "ironMg": 2.6,
+    "calciumMg": 52,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "cumi-cumi",
+      "cumi"
+    ],
+    "kcal": 92,
+    "proteinG": 16,
+    "carbsG": 3,
+    "fatG": 1.4,
+    "fiberG": 0,
+    "ironMg": 2.6,
+    "calciumMg": 32,
+    "vitaminCMg": 5
+  },
+  {
+    "aliases": [
+      "kerang"
+    ],
+    "kcal": 86,
+    "proteinG": 15,
+    "carbsG": 3,
+    "fatG": 1,
+    "fiberG": 0,
+    "ironMg": 6.7,
+    "calciumMg": 28,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "susu sapi",
+      "susu segar"
+    ],
+    "kcal": 61,
+    "proteinG": 3.2,
+    "carbsG": 4.8,
+    "fatG": 3.3,
+    "fiberG": 0,
+    "ironMg": 0,
+    "calciumMg": 113,
+    "vitaminCMg": 1
+  },
+  {
+    "aliases": [
+      "susu kedelai"
+    ],
+    "kcal": 54,
+    "proteinG": 3.3,
+    "carbsG": 6,
+    "fatG": 1.8,
+    "fiberG": 0.6,
+    "ironMg": 0.6,
+    "calciumMg": 25,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "yogurt plain"
+    ],
+    "kcal": 61,
+    "proteinG": 3.5,
+    "carbsG": 4.7,
+    "fatG": 3.3,
+    "fiberG": 0,
+    "ironMg": 0.1,
+    "calciumMg": 121,
+    "vitaminCMg": 1
+  },
+  {
+    "aliases": [
+      "keju cheddar"
+    ],
+    "kcal": 403,
+    "proteinG": 23,
+    "carbsG": 1.3,
+    "fatG": 33,
+    "fiberG": 0,
+    "ironMg": 0.7,
+    "calciumMg": 721,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "mentega"
+    ],
+    "kcal": 717,
+    "proteinG": 0.8,
+    "carbsG": 0.1,
+    "fatG": 81,
+    "fiberG": 0,
+    "ironMg": 0,
+    "calciumMg": 24,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "minyak kelapa sawit"
+    ],
+    "kcal": 884,
+    "proteinG": 0,
+    "carbsG": 0,
+    "fatG": 100,
+    "fiberG": 0,
+    "ironMg": 0,
+    "calciumMg": 0,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "minyak goreng",
+      "minyak sayur"
+    ],
+    "kcal": 884,
+    "proteinG": 0,
+    "carbsG": 0,
+    "fatG": 100,
+    "fiberG": 0,
+    "ironMg": 0,
+    "calciumMg": 0,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "minyak kelapa"
+    ],
+    "kcal": 862,
+    "proteinG": 0,
+    "carbsG": 0,
+    "fatG": 100,
+    "fiberG": 0,
+    "ironMg": 0,
+    "calciumMg": 0,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "kelapa parut"
+    ],
+    "kcal": 354,
+    "proteinG": 3.3,
+    "carbsG": 15,
+    "fatG": 34,
+    "fiberG": 9,
+    "ironMg": 2,
+    "calciumMg": 14,
+    "vitaminCMg": 3
+  },
+  {
+    "aliases": [
+      "santan",
+      "kental"
+    ],
+    "kcal": 230,
+    "proteinG": 2.3,
+    "carbsG": 6,
+    "fatG": 24,
+    "fiberG": 3,
+    "ironMg": 1.6,
+    "calciumMg": 16,
+    "vitaminCMg": 2
+  },
+  {
+    "aliases": [
+      "gula pasir"
+    ],
+    "kcal": 387,
+    "proteinG": 0,
+    "carbsG": 100,
+    "fatG": 0,
+    "fiberG": 0,
+    "ironMg": 0.1,
+    "calciumMg": 1,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "gula merah",
+      "gula aren"
+    ],
+    "kcal": 383,
+    "proteinG": 0.1,
+    "carbsG": 95,
+    "fatG": 0,
+    "fiberG": 0,
+    "ironMg": 1.9,
+    "calciumMg": 80,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "madu"
+    ],
+    "kcal": 304,
+    "proteinG": 0.3,
+    "carbsG": 82,
+    "fatG": 0,
+    "fiberG": 0.2,
+    "ironMg": 0.4,
+    "calciumMg": 6,
+    "vitaminCMg": 0.5
+  },
+  {
+    "aliases": [
+      "garam"
+    ],
+    "kcal": 0,
+    "proteinG": 0,
+    "carbsG": 0,
+    "fatG": 0,
+    "fiberG": 0,
+    "ironMg": 0,
+    "calciumMg": 0,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "merica"
+    ],
+    "kcal": 251,
+    "proteinG": 10,
+    "carbsG": 64,
+    "fatG": 3.3,
+    "fiberG": 25,
+    "ironMg": 9.7,
+    "calciumMg": 443,
+    "vitaminCMg": 21
+  },
+  {
+    "aliases": [
+      "ketumbar"
+    ],
+    "kcal": 298,
+    "proteinG": 12,
+    "carbsG": 55,
+    "fatG": 18,
+    "fiberG": 42,
+    "ironMg": 16.3,
+    "calciumMg": 630,
+    "vitaminCMg": 27
+  },
+  {
+    "aliases": [
+      "kunyit",
+      "turmeric"
+    ],
+    "kcal": 354,
+    "proteinG": 7.8,
+    "carbsG": 65,
+    "fatG": 10,
+    "fiberG": 21,
+    "ironMg": 55,
+    "calciumMg": 183,
+    "vitaminCMg": 25
+  },
+  {
+    "aliases": [
+      "jahe"
+    ],
+    "kcal": 80,
+    "proteinG": 1.8,
+    "carbsG": 18,
+    "fatG": 0.8,
+    "fiberG": 2,
+    "ironMg": 0.6,
+    "calciumMg": 16,
+    "vitaminCMg": 5
+  },
+  {
+    "aliases": [
+      "lengkuas"
+    ],
+    "kcal": 48,
+    "proteinG": 0.5,
+    "carbsG": 11,
+    "fatG": 0.2,
+    "fiberG": 1,
+    "ironMg": 1.5,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "serai"
+    ],
+    "kcal": 99,
+    "proteinG": 1.8,
+    "carbsG": 25,
+    "fatG": 0.5,
+    "fiberG": 0,
+    "ironMg": 8.9,
+    "calciumMg": 65,
+    "vitaminCMg": 6
+  },
+  {
+    "aliases": [
+      "daun salam"
+    ],
+    "kcal": 313,
+    "proteinG": 7.6,
+    "carbsG": 75,
+    "fatG": 8,
+    "fiberG": 26,
+    "ironMg": 67,
+    "calciumMg": 834,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "daun jeruk"
+    ],
+    "kcal": 293,
+    "proteinG": 6.6,
+    "carbsG": 75,
+    "fatG": 7,
+    "fiberG": 11,
+    "ironMg": 44,
+    "calciumMg": 330,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "bawang merah"
+    ],
+    "kcal": 40,
+    "proteinG": 1.1,
+    "carbsG": 9.3,
+    "fatG": 0.1,
+    "fiberG": 1.7,
+    "ironMg": 0.3,
+    "calciumMg": 23,
+    "vitaminCMg": 7
+  },
+  {
+    "aliases": [
+      "bawang putih"
+    ],
+    "kcal": 149,
+    "proteinG": 6.4,
+    "carbsG": 33,
+    "fatG": 0.5,
+    "fiberG": 2.1,
+    "ironMg": 1.7,
+    "calciumMg": 181,
+    "vitaminCMg": 31
+  },
+  {
+    "aliases": [
+      "bawang bombay"
+    ],
+    "kcal": 40,
+    "proteinG": 1.1,
+    "carbsG": 9,
+    "fatG": 0.1,
+    "fiberG": 1.7,
+    "ironMg": 0.2,
+    "calciumMg": 23,
+    "vitaminCMg": 7
+  },
+  {
+    "aliases": [
+      "cabai rawit",
+      "cabe rawit"
+    ],
+    "kcal": 40,
+    "proteinG": 2,
+    "carbsG": 8.8,
+    "fatG": 0.4,
+    "fiberG": 1.5,
+    "ironMg": 1,
+    "calciumMg": 14,
+    "vitaminCMg": 144
+  },
+  {
+    "aliases": [
+      "cabai merah",
+      "cabe merah"
+    ],
+    "kcal": 31,
+    "proteinG": 1.5,
+    "carbsG": 6.5,
+    "fatG": 0.3,
+    "fiberG": 1.2,
+    "ironMg": 0.7,
+    "calciumMg": 8,
+    "vitaminCMg": 144
+  },
+  {
+    "aliases": [
+      "tomat saus",
+      "sambal tomat"
+    ],
+    "kcal": 30,
+    "proteinG": 1.5,
+    "carbsG": 7,
+    "fatG": 0.2,
+    "fiberG": 1.2,
+    "ironMg": 0.5,
+    "calciumMg": 20,
+    "vitaminCMg": 15
+  },
+  {
+    "aliases": [
+      "kecap manis"
+    ],
+    "kcal": 290,
+    "proteinG": 3.5,
+    "carbsG": 67,
+    "fatG": 0,
+    "fiberG": 0,
+    "ironMg": 2,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "kecap asin"
+    ],
+    "kcal": 60,
+    "proteinG": 10,
+    "carbsG": 6,
+    "fatG": 0,
+    "fiberG": 0,
+    "ironMg": 2,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "terasi"
+    ],
+    "kcal": 148,
+    "proteinG": 20,
+    "carbsG": 13,
+    "fatG": 4,
+    "fiberG": 0,
+    "ironMg": 6,
+    "calciumMg": 200,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "petis"
+    ],
+    "kcal": 120,
+    "proteinG": 15,
+    "carbsG": 10,
+    "fatG": 4,
+    "fiberG": 0,
+    "ironMg": 3,
+    "calciumMg": 50,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "tahu sumedang"
+    ],
+    "kcal": 77,
+    "proteinG": 8,
+    "carbsG": 2,
+    "fatG": 5,
+    "fiberG": 0.3,
+    "ironMg": 1,
+    "calciumMg": 100,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "tempe gembus"
+    ],
+    "kcal": 140,
+    "proteinG": 12,
+    "carbsG": 14,
+    "fatG": 6,
+    "fiberG": 4,
+    "ironMg": 1.5,
+    "calciumMg": 80,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "mie instan matang",
+      "mie goreng instan"
+    ],
+    "kcal": 138,
+    "proteinG": 4,
+    "carbsG": 18,
+    "fatG": 5,
+    "fiberG": 1,
+    "ironMg": 1,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "bakso sapi"
+    ],
+    "kcal": 217,
+    "proteinG": 13,
+    "carbsG": 12,
+    "fatG": 14,
+    "fiberG": 0.5,
+    "ironMg": 1.5,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "sosis ayam"
+    ],
+    "kcal": 250,
+    "proteinG": 12,
+    "carbsG": 2,
+    "fatG": 21,
+    "fiberG": 0,
+    "ironMg": 1,
+    "calciumMg": 10,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ikan asin teri"
+    ],
+    "kcal": 289,
+    "proteinG": 58,
+    "carbsG": 0,
+    "fatG": 6,
+    "fiberG": 0,
+    "ironMg": 12,
+    "calciumMg": 200,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ikan teri"
+    ],
+    "kcal": 262,
+    "proteinG": 63,
+    "carbsG": 0,
+    "fatG": 9,
+    "fiberG": 0,
+    "ironMg": 15,
+    "calciumMg": 200,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "paru sapi"
+    ],
+    "kcal": 150,
+    "proteinG": 29,
+    "carbsG": 1,
+    "fatG": 4,
+    "fiberG": 0,
+    "ironMg": 5.8,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "hati sapi"
+    ],
+    "kcal": 165,
+    "proteinG": 24,
+    "carbsG": 5,
+    "fatG": 5,
+    "fiberG": 0,
+    "ironMg": 6.5,
+    "calciumMg": 5,
+    "vitaminCMg": 2
+  },
+  {
+    "aliases": [
+      "rendang daging"
+    ],
+    "kcal": 250,
+    "proteinG": 18,
+    "carbsG": 5,
+    "fatG": 18,
+    "fiberG": 1,
+    "ironMg": 2.5,
+    "calciumMg": 20,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "santan encer"
+    ],
+    "kcal": 40,
+    "proteinG": 0.5,
+    "carbsG": 3,
+    "fatG": 4,
+    "fiberG": 0,
+    "ironMg": 0.3,
+    "calciumMg": 5,
+    "vitaminCMg": 1
+  },
+  {
+    "aliases": [
+      "daun singkong"
+    ],
+    "kcal": 49,
+    "proteinG": 4.6,
+    "carbsG": 8,
+    "fatG": 0.8,
+    "fiberG": 4,
+    "ironMg": 2.2,
+    "calciumMg": 150,
+    "vitaminCMg": 40
+  },
+  {
+    "aliases": [
+      "daun pepaya muda"
+    ],
+    "kcal": 55,
+    "proteinG": 6,
+    "carbsG": 9,
+    "fatG": 0.5,
+    "fiberG": 1.5,
+    "ironMg": 1.2,
+    "calciumMg": 200,
+    "vitaminCMg": 30
+  },
+  {
+    "aliases": [
+      "labu siam"
+    ],
+    "kcal": 19,
+    "proteinG": 0.6,
+    "carbsG": 4.5,
+    "fatG": 0.1,
+    "fiberG": 1,
+    "ironMg": 0.3,
+    "calciumMg": 20,
+    "vitaminCMg": 8
+  },
+  {
+    "aliases": [
+      "terong"
+    ],
+    "kcal": 25,
+    "proteinG": 1,
+    "carbsG": 6,
+    "fatG": 0.2,
+    "fiberG": 3,
+    "ironMg": 0.2,
+    "calciumMg": 9,
+    "vitaminCMg": 2.2
+  },
+  {
+    "aliases": [
+      "jamur kancing"
+    ],
+    "kcal": 22,
+    "proteinG": 3.1,
+    "carbsG": 3.3,
+    "fatG": 0.3,
+    "fiberG": 1,
+    "ironMg": 0.5,
+    "calciumMg": 3,
+    "vitaminCMg": 2.1
+  },
+  {
+    "aliases": [
+      "paprika merah"
+    ],
+    "kcal": 31,
+    "proteinG": 1,
+    "carbsG": 6,
+    "fatG": 0.3,
+    "fiberG": 2.1,
+    "ironMg": 0.4,
+    "calciumMg": 7,
+    "vitaminCMg": 128
+  },
+  {
+    "aliases": [
+      "selada"
+    ],
+    "kcal": 14,
+    "proteinG": 1.4,
+    "carbsG": 2.9,
+    "fatG": 0.2,
+    "fiberG": 1.3,
+    "ironMg": 1,
+    "calciumMg": 36,
+    "vitaminCMg": 9
+  },
+  {
+    "aliases": [
+      "ketoprak lontong"
+    ],
+    "kcal": 120,
+    "proteinG": 5,
+    "carbsG": 18,
+    "fatG": 3,
+    "fiberG": 2,
+    "ironMg": 1,
+    "calciumMg": 30,
+    "vitaminCMg": 2
+  },
+  {
+    "aliases": [
+      "lontong",
+      "nasi impit"
+    ],
+    "kcal": 111,
+    "proteinG": 2.5,
+    "carbsG": 23,
+    "fatG": 0.3,
+    "fiberG": 0.5,
+    "ironMg": 0.3,
+    "calciumMg": 10,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "ketupat"
+    ],
+    "kcal": 120,
+    "proteinG": 2.5,
+    "carbsG": 25,
+    "fatG": 0.5,
+    "fiberG": 0.5,
+    "ironMg": 0.3,
+    "calciumMg": 10,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "emping melinjo"
+    ],
+    "kcal": 400,
+    "proteinG": 11,
+    "carbsG": 83,
+    "fatG": 1,
+    "fiberG": 4,
+    "ironMg": 3,
+    "calciumMg": 50,
+    "vitaminCMg": 0
+  },
+  {
+    "aliases": [
+      "kerupuk udang"
+    ],
+    "kcal": 500,
+    "proteinG": 5,
+    "carbsG": 60,
+    "fatG": 25,
+    "fiberG": 0,
+    "ironMg": 2,
+    "calciumMg": 30,
+    "vitaminCMg": 0
+  }
+]

@@ -1,5 +1,8 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { api } from '../api/client.js';
+import { FormField } from '../components/FormField.js';
+import { IllustrationEmptyPlate, NutriaEmptyState } from '../components/NutriaEmptyState.js';
+import { PrepSkeleton } from '../components/PageLoadSkeleton.js';
 import { dayFullName, headerDayMonth } from '../lib/formatId.js';
 import { log } from '../logger.js';
 
@@ -15,6 +18,7 @@ export function Prep() {
   const [stepTitle, setStepTitle] = useState('Siapkan bahan');
   const [notes, setNotes] = useState('Prep hari Minggu');
   const [error, setError] = useState<string | null>(null);
+  const [sessionsReady, setSessionsReady] = useState(false);
 
   const active = useMemo(
     () => sessions.find((s) => !s.endedAt) ?? null,
@@ -23,12 +27,15 @@ export function Prep() {
   const activeId = active ? String(active.id) : null;
 
   async function loadSessions() {
+    setSessionsReady(false);
     try {
       const s = await api.prepSessions();
       setSessions(s.sessions);
     } catch (e) {
       log.error('prep_load_failed', { err: String(e) });
-      setError('Gagal memuat sesi');
+      setError('Sesi prep tidak bisa dimuat. Periksa sambungan, lalu coba lagi.');
+    } finally {
+      setSessionsReady(true);
     }
   }
 
@@ -71,7 +78,7 @@ export function Prep() {
       setNotes('Prep hari Minggu');
       await loadSessions();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal mulai');
+      setError(err instanceof Error ? err.message : 'Sesi tidak bisa dimulai. Coba lagi.');
     }
   }
 
@@ -81,7 +88,7 @@ export function Prep() {
       await api.patchPrepSession(id, { endedAt: new Date().toISOString() });
       await loadSessions();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal mengakhiri');
+      setError(err instanceof Error ? err.message : 'Sesi tidak bisa diakhiri. Coba lagi.');
     }
   }
 
@@ -93,7 +100,7 @@ export function Prep() {
       const rawKg = Number(ingKg);
       const shrinkPct = Number(ingShrink);
       if (!ingName.trim() || !Number.isFinite(rawKg) || !Number.isFinite(shrinkPct)) {
-        setError('Isi nama dan angka bahan');
+        setError('Isi nama bahan serta berat (kg) dan susut (%) dengan angka yang valid.');
         return;
       }
       await api.addPrepSessionIngredient(activeId, {
@@ -133,41 +140,82 @@ export function Prep() {
       : '--:--';
   const dow = dayFullName(new Date().getDay());
 
+  if (!sessionsReady) {
+    return (
+      <div>
+        <p className="eyebrow">
+          {headerDayMonth()} · persiapan
+        </p>
+        <h1 className="screen-title">Prep hari {dayFullName(new Date().getDay())}</h1>
+        <PrepSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div>
       <p className="eyebrow">
-        {headerDayMonth()} · {clock}
+        {headerDayMonth()} · mulai {clock}
       </p>
-      <h2 className="screen-title">Prep hari {dow}</h2>
+      <h1 className="screen-title">Prep hari {dow}</h1>
+      <p className="tab-hero-lede">
+        Satu sesi untuk mass prep: catat berat mentah dan susut, lalu susun urutan masak. Perkiraan porsi
+        mengikuti total kg bahan (bukan timbangan dapur).
+      </p>
 
       {error ? (
-        <p style={{ color: 'var(--danger)', fontSize: '0.88rem', marginTop: 8 }}>{error}</p>
+        <div
+          role="alert"
+          style={{
+            marginTop: 12,
+            padding: '12px 14px',
+            borderRadius: 12,
+            background: 'var(--danger-soft, #fde8e8)',
+            color: 'var(--danger)',
+            fontSize: '0.88rem',
+          }}
+        >
+          {error}
+        </div>
       ) : null}
 
       {!active ? (
-        <div className="hifi-card" style={{ marginTop: 14 }}>
-          <h3 className="h-serif" style={{ fontSize: '1.1rem' }}>
-            Mulai sesi
-          </h3>
-          <form onSubmit={startSession} style={{ display: 'grid', gap: 12, marginTop: 12 }}>
-            <input className="input" value={notes} onChange={(ev) => setNotes(ev.target.value)} />
+        <div className="hifi-card tab-module-form" style={{ marginTop: 14, padding: 0, overflow: 'hidden' }}>
+          <NutriaEmptyState
+            title="Belum ada sesi prep aktif"
+            body="Mulai satu sesi untuk mencatat bahan, susut, dan urutan masak — fokus satu alur sampai selesai."
+            illustration={<IllustrationEmptyPlate />}
+          />
+          <div style={{ padding: '0 18px 18px' }}>
+            <p className="prep-section-kicker" style={{ marginTop: 0 }}>
+              Sesi baru
+            </p>
+            <h3 className="h-serif" style={{ fontSize: '1.1rem' }}>
+              Mulai sesi prep — {dow}
+            </h3>
+            <form onSubmit={startSession} style={{ display: 'grid', gap: 12, marginTop: 12 }}>
+            <FormField
+              label="Catatan sesi"
+              hint="Contoh: Prep Minggu pagi, batch untuk anak & orang tua"
+              fieldId="prep-start-notes"
+            >
+              <input
+                id="prep-start-notes"
+                className="input"
+                value={notes}
+                onChange={(ev) => setNotes(ev.target.value)}
+                aria-describedby="prep-start-notes-hint"
+              />
+            </FormField>
             <button className="btn-primary" type="submit">
               Mulai sesi prep
             </button>
           </form>
+          </div>
         </div>
       ) : (
         <>
-          <div
-            style={{
-              marginTop: 14,
-              borderRadius: 'var(--radius-lg)',
-              padding: '20px 18px 18px',
-              background: 'linear-gradient(135deg, var(--prep-gold-1), var(--prep-gold-2))',
-              color: 'var(--prep-card-text)',
-              boxShadow: '0 12px 32px rgba(212, 149, 71, 0.35)',
-            }}
-          >
+          <div className="prep-session-hero">
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
               <div>
                 <p className="eyebrow" style={{ color: 'rgba(46,40,36,0.65)' }}>
@@ -218,11 +266,14 @@ export function Prep() {
           </div>
 
           <div style={{ marginTop: 22 }}>
+            <p className="prep-section-kicker" style={{ marginTop: 0 }}>
+              Bahan & porsi
+            </p>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
               <h3 className="h-serif" style={{ fontSize: '1.2rem' }}>
                 Bahan utama
               </h3>
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>7 hari · 2 orang</span>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>estimasi 7 hari</span>
             </div>
             <div
               style={{
@@ -235,11 +286,9 @@ export function Prep() {
               {ingredients.slice(0, 4).map((ing, i) => {
                 const cooked = (Number(ing.rawKg) || 0) * (1 - (Number(ing.shrinkPct) || 0) / 100);
                 return (
-                  <div key={String(ing.id)} className="hifi-card" style={{ padding: '14px 12px' }}>
+                  <div key={String(ing.id)} className="hifi-card prep-ingredient-tile">
                     <div style={{ fontSize: '1.2rem', marginBottom: 8 }}>{ING_ICON[i % ING_ICON.length]}</div>
-                    <div className="eyebrow" style={{ fontSize: '0.62rem' }}>
-                      {String(ing.name).slice(0, 12).toUpperCase()}
-                    </div>
+                    <div className="prep-ingredient-name">{String(ing.name)}</div>
                     <div className="h-serif" style={{ fontSize: '1.05rem', marginTop: 6 }}>
                       {Number(ing.rawKg).toFixed(1)} kg
                     </div>
@@ -251,13 +300,14 @@ export function Prep() {
               })}
               {ingredients.length === 0 ? (
                 <p style={{ gridColumn: '1 / -1', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                  Tambah bahan di bawah — grid mengikuti 4 item pertama.
+                  Tambahkan bahan di bawah — kisi menampilkan empat item pertama.
                 </p>
               ) : null}
             </div>
           </div>
 
           <div style={{ marginTop: 22 }}>
+            <p className="prep-section-kicker">Alur kerja</p>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 className="h-serif" style={{ fontSize: '1.2rem' }}>
                 Urutan masak
@@ -266,13 +316,13 @@ export function Prep() {
                 className="tag-prep"
                 style={{ fontSize: '0.62rem', background: 'rgba(212,149,71,0.25)', color: '#5c4f3d' }}
               >
-                paralel · pintar
+                checklist
               </span>
             </div>
             <div className="hifi-card" style={{ marginTop: 12, padding: '8px 0' }}>
               {steps.length === 0 ? (
                 <p style={{ padding: '12px 16px', margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                  Belum ada langkah — tambah di bawah.
+                  Belum ada langkah — tambahkan dari formulir di bawah.
                 </p>
               ) : (
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
@@ -309,34 +359,65 @@ export function Prep() {
                 </ul>
               )}
             </div>
-            <form onSubmit={addStep} style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-              <input
-                className="input"
-                value={stepTitle}
-                onChange={(ev) => setStepTitle(ev.target.value)}
-                placeholder="Judul langkah"
-                style={{ flex: 1 }}
-              />
-              <button className="btn-primary" type="submit" style={{ width: 'auto', padding: '12px 18px' }}>
+            <form onSubmit={addStep} style={{ display: 'flex', gap: 8, marginTop: 12, alignItems: 'flex-end' }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <FormField label="Langkah berikutnya" hint="Contoh: Rebus ayam, kupas ubi" fieldId="prep-step-title">
+                  <input
+                    id="prep-step-title"
+                    className="input"
+                    value={stepTitle}
+                    onChange={(ev) => setStepTitle(ev.target.value)}
+                    placeholder="contoh: Rebus ayam 20 menit"
+                    aria-describedby="prep-step-title-hint"
+                  />
+                </FormField>
+              </div>
+              <button
+                className="btn-primary"
+                type="submit"
+                style={{ width: 'auto', padding: '12px 18px', flexShrink: 0 }}
+                aria-label="Tambah langkah"
+              >
                 +
               </button>
             </form>
           </div>
 
-          <div className="hifi-card" style={{ marginTop: 18 }}>
+          <p className="prep-section-kicker">Log bahan</p>
+          <div className="hifi-card tab-module-form" style={{ marginTop: 0 }}>
             <h3 className="h-serif" style={{ fontSize: '1.05rem' }}>
-              Tambah bahan
+              Tambah bahan ke sesi
             </h3>
-            <form onSubmit={addIngredient} style={{ display: 'grid', gap: 10, marginTop: 12 }}>
-              <input className="input" value={ingName} onChange={(ev) => setIngName(ev.target.value)} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-                <input className="input" value={ingKg} onChange={(ev) => setIngKg(ev.target.value)} placeholder="kg" />
+            <form onSubmit={addIngredient} style={{ display: 'grid', gap: 12, marginTop: 12 }}>
+              <FormField label="Nama bahan" hint="Contoh: Dada ayam tanpa tulang" fieldId="prep-ing-name">
                 <input
+                  id="prep-ing-name"
                   className="input"
-                  value={ingShrink}
-                  onChange={(ev) => setIngShrink(ev.target.value)}
-                  placeholder="% susut"
+                  value={ingName}
+                  onChange={(ev) => setIngName(ev.target.value)}
+                  aria-describedby="prep-ing-name-hint"
                 />
+              </FormField>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                <FormField label="Berat mentah (kg)" fieldId="prep-ing-kg">
+                  <input
+                    id="prep-ing-kg"
+                    className="input"
+                    value={ingKg}
+                    onChange={(ev) => setIngKg(ev.target.value)}
+                    inputMode="decimal"
+                  />
+                </FormField>
+                <FormField label="Susut (%)" hint="Setelah matang / kupas" fieldId="prep-ing-shrink">
+                  <input
+                    id="prep-ing-shrink"
+                    className="input"
+                    value={ingShrink}
+                    onChange={(ev) => setIngShrink(ev.target.value)}
+                    inputMode="numeric"
+                    aria-describedby="prep-ing-shrink-hint"
+                  />
+                </FormField>
               </div>
               <button className="btn-primary" type="submit">
                 Tambah ke sesi
@@ -348,7 +429,7 @@ export function Prep() {
 
       {sessions.filter((s) => s.endedAt).length > 0 ? (
         <div style={{ marginTop: 24 }}>
-          <p className="eyebrow">Riwayat</p>
+          <p className="prep-section-kicker">Riwayat</p>
           {sessions
             .filter((s) => s.endedAt)
             .map((s) => (

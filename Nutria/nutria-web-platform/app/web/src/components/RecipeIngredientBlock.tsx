@@ -5,31 +5,22 @@ type Props = {
   busy: boolean;
   ingredientRows: Row[];
   setIngredientRows: (rows: Row[]) => void;
-  saveAsRecipe: boolean;
-  setSaveAsRecipe: (v: boolean) => void;
 };
 
-export function RecipeIngredientBlock({
-  recipeLocked,
-  busy,
-  ingredientRows,
-  setIngredientRows,
-  saveAsRecipe,
-  setSaveAsRecipe,
-}: Props) {
+export function RecipeIngredientBlock({ recipeLocked, busy, ingredientRows, setIngredientRows }: Props) {
   return (
     <>
       <div className="form-section-title">Bahan (resep)</div>
-      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.45 }}>
+      <p className="recipe-ingredient-hint">
         {recipeLocked
-          ? 'Bahan dari resep Nutria (baca saja). Untuk ubah, lepas resep lalu simpan resep baru.'
-          : 'Tambah baris per bahan. Centang “simpan resep” untuk mengunggah ke Nutria.'}
+          ? 'Bahan dari resep Nutria. Lepas resep untuk mengedit atau menyimpan variasi baru.'
+          : 'Setiap baris: satu bahan dan berat total (gram) untuk hidangan ini. Jika diisi, Nutria menyimpan resep baru saat Anda menekan simpan (nama makanan sebaiknya unik).'}
       </p>
       {ingredientRows.map((row, idx) => (
-        <div key={idx} style={{ display: 'grid', gridTemplateColumns: '1fr 88px', gap: 8 }}>
+        <div key={idx} className="ingredient-row">
           <input
             className="input"
-            placeholder="Nama bahan"
+            placeholder="contoh: Dada ayam fillet"
             value={row.name}
             disabled={recipeLocked || busy}
             onChange={(ev) => {
@@ -38,10 +29,11 @@ export function RecipeIngredientBlock({
               next[idx] = { ...next[idx]!, name: ev.target.value };
               setIngredientRows(next);
             }}
+            aria-label={`Bahan ${idx + 1}`}
           />
           <input
-            className="input"
-            placeholder="g"
+            className="input ingredient-row__g"
+            placeholder="contoh: 200"
             inputMode="decimal"
             value={row.grams}
             disabled={recipeLocked || busy}
@@ -51,6 +43,7 @@ export function RecipeIngredientBlock({
               next[idx] = { ...next[idx]!, grams: ev.target.value };
               setIngredientRows(next);
             }}
+            aria-label={`Berat bahan ${idx + 1} dalam gram`}
           />
         </div>
       ))}
@@ -60,18 +53,8 @@ export function RecipeIngredientBlock({
           className="btn-ghost"
           onClick={() => setIngredientRows([...ingredientRows, { name: '', grams: '' }])}
         >
-          + Bahan
+          + Tambah bahan
         </button>
-      ) : null}
-      {!recipeLocked ? (
-        <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: '0.88rem' }}>
-          <input
-            type="checkbox"
-            checked={saveAsRecipe}
-            onChange={(ev) => setSaveAsRecipe(ev.target.checked)}
-          />
-          <span>Simpan sebagai resep Nutria (nama unik; bisa dipakai pengguna lain)</span>
-        </label>
       ) : null}
     </>
   );

@@ -7,7 +7,8 @@
     "db:generate": "npm run db:generate -w app/server",
     "db:migrate": "npm run db:migrate -w app/server",
     "db:seed": "npm run db:seed -w app/server",
-    "test": "npm run test -w app/server && npm run test -w app/web"
+    "test": "npm run test -w app/server && npm run test -w app/web",
+    "nutrition:seed": "node scripts/seed-id-nutrition.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
