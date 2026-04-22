@@ -1,37 +1,1122 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Nutria</title>
-    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
-    <style id="expo-reset">
-      /* These styles make the body full-height */
-      html,
-      body {
-        height: 100%;
-      }
-      /* These styles disable body scrolling if you are using <ScrollView> */
-      body {
-        overflow: hidden;
-      }
-      /* These styles make the root element full-height */
-      #root {
-        display: flex;
-        height: 100%;
-        flex: 1;
-      }
-    </style>
-  <link rel="icon" href="/nutria/favicon.ico" /></head>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Nutria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #f9f5f0;
+      --cream-2: #f9f7f2;
+      --ink: #2e1e1e;
+      --ink-soft: #5c4a42;
+      --muted: #8a7a72;
+      --terracotta: #c05e3d;
+      --terracotta-dark: #a34d32;
+      --sage: #5d7d54;
+      --sage-bg: #e2edde;
+      --sage-soft: #c8d9c2;
+      --gold-bg: #fff5d9;
+      --gold-ink: #a68a45;
+      --warn-bg: #f9e4de;
+      --white: #ffffff;
+      --line: rgba(46, 30, 30, 0.08);
+      --shadow: 0 8px 28px rgba(46, 30, 30, 0.06);
+      --shadow-sm: 0 2px 12px rgba(46, 30, 30, 0.05);
+      --radius: 20px;
+      --radius-sm: 14px;
+      --radius-lg: 28px;
+      --fab: 52px;
+      --nav-h: 72px;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      font-family: "DM Sans", system-ui, sans-serif;
+    }
 
-  <body>
-    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <!-- The root element for your Expo app. -->
-    <div id="root"></div>
-  <script src="/nutria/_expo/static/js/web/index-84899429a8a3c2f2e3399cf044433b12.js" defer></script>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: #e8e2da;
+      color: var(--ink);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px 12px calc(24px + var(--safe-b));
+      min-height: 100%;
+    }
+
+    .device {
+      width: 100%;
+      max-width: 390px;
+      min-height: min(844px, 100vh - 48px);
+      background: var(--cream);
+      border-radius: 36px;
+      box-shadow:
+        0 24px 80px rgba(30, 20, 15, 0.12),
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status-bar {
+      height: 54px;
+      padding: 14px 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .status-bar .icons { display: flex; gap: 6px; align-items: center; opacity: 0.9; font-size: 13px; }
+
+    .screen {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0 20px calc(var(--nav-h) + 20px + var(--safe-b));
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .screen::-webkit-scrollbar { display: none; }
+
+    .screen-panel { display: none; animation: fade 0.22s ease; }
+    .screen-panel.is-active { display: block; }
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    h1, .font-serif {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    h1 { font-size: 28px; color: var(--ink); }
+
+    .row-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .fab {
+      width: var(--fab);
+      height: var(--fab);
+      border-radius: 50%;
+      background: var(--terracotta);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      line-height: 1;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(192, 94, 61, 0.35);
+      cursor: pointer;
+    }
+    .fab:active { transform: scale(0.96); }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 16px;
+    }
+
+    .notice-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      cursor: pointer;
+    }
+    .notice-icon-wrap { position: relative; flex-shrink: 0; }
+    .notice-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--sage-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .notice-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 5px;
+      border-radius: 999px;
+      background: var(--terracotta);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .notice-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+    .notice-sub { font-size: 12px; color: var(--muted); line-height: 1.35; }
+    .chev { color: var(--muted); font-size: 18px; margin-left: auto; }
+
+    .day-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 22px;
+      scrollbar-width: none;
+    }
+    .day-strip::-webkit-scrollbar { display: none; }
+    .day-pill {
+      flex: 0 0 auto;
+      width: 48px;
+      padding: 10px 0 12px;
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      border: none;
+      font: inherit;
+      color: var(--ink);
+    }
+    .day-pill .dow { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; opacity: 0.65; }
+    .day-pill .num { font-size: 17px; font-weight: 700; font-family: "Playfair Display", serif; margin-top: 2px; }
+    .day-pill .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #e8915a;
+      margin: 8px auto 0;
+    }
+    .day-pill.is-on {
+      background: var(--ink);
+      color: #fff;
+    }
+    .day-pill.is-on .dow { color: rgba(255,255,255,0.75); opacity: 1; }
+
+    .section-label {
+      font-family: "Playfair Display", serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .meal-block { margin-bottom: 22px; }
+    .meal-head {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .meal-head .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .meal-head .dot.orange { background: #e8915a; }
+    .meal-head .dot.green { background: var(--sage); }
+    .meal-head .dot.terra { background: var(--terracotta); }
+
+    .meal-card {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .meal-ico {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--cream-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .meal-body { flex: 1; min-width: 0; }
+    .meal-title { font-family: "Playfair Display", serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .meal-desc { font-size: 12px; color: var(--muted); line-height: 1.45; margin-bottom: 10px; }
+    .meal-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .pill.fresh { background: var(--sage-bg); color: var(--sage); }
+    .pill.prep { background: var(--gold-bg); color: var(--gold-ink); }
+    .kcal { font-size: 12px; color: var(--ink-soft); font-weight: 500; }
+    .meal-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .mini-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: none;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mini-btn.m { background: #7d3d4a; }
+    .mini-btn.a { background: #3d5c4a; }
+
+    .banner-warn {
+      background: var(--warn-bg);
+      color: var(--terracotta-dark);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .stat-big {
+      font-family: "Playfair Display", serif;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-sub { font-size: 13px; color: var(--muted); margin-top: 8px; max-width: 200px; line-height: 1.4; }
+    .donut {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: conic-gradient(var(--terracotta) 0 36%, #ece8e2 36% 100%);
+      -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #000 0);
+      mask: radial-gradient(farthest-side, transparent calc(100% - 10px), #000 0);
+    }
+
+    .inv-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .inv-row:last-child { border-bottom: none; }
+    .inv-ico { font-size: 20px; width: 28px; text-align: center; }
+    .inv-name { flex: 1; font-weight: 600; font-size: 14px; }
+    .inv-bar-wrap {
+      flex: 1.2;
+      height: 6px;
+      background: #ece8e2;
+      border-radius: 999px;
+      overflow: hidden;
+      max-width: 120px;
+    }
+    .inv-bar { height: 100%; border-radius: 999px; }
+    .inv-bar.terra { background: var(--terracotta); width: 72%; }
+    .inv-bar.sage { background: var(--sage); width: 45%; }
+    .inv-bar.gold { background: #d4a84b; width: 88%; }
+    .inv-val { font-size: 12px; color: var(--muted); font-weight: 500; white-space: nowrap; }
+
+    .cta-full {
+      width: 100%;
+      margin-top: 8px;
+      padding: 16px;
+      border-radius: 999px;
+      border: none;
+      background: var(--terracotta);
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(192, 94, 61, 0.28);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 18px 0 22px;
+    }
+    .tile {
+      border-radius: var(--radius);
+      padding: 16px;
+      min-height: 108px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 4px;
+    }
+    .tile.sage { background: var(--sage-bg); }
+    .tile.gold { background: var(--gold-bg); }
+    .tile .ico { font-size: 22px; margin-bottom: 8px; opacity: 0.85; }
+    .tile h3 { font-family: "Playfair Display", serif; font-size: 17px; font-weight: 700; }
+    .tile p { font-size: 12px; color: var(--muted); }
+
+    .link-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+    .link-row a {
+      color: var(--terracotta);
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .today-meal {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px;
+    }
+    .check {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--sage);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .today-meal .lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--gold-ink); }
+    .today-meal .name { font-family: "Playfair Display", serif; font-size: 17px; font-weight: 700; text-decoration: line-through; opacity: 0.75; }
+
+    .header-shop {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 18px;
+    }
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .hero-dark {
+      background: var(--ink);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-dark::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: 50%;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(192, 94, 61, 0.15);
+      transform: translateY(-50%);
+    }
+    .hero-dark .eyebrow { color: #c4a994; }
+    .hero-dark .price {
+      font-family: "Playfair Display", serif;
+      font-size: 36px;
+      font-weight: 700;
+      margin: 8px 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-dark .sub { font-size: 13px; color: #c4a994; line-height: 1.4; position: relative; z-index: 1; }
+    .hero-progress {
+      height: 6px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 999px;
+      margin: 18px 0 10px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-progress > span {
+      display: block;
+      height: 100%;
+      width: 28%;
+      background: var(--terracotta);
+      border-radius: 999px;
+    }
+    .hero-foot { font-size: 12px; color: #c4a994; position: relative; z-index: 1; }
+
+    .cat-header {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+    .cat-header.green { background: var(--sage-bg); }
+    .cat-header.rose { background: #f5e4e4; }
+    .cat-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .cat-badge.g { background: #fff; color: var(--sage); }
+    .cat-badge.r { background: #fff; color: #b85c5c; }
+    .cat-info { flex: 1; }
+    .cat-info strong { font-family: "Playfair Display", serif; font-size: 17px; display: block; }
+    .cat-info span { font-size: 12px; color: var(--muted); }
+
+    .grocery-list { margin-bottom: 20px; }
+    .g-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 4px;
+      border-bottom: 1px solid var(--line);
+    }
+    .g-item:last-child { border-bottom: none; }
+    .g-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .g-check.on {
+      background: var(--sage);
+      border-color: var(--sage);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 12px;
+    }
+    .g-mid { flex: 1; min-width: 0; }
+    .g-name { font-family: "Playfair Display", serif; font-weight: 700; font-size: 16px; }
+    .g-name.done { text-decoration: line-through; opacity: 0.55; }
+    .g-note { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.35; }
+    .g-note em { font-style: italic; }
+    .g-price { font-weight: 600; font-size: 14px; white-space: nowrap; }
+
+    .prep-hero {
+      background: linear-gradient(145deg, #d4a84b 0%, #c4923d 100%);
+      color: #fff;
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 32px rgba(196, 146, 61, 0.35);
+    }
+    .prep-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 18px;
+      position: relative;
+    }
+    .prep-split::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 8px;
+      bottom: 8px;
+      width: 1px;
+      background: rgba(255,255,255,0.35);
+      transform: translateX(-50%);
+    }
+    .prep-hero .lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; opacity: 0.9; }
+    .prep-hero .val {
+      font-family: "Playfair Display", serif;
+      font-size: 32px;
+      font-weight: 700;
+      margin: 6px 0 4px;
+    }
+    .prep-hero .small { font-size: 13px; opacity: 0.92; }
+    .prep-bar-foot {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      opacity: 0.9;
+      margin-bottom: 8px;
+    }
+    .prep-bar {
+      height: 8px;
+      background: rgba(46, 30, 30, 0.35);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .prep-bar > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: rgba(255,255,255,0.45);
+      border-radius: 999px;
+    }
+
+    .ing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .ing-card {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      box-shadow: var(--shadow-sm);
+    }
+    .ing-ico {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .ing-ico.pink { background: #fce4ec; }
+    .ing-ico.yellow { background: #fff8e1; }
+    .ing-ico.mint { background: var(--sage-bg); }
+    .ing-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--muted); }
+    .ing-val { font-family: "Playfair Display", serif; font-size: 18px; font-weight: 700; margin: 4px 0; }
+    .ing-foot { font-size: 11px; color: var(--muted); line-height: 1.35; }
+
+    .section-head-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .badge-smart {
+      font-size: 11px;
+      font-weight: 600;
+      color: #c07030;
+      background: rgba(224, 150, 80, 0.2);
+      padding: 6px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .task-card {
+      display: grid;
+      grid-template-columns: 52px 28px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+    .task-time { font-size: 12px; color: var(--muted); line-height: 1.3; }
+    .task-time strong { display: block; color: var(--ink); font-weight: 700; }
+    .task-cb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #c8c0ba;
+      margin-top: 4px;
+    }
+    .task-title { font-family: "Playfair Display", serif; font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+    .task-sub { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+    .bottom-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(249, 245, 240, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--line);
+      padding: 8px 12px calc(10px + var(--safe-b));
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+    }
+    .nav-item {
+      flex: 1;
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 6px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      font-family: inherit;
+    }
+    .nav-item .ic { font-size: 22px; line-height: 1; opacity: 0.85; }
+    .nav-item.is-active { color: var(--terracotta); }
+    .nav-item.is-active .ic { opacity: 1; }
+
+    .home-indicator {
+      position: absolute;
+      bottom: calc(6px + var(--safe-b));
+      left: 50%;
+      transform: translateX(-50%);
+      width: 128px;
+      height: 4px;
+      background: rgba(46, 30, 30, 0.12);
+      border-radius: 999px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="device" id="app">
+    <div class="status-bar">
+      <span>9:41</span>
+      <span class="icons">●●●●○ 📶 🔋</span>
+    </div>
+
+    <div class="screen">
+      <!-- Rencana -->
+      <div class="screen-panel" data-panel="plan" hidden>
+        <div class="row-title">
+          <div>
+            <p class="eyebrow">20 — 26 April</p>
+            <h1>Rencana minggu</h1>
+          </div>
+          <button type="button" class="fab" aria-label="Tambah">+</button>
+        </div>
+
+        <div class="card notice-card">
+          <div class="notice-icon-wrap">
+            <div class="notice-icon" aria-hidden="true">🌿</div>
+            <span class="notice-badge">3</span>
+          </div>
+          <div>
+            <p class="notice-title">Protein sudah cukup 💪</p>
+            <p class="notice-sub">3 hal bisa diperbaiki · ketuk untuk detail</p>
+          </div>
+          <span class="chev" aria-hidden="true">⌄</span>
+        </div>
+
+        <div class="day-strip" role="tablist" aria-label="Pilih hari">
+          <button type="button" class="day-pill is-on" aria-selected="true"><span class="dow">Sen</span><span class="num">20</span><span class="dot"></span></button>
+          <button type="button" class="day-pill"><span class="dow">Sel</span><span class="num">21</span><span class="dot"></span></button>
+          <button type="button" class="day-pill"><span class="dow">Rab</span><span class="num">22</span><span class="dot"></span></button>
+          <button type="button" class="day-pill"><span class="dow">Kam</span><span class="num">23</span><span class="dot"></span></button>
+          <button type="button" class="day-pill"><span class="dow">Jum</span><span class="num">24</span><span class="dot"></span></button>
+          <button type="button" class="day-pill"><span class="dow">Sab</span><span class="num">25</span><span class="dot"></span></button>
+          <button type="button" class="day-pill"><span class="dow">Min</span><span class="num">26</span><span class="dot"></span></button>
+        </div>
+
+        <h2 class="section-label">Senin</h2>
+
+        <div class="meal-block">
+          <div class="meal-head"><span class="dot orange"></span> Sarapan · 1</div>
+          <div class="card meal-card">
+            <div class="meal-ico" aria-hidden="true">🥤</div>
+            <div class="meal-body">
+              <p class="meal-title">Healthy shake</p>
+              <p class="meal-desc">200g putih telur · 50g oat · 150g alpukat · 1 scoop whey</p>
+              <div class="meal-meta">
+                <span class="pill fresh">🌿 segar</span>
+                <span class="kcal">520 kkal · 42g protein</span>
+              </div>
+            </div>
+            <div class="meal-actions">
+              <button type="button" class="mini-btn m" aria-label="Menu M">M</button>
+              <button type="button" class="mini-btn a" aria-label="Menu A">A</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="meal-block">
+          <div class="meal-head"><span class="dot green"></span> Makan siang · 1</div>
+          <div class="card meal-card">
+            <div class="meal-ico" aria-hidden="true">🍗</div>
+            <div class="meal-body">
+              <p class="meal-title">Ayam + jagung + buncis</p>
+              <p class="meal-desc">Dada ayam panggang · jagung manis · buncis rebus · nasi merah</p>
+              <div class="meal-meta">
+                <span class="pill prep">⏱ prep</span>
+                <span class="kcal">380 kkal · 38g protein</span>
+              </div>
+            </div>
+            <div class="meal-actions">
+              <button type="button" class="mini-btn m" aria-label="Menu M">M</button>
+              <button type="button" class="mini-btn a" aria-label="Menu A">A</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="meal-block">
+          <div class="meal-head"><span class="dot terra"></span> Snack · 3</div>
+          <div class="card meal-card">
+            <div class="meal-ico" aria-hidden="true">🍌</div>
+            <div class="meal-body">
+              <p class="meal-title">Pisang</p>
+              <p class="meal-desc">150g</p>
+              <div class="meal-meta">
+                <span class="pill fresh">🌿 segar</span>
+                <span class="kcal">135 kkal · 2g protein</span>
+              </div>
+            </div>
+            <div class="meal-actions">
+              <button type="button" class="mini-btn m" aria-label="Menu M">M</button>
+              <button type="button" class="mini-btn a" aria-label="Menu A">A</button>
+            </div>
+          </div>
+          <div class="card meal-card">
+            <div class="meal-ico" aria-hidden="true">🍠</div>
+            <div class="meal-body">
+              <p class="meal-title">Ubi rebus</p>
+              <p class="meal-desc">300g</p>
+              <div class="meal-meta">
+                <span class="pill prep">⏱ prep</span>
+                <span class="kcal">258 kkal · 3g protein</span>
+              </div>
+            </div>
+            <div class="meal-actions">
+              <button type="button" class="mini-btn m" aria-label="Menu M">M</button>
+              <button type="button" class="mini-btn a" aria-label="Menu A">A</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hari ini -->
+      <div class="screen-panel is-active" data-panel="today">
+        <p class="eyebrow">Kamis · 23 April</p>
+        <h1 style="margin-bottom: 18px;">Stok meal prep</h1>
+
+        <div class="card" style="margin-bottom: 0;">
+          <div class="banner-warn"><span aria-hidden="true">⚠️</span> Ayam panggang tinggal 4 porsi — habis besok</div>
+          <p class="eyebrow" style="margin-bottom: 8px;">Tersisa dari prep minggu</p>
+          <div class="stat-row">
+            <div>
+              <div class="stat-big">36%</div>
+              <p class="stat-sub">64% sudah dimakan · hari ke-4 dari 7</p>
+            </div>
+            <div class="donut" aria-hidden="true"></div>
+          </div>
+
+          <div class="inv-row">
+            <span class="inv-ico" aria-hidden="true">🍖</span>
+            <span class="inv-name">Ayam panggang</span>
+            <span class="inv-bar-wrap"><span class="inv-bar terra"></span></span>
+            <span class="inv-val">600g · 4 porsi</span>
+          </div>
+          <div class="inv-row">
+            <span class="inv-ico" aria-hidden="true">🥬</span>
+            <span class="inv-name">Buncis rebus</span>
+            <span class="inv-bar-wrap"><span class="inv-bar sage"></span></span>
+            <span class="inv-val">200g · 2 porsi</span>
+          </div>
+          <div class="inv-row">
+            <span class="inv-ico" aria-hidden="true">🌽</span>
+            <span class="inv-name">Jagung</span>
+            <span class="inv-bar-wrap"><span class="inv-bar gold"></span></span>
+            <span class="inv-val">3 tongkol</span>
+          </div>
+
+          <button type="button" class="cta-full">Jadwalkan prep lebih awal ›</button>
+        </div>
+
+        <div class="grid-2">
+          <div class="tile sage">
+            <span class="ico" aria-hidden="true">🛒</span>
+            <h3>9 item belanjaan</h3>
+            <p>Rp711.000</p>
+          </div>
+          <div class="tile gold">
+            <span class="ico" aria-hidden="true">🍞</span>
+            <h3>Min 14:00</h3>
+            <p>3 hari · 2j 30m · 10 tugas</p>
+          </div>
+        </div>
+
+        <div class="link-row">
+          <h2 class="font-serif" style="font-size: 22px;">Makan hari ini</h2>
+          <a href="#">Minggu →</a>
+        </div>
+        <div class="card today-meal">
+          <div class="check" aria-hidden="true">✓</div>
+          <div>
+            <p class="lbl">Sarapan</p>
+            <p class="name">Healthy shake</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Belanja -->
+      <div class="screen-panel" data-panel="shop" hidden>
+        <div class="header-shop">
+          <div>
+            <p class="eyebrow">Belanja mingguan</p>
+            <h1>Grocery</h1>
+          </div>
+          <button type="button" class="icon-btn" aria-label="Filter">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16l-6.5 7.5v5.5L10 20v-7.5L4 5z"/></svg>
+          </button>
+        </div>
+
+        <div class="hero-dark">
+          <p class="eyebrow">Perkiraan total</p>
+          <p class="price">Rp540.000</p>
+          <p class="sub">7 item belanja · 4 sudah ada di dapur</p>
+          <div class="hero-progress"><span></span></div>
+          <p class="hero-foot">2 dari 9 sudah masuk keranjang</p>
+        </div>
+
+        <button type="button" class="cat-header green">
+          <span class="cat-badge g">🌿</span>
+          <div class="cat-info">
+            <strong>Sayur &amp; buah</strong>
+            <span>2/6 · Rp140.000</span>
+          </div>
+          <span class="chev">⌃</span>
+        </button>
+        <div class="grocery-list card" style="padding: 0 16px; margin-top: 0;">
+          <div class="g-item">
+            <div class="g-check on">✓</div>
+            <div class="g-mid">
+              <p class="g-name">Alpukat</p>
+              <p class="g-note">5 buah (~1,2kg)</p>
+            </div>
+            <span class="g-price">Rp84.000</span>
+          </div>
+          <div class="g-item">
+            <div class="g-check on">✓</div>
+            <div class="g-mid">
+              <p class="g-name done">Pisang</p>
+              <p class="g-note">14 buah (~2,1kg)</p>
+            </div>
+            <span class="g-price">Rp28.000</span>
+          </div>
+          <div class="g-item">
+            <div class="g-check"></div>
+            <div class="g-mid">
+              <p class="g-name">Pepaya</p>
+              <p class="g-note">1 buah besar</p>
+            </div>
+            <span class="g-price">Rp18.000</span>
+          </div>
+          <div class="g-item">
+            <div class="g-check"></div>
+            <div class="g-mid">
+              <p class="g-name">Ubi madu</p>
+              <p class="g-note">2kg · <em>untuk shake harian</em></p>
+            </div>
+            <span class="g-price">Rp24.000</span>
+          </div>
+          <div class="g-item">
+            <div class="g-check"></div>
+            <div class="g-mid">
+              <p class="g-name">Jagung manis</p>
+              <p class="g-note">6 tongkol</p>
+            </div>
+            <span class="g-price">Rp30.000</span>
+          </div>
+          <div class="g-item">
+            <div class="g-check"></div>
+            <div class="g-mid">
+              <p class="g-name">Buncis</p>
+              <p class="g-note">500g</p>
+            </div>
+            <span class="g-price">Rp12.000</span>
+          </div>
+        </div>
+
+        <button type="button" class="cat-header rose" style="margin-top: 16px;">
+          <span class="cat-badge r">◎</span>
+          <div class="cat-info">
+            <strong>Protein</strong>
+            <span>0/2 · Rp392.000</span>
+          </div>
+          <span class="chev">⌃</span>
+        </button>
+      </div>
+
+      <!-- Prep -->
+      <div class="screen-panel" data-panel="prep" hidden>
+        <p class="eyebrow">Minggu · 26 April · 14:00</p>
+        <h1 style="margin-bottom: 18px;">Prep hari Minggu</h1>
+
+        <div class="prep-hero">
+          <div class="prep-split">
+            <div>
+              <p class="lbl">Total waktu</p>
+              <p class="val">2j 30m</p>
+              <p class="small">14:00 – 16:30</p>
+            </div>
+            <div>
+              <p class="lbl">Hasil</p>
+              <p class="val">14</p>
+              <p class="small">porsi makan · 7 hari</p>
+            </div>
+          </div>
+          <div class="prep-bar-foot">
+            <span>0% selesai</span>
+            <span>0/150 mnt</span>
+          </div>
+          <div class="prep-bar"><span></span></div>
+        </div>
+
+        <div style="margin-bottom: 8px;">
+          <h2 class="font-serif" style="font-size: 22px;">Bahan utama</h2>
+          <p class="eyebrow" style="margin-top: 4px; letter-spacing: 0.06em;">7 hari · 2 orang</p>
+        </div>
+        <div class="ing-grid">
+          <div class="ing-card">
+            <div class="ing-ico pink" aria-hidden="true">🍗</div>
+            <p class="ing-label">Dada ayam</p>
+            <p class="ing-val">5,6 kg</p>
+            <p class="ing-foot">→ 2,1kg matang (susut 25%)</p>
+          </div>
+          <div class="ing-card">
+            <div class="ing-ico yellow" aria-hidden="true">🥚</div>
+            <p class="ing-label">Putih telur</p>
+            <p class="ing-val">2,8 L</p>
+            <p class="ing-foot">~56 butir · untuk shake</p>
+          </div>
+          <div class="ing-card">
+            <div class="ing-ico mint" aria-hidden="true">🥬</div>
+            <p class="ing-label">Sayur campur</p>
+            <p class="ing-val">1,8 kg</p>
+            <p class="ing-foot">Buncis, bayam, brokoli</p>
+          </div>
+          <div class="ing-card">
+            <div class="ing-ico yellow" aria-hidden="true">🍠</div>
+            <p class="ing-label">Ubi madu</p>
+            <p class="ing-val">3,2 kg</p>
+            <p class="ing-foot">Rebus &amp; kukus</p>
+          </div>
+        </div>
+
+        <div class="section-head-flex" style="margin-top: 24px;">
+          <h2 class="font-serif" style="font-size: 22px;">Urutan masak</h2>
+          <span class="badge-smart">⏱ paralel · pintar</span>
+        </div>
+        <div class="card task-card">
+          <div class="task-time"><strong>14:00</strong>15 mnt</div>
+          <div class="task-cb" role="checkbox" aria-checked="false"></div>
+          <div>
+            <p class="task-title">Siapkan bahan</p>
+            <p class="task-sub">Cuci ayam, sayur, ubi · timbang porsi</p>
+          </div>
+        </div>
+        <div class="card task-card">
+          <div class="task-time"><strong>14:15</strong>40 mnt</div>
+          <div class="task-cb" role="checkbox" aria-checked="false"></div>
+          <div>
+            <p class="task-title">Rebus ubi madu</p>
+            <p class="task-sub">Air mendidih · api sedang</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Utama">
+      <button type="button" class="nav-item is-active" data-tab="today" aria-current="page">
+        <span class="ic" aria-hidden="true">☀️</span>
+        Hari ini
+      </button>
+      <button type="button" class="nav-item" data-tab="plan">
+        <span class="ic" aria-hidden="true">📅</span>
+        Rencana
+      </button>
+      <button type="button" class="nav-item" data-tab="shop">
+        <span class="ic" aria-hidden="true">🛒</span>
+        Belanja
+      </button>
+      <button type="button" class="nav-item" data-tab="prep">
+        <span class="ic" aria-hidden="true">🍞</span>
+        Prep
+      </button>
+    </nav>
+    <div class="home-indicator" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll('.nav-item[data-tab]');
+      var panels = document.querySelectorAll('.screen-panel[data-panel]');
+
+      function show(id) {
+        panels.forEach(function (p) {
+          var on = p.getAttribute('data-panel') === id;
+          p.classList.toggle('is-active', on);
+          p.hidden = !on;
+        });
+        tabs.forEach(function (t) {
+          var on = t.getAttribute('data-tab') === id;
+          t.classList.toggle('is-active', on);
+          if (on) t.setAttribute('aria-current', 'page');
+          else t.removeAttribute('aria-current');
+        });
+      }
+
+      tabs.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('data-tab'));
+        });
+      });
+
+      document.querySelectorAll('.day-pill').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          document.querySelectorAll('.day-pill').forEach(function (p) {
+            p.classList.remove('is-on');
+            p.setAttribute('aria-selected', 'false');
+          });
+          pill.classList.add('is-on');
+          pill.setAttribute('aria-selected', 'true');
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
