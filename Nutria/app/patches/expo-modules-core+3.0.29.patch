@@ -1,0 +1,33 @@
+diff --git a/node_modules/expo-modules-core/android/build.gradle b/node_modules/expo-modules-core/android/build.gradle
+index 61ed6d6..35027f1 100644
+--- a/node_modules/expo-modules-core/android/build.gradle
++++ b/node_modules/expo-modules-core/android/build.gradle
+@@ -269,14 +269,25 @@ def generatePCHTask = tasks.register("generatePCH") {
+           continue
+         }
+ 
+-        def tokenizer = new org.apache.commons.text.StringTokenizer(commandObj.command, " ")
+-        def tokens = tokenizer.tokenList
++        // compile_commands may use "arguments" (array) or "command" (single string).
++        // Splitting "command" on spaces breaks when paths contain spaces (e.g. project dir "Alvin Cursor").
++        def execArgs
++        if (commandObj.arguments != null) {
++          execArgs = commandObj.arguments as List
++        } else if (commandObj.command != null) {
++          def os = System.getProperty("os.name", "").toLowerCase(java.util.Locale.US)
++          execArgs = os.contains("windows")
++            ? ["cmd", "/c", commandObj.command]
++            : ["sh", "-c", commandObj.command]
++        } else {
++          continue
++        }
+ 
+         def workingDirFile = new File(commandObj.directory)
+   
+         providers.exec {
+           workingDir(providers.provider { workingDirFile }.get())
+-          commandLine(tokens)
++          commandLine(execArgs)
+         }.getResult().get().assertNormalExitValue()
+       }
+     }
