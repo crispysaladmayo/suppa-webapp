@@ -104,9 +104,8 @@ export function HariIni() {
     const row = crit ?? low;
     if (!row) return null;
     const name = String((row.prepItem as { name?: string }).name ?? 'Item');
-    if (crit)
-      return `⚠️ Waduh, stok ${name} tinggal dikit banget — sempetin restock atau prep ulang ya, Bun.`;
-    return `⚠️ ${name} mulai menipis — kayanya masih cukup beberapa hari lagi kalau dipakai hemat.`;
+    if (crit) return `⚠️ Stok ${name} kritis — restock atau prep ulang.`;
+    return `⚠️ Stok ${name} menipis — kira-kira 2–3 hari kalau porsi dijaga.`;
   }, [summary]);
 
   const activeSession = useMemo(
@@ -175,8 +174,7 @@ export function HariIni() {
       <p className="eyebrow">{headerDayMonth()}</p>
       <h1 className="screen-title hari-ini-hero-title">Stok meal prep</h1>
       <p className="hari-ini-hero-sub">
-        Di sini kelihatan stok prep, menu hari ini, sama yang masih harus dibelanjain — tanpa bolak-balik tab,
-        biar tenang sebentar.
+        Stok prep, menu hari ini, sisa belanja — satu layar, tanpa bolak-balik tab.
       </p>
 
       {alertLine ? (
@@ -208,7 +206,7 @@ export function HariIni() {
         </p>
         {summary.prep.items.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', margin: '8px 0 0' }}>
-            Belum ada batch prep yang kita catat minggu ini — santai, bisa mulai dari tab Prep kalau mau.
+            Belum ada batch prep minggu ini — mulai dari tab Prep kapan sempat.
           </p>
         ) : (
           <div style={{ display: 'flex', gap: 20, alignItems: 'center', marginTop: 8 }}>
@@ -325,10 +323,11 @@ export function HariIni() {
               Minggu depan mau dimasak apa?
             </h3>
             <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.5 }}>
-              Minggu barunya mulai <strong>{nextWeekStart}</strong>. Kamu bisa nyalin menu dari minggu ini (
-              {weekStart}) biar gak mulai dari nol, atau kosongin dulu terus isi pelan-pelan di tab Rencana.
-              Nanti kalau menunya udah pakai resep Nutria, tinggal finalisasi di Rencana biar list belanja
-              keisi sendiri.
+              Minggu baru mulai <strong>{nextWeekStart}</strong> (dari {weekStart}).
+            </p>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.5, marginBottom: 0 }}>
+              Pilih: salin menu minggu ini ke Rencana, atau list kosong lalu isi di sana. Pakai resep Nutria
+              lalu finalisasi — list belanja terisi.
             </p>
             <label
               style={{
@@ -345,7 +344,7 @@ export function HariIni() {
                 onChange={(ev) => setReplaceNextWeek(ev.target.checked)}
               />
               <span>
-                Kalau minggu depan udah ada isinya, ganti semua dengan salinan dari minggu ini
+                Kalau minggu depan sudah keisi, timpa dengan salinan minggu ini
               </span>
             </label>
             <div style={{ display: 'grid', gap: 10, marginTop: 18 }}>
@@ -465,7 +464,7 @@ export function HariIni() {
             />
             {error ? <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div> : null}
             <button className="btn-primary" type="submit" disabled={busy}>
-              Simpan
+              Catat habis
             </button>
           </form>
         )}

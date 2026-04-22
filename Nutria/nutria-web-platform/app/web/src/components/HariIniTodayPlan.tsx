@@ -78,8 +78,7 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
         <div className="today-plan-empty">
           <p className="today-plan-empty-title">Hari ini belum ada menu yang dicatat</p>
           <p className="today-plan-empty-body">
-            Tenang, isi sarapan–makan siang–makan malam di Rencana — biar suami atau ART ikut lihat jadwalnya
-            tanpa harus nanya berkali-kali.
+            Isi makanan di Rencana — anggota rumah lihat jadwal tanpa tanya ulang.
           </p>
           <button type="button" className="btn-primary today-plan-empty-cta" onClick={onEditInPlanner}>
             Yuk ke Rencana

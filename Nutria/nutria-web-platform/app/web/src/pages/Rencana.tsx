@@ -152,7 +152,7 @@ export function Rencana() {
       return {
         badge: 0,
         title: 'Udah siap jadi list belanja',
-        sub: 'Semua menu udah ada makro & resepnya — tinggal finalisasi di bawah, Bun',
+        sub: 'Semua menu punya makro & resep — finalisasi di bawah saja',
       };
     }
     if (noMacro === 0) {
@@ -232,8 +232,7 @@ export function Rencana() {
         </button>
       </div>
       <p className="tab-hero-lede">
-        Pilih harinya, tambah menu, sambil nempelin resep kalau perlu — satu alur buat seminggu penuh, biar
-        gak pusing bolak-balik.
+        Pilih hari, tambah menu, tempel resep bila perlu — satu alur per minggu.
       </p>
 
       {loadError ? (
@@ -267,14 +266,14 @@ export function Rencana() {
 
       <h2 className="tab-day-heading">{dayFullName(dayIndex)}</h2>
       <p className="tab-day-sub">
-        Ini menu buat hari yang kamu pilih · waktu makan bisa diganti pas nambah menu di form bawah
+        Menu hari pilihanmu. Slot makan diubah lewat form di bawah.
       </p>
 
       {groupedSlots.length === 0 ? (
         <div className="hifi-card" style={{ marginTop: 10, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
             title={`${dayFullName(dayIndex)} masih kosong nih`}
-            body="Yuk mulai dari form di bawah — sarapan, makan siang, atau camilan bisa kamu pilih dulu sebelum simpan."
+            body="Mulai dari form di bawah: pilih slot, simpan."
             illustration={<IllustrationEmptyPlate />}
             ctaLabel="Isi menu yuk"
             onCta={scrollToForm}

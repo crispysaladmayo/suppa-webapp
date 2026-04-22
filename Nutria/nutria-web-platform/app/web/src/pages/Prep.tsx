@@ -159,8 +159,7 @@ export function Prep() {
       </p>
       <h1 className="screen-title">Prep hari {dow}</h1>
       <p className="tab-hero-lede">
-        Satu sesi buat mass prep kamu: tulis berat mentah & susutnya, terus urutin langkah masak biar tenang.
-        Perkiraan porsi dari total kg bahan ya (bukan timbangan pasti di dapur).
+        Satu sesi: berat mentah, susut, urutan masak. Porsi estimasi dari total kg (bukan timbangan pasti).
       </p>
 
       {error ? (
@@ -183,7 +182,7 @@ export function Prep() {
         <div className="hifi-card tab-module-form" style={{ marginTop: 14, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
             title="Belum ada sesi prep yang jalan"
-            body="Mulai satu sesi aja — catat bahan, susut, sama urutan masak biar minggu ini lebih rapi dan gak lupa langkah."
+            body="Satu sesi: catat bahan, susut, urutan — nanti gampang dilacak"
             illustration={<IllustrationEmptyPlate />}
           />
           <div style={{ padding: '0 18px 18px' }}>

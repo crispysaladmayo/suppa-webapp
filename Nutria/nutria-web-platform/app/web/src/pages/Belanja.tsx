@@ -219,8 +219,7 @@ export function Belanja() {
         </button>
       </div>
       <p className="tab-hero-lede">
-        Satu list buat pasar: centang pas barangnya udah masuk keranjang — biar total di atas cuma hitung
-        yang belum. Mau ubah? tinggal ketuk barisnya.
+        Centang saat barang sudah di keranjang. Total hanya baris yang belum. Ketuk baris untuk ubah.
       </p>
 
       {listError ? (
@@ -265,6 +264,9 @@ export function Belanja() {
         <p style={{ margin: '10px 0 0', fontSize: '0.8rem', color: 'var(--grocery-hero-muted)' }}>
           {checkedCount} dari {totalCount || 1} udah dicentang masuk keranjang
         </p>
+        <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: 'var(--grocery-hero-muted)', lineHeight: 1.4 }}>
+          Perkiraan dari harga per baris (bukan struk toko beneran).
+        </p>
       </div>
 
       <p className="belanja-section-kicker">Dikelompokin per kategori</p>
@@ -273,7 +275,7 @@ export function Belanja() {
         <div className="hifi-card belanja-empty-wrap" style={{ marginTop: 0, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
             title="List belanjanya masih kosong nih"
-            body="Isi manual di bawah, atau lengkapin Rencana pakai resep Nutria terus finalisasi — nanti listnya bisa keisi sendiri."
+            body="Isi di bawah, atau rencanakan di Rencana + resep → finalisasi, list jalan sendiri."
             illustration={<IllustrationEmptyCart />}
             ctaLabel="Tambah barang dulu"
             onCta={scrollToAdd}

@@ -47,10 +47,19 @@ export function RencanaInsightCard({ insight, insightOpen, setInsightOpen }: Pro
           {insight.sub}
         </p>
         {insightOpen ? (
-          <p style={{ margin: '10px 0 0', fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
-            Urutan yang enak dijalani: isi menu tiap hari → rapikan kalori & protein kalau sempat → tempel
-            resep biar belanja keisi sendiri → finalisasi pas udah kebayang minggunya.
-          </p>
+          <ul
+            style={{
+              margin: '10px 0 0',
+              paddingLeft: '1.1rem',
+              fontSize: '0.82rem',
+              color: 'var(--text-muted)',
+              lineHeight: 1.5,
+            }}
+          >
+            <li>Isi menu per hari</li>
+            <li>Lengkapi kalori & protein bila sempat</li>
+            <li>Tempel resep → finalisasi → list belanja</li>
+          </ul>
         ) : null}
       </div>
       <span style={{ color: 'var(--text-muted)', flexShrink: 0 }} aria-hidden>

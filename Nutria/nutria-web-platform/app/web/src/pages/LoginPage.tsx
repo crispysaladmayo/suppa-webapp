@@ -33,14 +33,13 @@ export function LoginPage() {
       <div className="login-mark">
         <NutriaMark />
       </div>
-      <p className="login-eyebrow">Hai, Bunda</p>
+      <p className="login-eyebrow">Hai</p>
       <div className="login-card">
         <h1 className="screen-title" style={{ fontSize: '1.92rem' }}>
           Nutria nemenin menu & belanja keluarga kamu
         </h1>
         <p className="login-lede" style={{ color: 'var(--text-muted)', marginTop: 10, marginBottom: 0 }}>
-          Stok prep, jadwal makan mingguan, sama list belanja — biar minggu ini lebih ringan, gak harus
-          ingat semuanya sendirian.
+          Stok prep, jadwal makan, list belanja — ringkas di satu tempat, bukan di kepala.
         </p>
         <div className="login-toggle">
           <button type="button" data-on={mode === 'login'} onClick={() => setMode('login')}>
@@ -90,8 +89,7 @@ export function LoginPage() {
           </button>
         </form>
         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 20, lineHeight: 1.45 }}>
-          Mode demo di laptop: jalankan seed backend, terus lihat contoh akunnya di README folder{' '}
-          <code style={{ fontSize: '0.9em' }}>nutria-web-platform</code>.
+          Demo: seed backend, lalu cek contoh akun di README <code style={{ fontSize: '0.9em' }}>nutria-web-platform</code>.
         </p>
       </div>
     </div>

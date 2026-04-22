@@ -12,7 +12,7 @@ type Props = {
 export function ConflictOrErrorBanner({ error, onRefresh, contextLabel }: Props) {
   if (!error) return null;
   const msg = error instanceof Error ? error.message : String(error);
-  let title = 'Waduh, ada yang nyangkut';
+  let title = 'Ada yang nyangkut';
   let body = msg;
   let variant: 'conflict' | 'auth' | 'default' = 'default';
 

@@ -15,8 +15,8 @@ export function RencanaFinalizeCard({ recipeBacked, finalizeBusy, error, onFinal
         Rapikan jadi list belanja
       </h3>
       <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.45 }}>
-        Nutria bakal gabungin bahan dari menu yang udah nempel resep, terus kirim perkiraannya ke tab Belanja.
-        List belanja lama dari rencana ini bakal diganti yang baru — jadi lebih rapi.
+        Gabungkan bahan dari menu ber-resep ke perkiraan di Belanja. List yang lama dari rencana ini
+        diganti yang baru.
       </p>
       {error ? (
         <p style={{ color: 'var(--danger)', fontSize: '0.88rem', marginTop: 10 }} role="alert">
@@ -34,8 +34,7 @@ export function RencanaFinalizeCard({ recipeBacked, finalizeBusy, error, onFinal
       </button>
       {recipeBacked === 0 ? (
         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.4 }}>
-          Tambah menu dulu dan sambungin ke resep Nutria ya — tanpa resep, bahannya susah dijumlahin otomatis
-          buat belanja.
+          Pakai resep Nutria dulu — tanpa resep, bahan tidak dijumlah otomatis.
         </p>
       ) : null}
     </div>
