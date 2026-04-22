@@ -40,3 +40,6 @@ This runs `expo export --platform web`, copies output into `docs/`, and refreshe
 |------|---------|
 | `app/` | Expo app source |
 | `docs/` | Static web export served by GitHub Pages |
+| `product/` | **Canonical product IA** — `SOURCE_OF_TRUTH.md` and `design-preview.html` (Hari ini · Rencana · Belanja · Prep). Prefer this over the legacy five-tab layout in `app/` when designing or implementing UI. |
+
+Open `product/design-preview.html` locally before UI work. Cursor loads `.cursor/rules/nutria-hifi-design.mdc` for `Nutria/**`.

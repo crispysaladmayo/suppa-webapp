@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nutria — pratinjau (referensi desain hi-fi)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Lora:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet" />
+  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
+  <style>
+    :root {
+      --bg: #faf8f3;
+      --surface: #fffcf7;
+      --text: #2c2419;
+      --text-muted: #7a7167;
+      --accent: #c45c3e;
+      --accent-soft: #e8a090;
+      --brown-dark: #3d2f26;
+      --brown-mid: #5c4a3d;
+      --gold-card: #c4a574;
+      --gold-deep: #9a7b4f;
+      --line: #ebe4d9;
+      --green-tag: #3d6b4a;
+      --prep-tag: #c9a227;
+      --shadow: 0 8px 28px rgba(44, 36, 25, 0.08);
+      --radius: 18px;
+      --radius-sm: 14px;
+      --font-serif: "Lora", Georgia, serif;
+      --font-sans: "DM Sans", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #e8e4dc;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      min-height: 100vh;
+      padding: 20px 12px 28px;
+    }
+
+    .page-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      max-width: 420px;
+      margin: 0 auto 14px;
+      line-height: 1.45;
+    }
+
+    .phone {
+      max-width: 390px;
+      margin: 0 auto;
+      background: var(--bg);
+      border-radius: 36px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14);
+      overflow: hidden;
+      min-height: 720px;
+      position: relative;
+      padding-bottom: 64px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .screen {
+      display: none;
+      padding: 0 18px 20px;
+      animation: fade 0.2s ease;
+    }
+
+    .screen.active { display: block; }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .label-caps {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .title-xl {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.75rem;
+      line-height: 1.15;
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+
+    .title-lg {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.45rem;
+      margin: 0 0 12px;
+    }
+
+    .row-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: var(--shadow);
+    }
+
+    .icon-btn.ghost {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .alert-soft {
+      background: rgba(196, 92, 62, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: var(--brown-mid);
+      margin-bottom: 16px;
+    }
+
+    .donut-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    .donut {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: conic-gradient(var(--accent) 0 36%, var(--line) 36% 100%);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .donut::after {
+      content: "";
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: var(--surface);
+    }
+
+    .donut-label {
+      position: absolute;
+      margin-left: 114px;
+      margin-top: -96px;
+      width: 200px;
+    }
+
+    .pct-big {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 2.1rem;
+      line-height: 1;
+    }
+
+    .pct-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.35;
+    }
+
+    .stock-item {
+      background: var(--surface);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      border: 1px solid var(--line);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .stock-item strong {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+
+    .bar {
+      height: 6px;
+      border-radius: 99px;
+      background: var(--line);
+      overflow: hidden;
+    }
+
+    .bar > i {
+      display: block;
+      height: 100%;
+      border-radius: 99px;
+      background: var(--accent);
+    }
+
+    .bar.green > i { background: var(--green-tag); }
+
+    .stock-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .cta-orange {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 16px;
+      margin: 16px 0 18px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .mini-card {
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+    }
+
+    .mini-card.greenish {
+      background: #eef4ec;
+      border-color: #d5e5d5;
+    }
+
+    .mini-card.cream {
+      background: #fbf6e8;
+      border-color: #ebe1c8;
+    }
+
+    .mini-card h4 {
+      margin: 8px 0 4px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .mini-card p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .section-label {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin: 8px 0 10px;
+    }
+
+    .eat-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.9rem;
+    }
+
+    .eat-row:last-child { border-bottom: none; }
+
+    .check-on {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      background: var(--green-tag);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    /* Rencana */
+    .insight-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .leaf-badge {
+      position: relative;
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      min-width: 18px;
+      height: 18px;
+      border-radius: 99px;
+      display: grid;
+      place-items: center;
+      padding: 0 5px;
+    }
+
+    .week-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+
+    .week-strip::-webkit-scrollbar { display: none; }
+
+    .day-pill {
+      flex: 0 0 auto;
+      min-width: 52px;
+      padding: 10px 8px;
+      border-radius: 14px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .day-pill.on {
+      background: var(--brown-dark);
+      color: #fff;
+      border-color: var(--brown-dark);
+    }
+
+    .day-pill .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin: 6px auto 0;
+    }
+
+    .day-pill.on .dot { background: #fff; }
+
+    .meal-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .meal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .slot-label {
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .meal-title {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin: 0 0 6px;
+    }
+
+    .meal-ing {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-style: italic;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .meal-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .tag.fresh {
+      background: rgba(61, 107, 74, 0.15);
+      color: var(--green-tag);
+    }
+
+    .tag.prep {
+      background: rgba(201, 162, 39, 0.2);
+      color: #8a6b12;
+    }
+
+    .macros {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .avatars {
+      display: flex;
+      gap: -6px;
+    }
+
+    .av {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: #fff;
+      border: 2px solid var(--surface);
+      margin-left: -6px;
+    }
+
+    .av:first-child { margin-left: 0; }
+    .av.m { background: #7d3d4a; }
+    .av.a { background: var(--green-tag); }
+
+    /* Belanja */
+    .hero-dark {
+      background: linear-gradient(145deg, var(--brown-dark), #2a1f19);
+      color: #f5f0e8;
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-dark .k {
+      font-size: 0.75rem;
+      opacity: 0.85;
+      margin-bottom: 6px;
+    }
+
+    .hero-dark .sum {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero-dark .meta {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      line-height: 1.4;
+    }
+
+    .prog-line {
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.2);
+      margin-top: 14px;
+      overflow: hidden;
+    }
+
+    .prog-line > i {
+      display: block;
+      height: 100%;
+      width: 22%;
+      background: var(--accent-soft);
+      border-radius: 99px;
+    }
+
+    .cat {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .cat-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cat-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .cat-sum {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .g-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      align-items: flex-start;
+    }
+
+    .g-item:last-child { border-bottom: none; }
+
+    .chk {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .chk.on {
+      background: var(--accent);
+      position: relative;
+    }
+
+    .chk.on::after {
+      content: "✓";
+      color: #fff;
+      position: absolute;
+      left: 4px;
+      top: -1px;
+      font-size: 0.75rem;
+    }
+
+    .g-body strong {
+      display: block;
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+    }
+
+    .g-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .g-price {
+      margin-left: auto;
+      font-weight: 700;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    /* Prep */
+    .prep-hero {
+      background: linear-gradient(145deg, var(--gold-card), var(--gold-deep));
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .prep-hero .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      opacity: 0.95;
+    }
+
+    .prep-hero .grid strong {
+      display: block;
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
+    .prep-prog {
+      margin-top: 14px;
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .prep-prog i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: #fff;
+      border-radius: 99px;
+    }
+
+    .ing-list {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      padding: 4px 0;
+      margin-bottom: 16px;
+    }
+
+    .ing-row {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.9rem;
+    }
+
+    .ing-row:last-child { border-bottom: none; }
+
+    .ing-row strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .ing-row span {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .task {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: flex-start;
+    }
+
+    .task:last-child { border-bottom: none; }
+
+    .radio {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pill-sm {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 99px;
+      background: var(--line);
+      color: var(--brown-mid);
+      margin-bottom: 8px;
+    }
+
+    .tabbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 64px;
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 6px 8px 10px;
+    }
+
+    .tabbar button {
+      border: none;
+      background: none;
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      padding: 4px;
+    }
+
+    .tabbar button.on {
+      color: var(--accent);
+    }
+
+    .tabbar ion-icon {
+      font-size: 22px;
+    }
+  </style>
+</head>
+<body>
+  <p class="page-note">
+    Pratinjau HTML mengikuti <strong>referensi desain hi-fi</strong> Anda (4 tab: Hari ini · Rencana · Belanja · Prep, Bahasa Indonesia, kartu belanja gelap, strip minggu, prep bahan &amp; urutan). Versi sebelumnya mengikuti repo Expo lama (5 tab Inggris) — itu sebabnya tampilannya berbeda.
+  </p>
+
+  <div class="phone">
+    <div class="status-row">
+      <span>9:41</span>
+      <span style="letter-spacing:2px;">●●●</span>
+    </div>
+
+    <!-- Hari ini -->
+    <section class="screen active" data-screen="hari">
+      <p style="margin:0 0 4px;font-size:0.88rem;color:var(--text-muted);">Kamis, 23 April</p>
+      <h1 class="title-xl" style="margin-bottom:12px;">Stok meal prep</h1>
+
+      <div class="alert-soft">
+        <em>Ayam panggang tinggal 4 porsi — habis besok</em>
+      </div>
+
+      <div class="donut-row" style="position:relative;">
+        <div class="donut" aria-hidden="true"></div>
+        <div>
+          <div class="pct-big">36%</div>
+          <div class="pct-sub">64% sudah dimakan · hari ke-4 dari 7</div>
+        </div>
+      </div>
+
+      <div class="stock-item">
+        <strong>Ayam panggang</strong>
+        <div class="bar"><i style="width:35%"></i></div>
+        <div class="stock-meta">600g · 4 porsi</div>
+      </div>
+      <div class="stock-item">
+        <strong>Ubi rebus</strong>
+        <div class="bar green"><i style="width:88%"></i></div>
+        <div class="stock-meta">1.500g · 5 porsi</div>
+      </div>
+      <div class="stock-item">
+        <strong>Jagung + buncis</strong>
+        <div class="bar green"><i style="width:55%"></i></div>
+        <div class="stock-meta">700g · 4 porsi</div>
+      </div>
+      <div class="stock-item">
+        <strong>Putih telur</strong>
+        <div class="bar"><i style="width:48%"></i></div>
+        <div class="stock-meta">1.200g · 6 porsi</div>
+      </div>
+
+      <button type="button" class="cta-orange">Jadwalkan prep lebih awal ›</button>
+
+      <div class="grid-2">
+        <div class="mini-card greenish">
+          <ion-icon name="cart-outline" style="font-size:22px;color:var(--green-tag);"></ion-icon>
+          <h4>9 item belanjaan</h4>
+          <p>Rp711.000</p>
+        </div>
+        <div class="mini-card cream">
+          <ion-icon name="nutrition-outline" style="font-size:22px;color:var(--gold-deep);"></ion-icon>
+          <h4>Min 14:00</h4>
+          <p>3 hari · 10 tugas</p>
+        </div>
+      </div>
+
+      <div class="section-label">Makan hari ini</div>
+      <div class="meal-card" style="box-shadow:none;">
+        <div class="eat-row">
+          <span class="check-on">✓</span>
+          <div><strong>SARAPAN</strong> · Healthy shake</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rencana -->
+    <section class="screen" data-screen="rencana">
+      <p class="label-caps" style="margin-top:4px;">20 – 26 April</p>
+      <div class="row-head">
+        <h1 class="title-xl" style="margin:0;">Rencana minggu</h1>
+        <button type="button" class="icon-btn" aria-label="Tambah"><ion-icon name="add" style="font-size:26px;color:#fff;"></ion-icon></button>
+      </div>
+
+      <div class="insight-card">
+        <div class="leaf-badge" aria-hidden="true">🌿<span class="notif-dot">3</span></div>
+        <div>
+          <strong style="font-size:1rem;">Protein sudah cukup 💪</strong>
+          <p style="margin:6px 0 0;font-size:0.85rem;color:var(--text-muted);">3 hal bisa diperbaiki · ketuk untuk detail</p>
+        </div>
+        <ion-icon name="chevron-down-outline" style="font-size:20px;color:var(--text-muted);margin-left:auto;"></ion-icon>
+      </div>
+
+      <div class="week-strip">
+        <div class="day-pill on">SEN<br>20</div>
+        <div class="day-pill">SEL<br>21<div class="dot"></div></div>
+        <div class="day-pill">RAB<br>22<div class="dot"></div></div>
+        <div class="day-pill">KAM<br>23<div class="dot"></div></div>
+        <div class="day-pill">JUM<br>24<div class="dot"></div></div>
+        <div class="day-pill">SAB<br>25<div class="dot"></div></div>
+        <div class="day-pill">MIN<br>26<div class="dot"></div></div>
+      </div>
+
+      <h2 class="title-lg">Senin</h2>
+
+      <div class="meal-card">
+        <div class="slot-label">SARAPAN</div>
+        <div class="meal-head">
+          <div>
+            <h3 class="meal-title">Healthy shake 🥤</h3>
+            <p class="meal-ing">200g putih telur · 50g oat · 150g alpukat · 1 scoop whey</p>
+            <div class="meal-foot">
+              <div class="tags"><span class="tag fresh">segar</span></div>
+              <span class="macros">520 kkal · 42g protein</span>
+            </div>
+          </div>
+          <div class="avatars"><span class="av m">M</span><span class="av a">A</span></div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="slot-label">MAKAN SIANG</div>
+        <div class="meal-head">
+          <div>
+            <h3 class="meal-title">Ayam + jagung + buncis 🍗</h3>
+            <p class="meal-ing">150g ayam · 100g jagung · 50g buncis</p>
+            <div class="meal-foot">
+              <div class="tags"><span class="tag prep">prep</span></div>
+              <span class="macros">380 kkal · 38g protein</span>
+            </div>
+          </div>
+          <div class="avatars"><span class="av m">M</span><span class="av a">A</span></div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="slot-label">SNACK</div>
+        <div class="meal-head">
+          <div>
+            <h3 class="meal-title">Pisang 🍌</h3>
+            <p class="meal-ing">150g</p>
+            <div class="meal-foot">
+              <div class="tags"><span class="tag fresh">segar</span></div>
+              <span class="macros">135 kkal</span>
+            </div>
+          </div>
+          <div class="avatars"><span class="av m">M</span><span class="av a">A</span></div>
+        </div>
+      </div>
+
+      <div class="meal-card">
+        <div class="slot-label">SNACK</div>
+        <div class="meal-head">
+          <div>
+            <h3 class="meal-title">Ubi rebus 🍠</h3>
+            <p class="meal-ing">300g</p>
+            <div class="meal-foot">
+              <div class="tags"><span class="tag prep">prep</span></div>
+              <span class="macros">258 kkal</span>
+            </div>
+          </div>
+          <div class="avatars"><span class="av m">M</span><span class="av a">A</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Belanja -->
+    <section class="screen" data-screen="belanja">
+      <p class="label-caps">Belanja mingguan</p>
+      <div class="row-head">
+        <h1 class="title-xl" style="margin:0;">Grocery</h1>
+        <button type="button" class="icon-btn ghost" aria-label="Filter"><ion-icon name="options-outline" style="font-size:22px;"></ion-icon></button>
+      </div>
+
+      <div class="hero-dark">
+        <div class="k">Perkiraan total</div>
+        <div class="sum">Rp540.000</div>
+        <div class="meta">7 item belanja · 4 sudah ada di dapur</div>
+        <div class="prog-line"><i></i></div>
+        <div class="meta" style="margin-top:10px;font-size:0.78rem;">2 dari 9 sudah masuk keranjang</div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">
+          <div class="cat-title"><span aria-hidden="true">🥬</span> Sayur &amp; buah</div>
+          <div class="cat-sum">2/6 · Rp140.000</div>
+        </div>
+        <div class="g-item">
+          <div class="chk on"></div>
+          <div class="g-body">
+            <strong>Alpukat</strong>
+            <span class="g-note">14 buah (~2.1kg) · untuk shake harian</span>
+          </div>
+          <div class="g-price">Rp84.000</div>
+        </div>
+        <div class="g-item">
+          <div class="chk on"></div>
+          <div class="g-body">
+            <strong>Pisang</strong>
+            <span class="g-note">2,1 kg</span>
+          </div>
+          <div class="g-price">Rp42.000</div>
+        </div>
+        <div class="g-item">
+          <div class="chk"></div>
+          <div class="g-body">
+            <strong>Pepaya</strong>
+            <span class="g-note">2 buah (~2,8kg)</span>
+          </div>
+          <div class="g-price">Rp28.000</div>
+        </div>
+        <div class="g-item">
+          <div class="chk"></div>
+          <div class="g-body">
+            <strong>Ubi madu</strong>
+            <span class="g-note">4,2 kg · snack harian</span>
+          </div>
+          <div class="g-price">Rp63.000</div>
+        </div>
+        <div class="g-item">
+          <div class="chk"></div>
+          <div class="g-body">
+            <strong>Jagung manis</strong>
+            <span class="g-note">1,4 kg pipil</span>
+          </div>
+          <div class="g-price">Rp35.000</div>
+        </div>
+        <div class="g-item">
+          <div class="chk"></div>
+          <div class="g-body">
+            <strong>Buncis</strong>
+            <span class="g-note">700 g</span>
+          </div>
+          <div class="g-price">Rp14.000</div>
+        </div>
+      </div>
+
+      <div class="cat">
+        <div class="cat-head">
+          <div class="cat-title"><span aria-hidden="true">🥩</span> Protein</div>
+          <div class="cat-sum">0/2 · Rp392.000</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prep -->
+    <section class="screen" data-screen="prep">
+      <p class="label-caps">Minggu · 26 April · 14:00</p>
+      <h1 class="title-xl">Prep hari Minggu</h1>
+
+      <div class="prep-hero">
+        <div class="grid">
+          <div>
+            Total waktu
+            <strong>2j 30m</strong>
+            <span style="display:block;opacity:0.9;font-size:0.78rem;margin-top:4px;">14:00 – 16:30</span>
+          </div>
+          <div>
+            Hasil
+            <strong>14 porsi</strong>
+            <span style="display:block;opacity:0.9;font-size:0.78rem;margin-top:4px;">7 hari</span>
+          </div>
+        </div>
+        <div class="prep-prog"><i></i></div>
+        <div style="margin-top:8px;font-size:0.8rem;opacity:0.95;">0% selesai</div>
+      </div>
+
+      <h2 class="section-label">Bahan utama</h2>
+      <div class="ing-list">
+        <div class="ing-row">
+          <strong>Dada ayam</strong>
+          <span>5,6 kg → 2,1 kg matang (susut 25%)</span>
+        </div>
+        <div class="ing-row">
+          <strong>Putih telur</strong>
+          <span>2,8 kg (~56 butir) · untuk shake</span>
+        </div>
+        <div class="ing-row">
+          <strong>Ubi madu</strong>
+          <span>4,2 kg · 14 porsi 300g</span>
+        </div>
+        <div class="ing-row">
+          <strong>Jagung + buncis</strong>
+          <span>2,1 kg · 14 porsi sampingan</span>
+        </div>
+      </div>
+
+      <h2 class="section-label">Urutan masak</h2>
+      <div class="meal-card">
+        <span class="pill-sm">paralel · pintar</span>
+        <div class="task">
+          <div class="radio"></div>
+          <div>
+            <strong>14:00 · 15 menit</strong>
+            <p style="margin:6px 0 0;font-size:0.88rem;color:var(--text-muted);">Siapkan bahan — cuci ayam/sayur, timbang porsi.</p>
+          </div>
+        </div>
+        <div class="task">
+          <div class="radio"></div>
+          <div>
+            <strong>14:15</strong>
+            <p style="margin:6px 0 0;font-size:0.88rem;color:var(--text-muted);">Rebus ubi madu.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="tabbar" aria-label="Utama">
+      <button type="button" class="on" data-tab="hari"><ion-icon name="sunny"></ion-icon>Hari ini</button>
+      <button type="button" data-tab="rencana"><ion-icon name="calendar-outline"></ion-icon>Rencana</button>
+      <button type="button" data-tab="belanja"><ion-icon name="cart-outline"></ion-icon>Belanja</button>
+      <button type="button" data-tab="prep"><ion-icon name="restaurant-outline"></ion-icon>Prep</button>
+    </nav>
+  </div>
+
+  <script>
+    (function () {
+      var tabs = document.querySelectorAll(".tabbar [data-tab]");
+      var screens = document.querySelectorAll("[data-screen]");
+      tabs.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var id = btn.getAttribute("data-tab");
+          tabs.forEach(function (b) { b.classList.toggle("on", b === btn); });
+          screens.forEach(function (s) {
+            s.classList.toggle("active", s.getAttribute("data-screen") === id);
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

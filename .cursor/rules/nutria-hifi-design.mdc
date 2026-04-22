@@ -1,0 +1,26 @@
+---
+description: Nutria UI/IA must follow hi-fi 4-tab design, not legacy MainTabs alone
+globs: Nutria/**
+---
+
+# Nutria — canonical design
+
+When editing anything under `Nutria/`, **do not** treat the current five-tab navigator (Home · Planner · Grocery · Log · Settings) as the product source of truth for **layout, locale, or IA**.
+
+## Before UI work
+
+1. Read `Nutria/product/SOURCE_OF_TRUTH.md`.
+2. Open `Nutria/product/design-preview.html` in a browser (Hari ini · Rencana · Belanja · Prep).
+
+## Target experience
+
+- **Four primary tabs** (Indonesian labels in target UX): **Hari ini**, **Rencana**, **Belanja**, **Prep** — as modeled in the preview.
+- **Legacy app** under `Nutria/app/` is the **migration baseline**, not the design endpoint.
+
+## Specs
+
+Detailed behavior and household-accountability features: initiative docs at `~/Projects/nutria-household-angle/` (`DESIGN.md`, `SPEC.md`, `CHANGE_REQUESTS_SPEC.md`, `SOURCE_OF_TRUTH.md`) if present on disk. If absent, rely on `Nutria/product/` + this rule.
+
+## Conflict resolution
+
+If code and `design-preview.html` disagree on structure or copy **for new work**, align implementation toward the preview and file a follow-up for parity; do not expand legacy patterns without explicit user opt-in.
