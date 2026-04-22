@@ -9,8 +9,8 @@ When editing anything under `Nutria/`, **do not** treat the current five-tab nav
 
 ## Before UI work
 
-1. Read `Nutria/product/SOURCE_OF_TRUTH.md`.
-2. Open `Nutria/product/design-preview.html` in a browser (Hari ini · Rencana · Belanja · Prep).
+1. Read `Nutria/product/SOURCE_OF_TRUTH.md` (includes 2026 hi-fi screen structure: cream canvas, serif titles, dark grocery hero, gold prep card, week strip, insight card, meal tiles).
+2. Open `Nutria/product/design-preview.html` when updating HTML; **web implementation** target is `Nutria/nutria-web-platform/app/web/`.
 
 ## Target experience
 

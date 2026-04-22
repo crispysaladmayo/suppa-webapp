@@ -1,0 +1,15 @@
+{
+  "name": "nutria-web-platform",
+  "private": true,
+  "workspaces": ["app/server", "app/web"],
+  "scripts": {
+    "dev": "concurrently -n server,web -c blue,green \"npm run dev -w app/server\" \"npm run dev -w app/web\"",
+    "db:generate": "npm run db:generate -w app/server",
+    "db:migrate": "npm run db:migrate -w app/server",
+    "db:seed": "npm run db:seed -w app/server",
+    "test": "npm run test -w app/server && npm run test -w app/web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
