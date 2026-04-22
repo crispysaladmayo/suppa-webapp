@@ -55,8 +55,8 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
     <section className="today-plan-section" aria-labelledby="today-plan-heading">
       <div className="today-plan-header">
         <div>
-          <p className="eyebrow" id="today-plan-heading" style={{ letterSpacing: '0.08em' }}>
-            Menu hari ini
+          <p className="today-plan-kicker" id="today-plan-heading">
+            Menu keluarga
           </p>
           <p className="today-plan-lede">
             <span className="today-plan-lede-strong">{dayName}</span>

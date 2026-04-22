@@ -136,7 +136,7 @@ export function HariIni() {
     return (
       <div>
         <p className="eyebrow">{headerDayMonth()}</p>
-        <h2 className="screen-title">Stok meal prep</h2>
+        <h1 className="screen-title hari-ini-hero-title">Hari ini</h1>
         <p style={{ color: 'var(--text-muted)' }}>{error ?? 'Memuat…'}</p>
       </div>
     );
@@ -157,11 +157,8 @@ export function HariIni() {
   return (
     <div>
       <p className="eyebrow">{headerDayMonth()}</p>
-      <h2 className="screen-title">Stok meal prep</h2>
-      <p className="home-lede">
-        Menu hari ini di atas, stok prep di bawah — supaya keluarga tahu makan apa sebelum cek sisa
-        batch.
-      </p>
+      <h1 className="screen-title hari-ini-hero-title">Hari ini</h1>
+      <p className="hari-ini-hero-sub">Stok prep · menu keluarga · belanja — satu layar, urut prioritas.</p>
 
       {alertLine ? (
         <div
