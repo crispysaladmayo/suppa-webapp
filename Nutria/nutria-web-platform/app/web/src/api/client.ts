@@ -15,6 +15,11 @@ import {
   PrepSessionStepsResponse,
   SummaryResponse,
   UserSchema,
+  RecipesListResponse,
+  RecipeDetailResponse,
+  CloneWeekResponse,
+  GroceryFromPlanResponse,
+  RecipeCreateResponse,
 } from './schemas.js';
 
 async function parseJson(res: Response): Promise<unknown> {
@@ -102,6 +107,29 @@ export const api = {
     }),
   createMeal: (body: Record<string, unknown>) =>
     request('/api/v1/meals', z.record(z.string(), z.unknown()), {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  cloneWeekMeals: (body: { fromWeekStart: string; toWeekStart: string; replaceExisting?: boolean }) =>
+    request('/api/v1/meals/clone-week', CloneWeekResponse, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  recipeSearch: (q: string, limit = 12) =>
+    request(
+      `/api/v1/recipes?q=${encodeURIComponent(q)}&limit=${limit}`,
+      RecipesListResponse,
+      { method: 'GET' },
+    ),
+  recipeDetail: (id: string) =>
+    request(`/api/v1/recipes/${encodeURIComponent(id)}`, RecipeDetailResponse, { method: 'GET' }),
+  createRecipe: (body: Record<string, unknown>) =>
+    request('/api/v1/recipes', RecipeCreateResponse, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  groceryFromPlan: (body: { weekStart: string; replaceGenerated?: boolean }) =>
+    request('/api/v1/grocery/from-plan', GroceryFromPlanResponse, {
       method: 'POST',
       body: JSON.stringify(body),
     }),

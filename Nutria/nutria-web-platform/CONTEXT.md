@@ -25,6 +25,16 @@ Env (optional): `DATABASE_URL`, `SESSION_SECRET` (min 16 chars), `CORS_ORIGIN` (
 - **Login shows “Internal error” (or a DB error only in dev):** the API is running but PostgreSQL is not reachable, or migrations/seed were not applied. Check `http://localhost:3001/health/db` — if `database` is false, run `docker compose up -d` from this folder, then `cd app/server && npm run db:migrate && npm run db:seed`. Ensure `DATABASE_URL` matches Compose (default uses port **5433**).
 - **Commands must run from this directory:** `Nutria/nutria-web-platform` inside your repo (path may include a space, e.g. `Alvin Cursor` — quote the path when using `cd`).
 
+## UX revision (web)
+
+- **Hari ini:** Prep card shows week plan stats; primary actions are **Lihat detail rencana minggu** (tab Rencana + ringkasan) and **Susun prep minggu depan** (modal: salin menu minggu ini atau mulai kosong → tab Rencana dengan `sessionStorage` bootstrap).
+- **Rencana:** Resep Nutria (UGC global, unik per nama): pencarian saat mengetik judul, simpan bahan + makro sebagai resep baru, finalisasi **Finalisasi & buka Belanja** mengisi grocery dari agregasi bahan (`POST /api/v1/grocery/from-plan`, sumber `from_plan`). Clone minggu: `POST /api/v1/meals/clone-week`.
+- **Belanja:** “Tambah barang” uses `FormField`; edit per baris; baris dari rencana bertanda sumber `from_plan`.
+
+## DB migration `0001_recipe_and_meal`
+
+- Tables `recipe`, `recipe_ingredient`; `meal_entry.recipe_id` FK. Run `cd app/server && npm run db:migrate` after pull.
+
 ## Next steps if context resets
 
 1. Read `SPEC.md` for full feature intent.

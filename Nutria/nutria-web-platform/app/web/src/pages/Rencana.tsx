@@ -1,41 +1,33 @@
-import { FormEvent, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../api/client.js';
-import { dayFullName, weekRangeLabel, weekStripLabel } from '../lib/formatId.js';
+import { RencanaFinalizeCard } from '../components/RencanaFinalizeCard.js';
+import { RencanaInsightCard } from '../components/RencanaInsightCard.js';
+import { RencanaMealDayList } from '../components/RencanaMealDayList.js';
+import { RencanaMealForm } from '../components/RencanaMealForm.js';
+import { RencanaWeekDayStrip } from '../components/RencanaWeekDayStrip.js';
+import { RencanaWeekSummaryCard } from '../components/RencanaWeekSummaryCard.js';
+import { dayFullName, weekRangeLabel } from '../lib/formatId.js';
 import { startOfWeekSunday } from '../lib/week.js';
 import { log } from '../logger.js';
-
-const SLOT_LABEL: Record<string, string> = {
-  breakfast: 'SARAPAN',
-  lunch: 'MAKAN SIANG',
-  dinner: 'MAKAN MALAM',
-  snack: 'CAMILAN',
-};
+import { useTabNav } from '../navigation/TabNavContext.js';
 
 const SLOT_ORDER = ['breakfast', 'lunch', 'dinner', 'snack'] as const;
 
-const MEAL_ICON: Record<string, string> = {
-  breakfast: '🥤',
-  lunch: '🍗',
-  dinner: '🍲',
-  snack: '🍌',
-};
-
-function initialOf(name: string): string {
-  const t = name.trim();
-  return t ? t[0]!.toUpperCase() : '?';
-}
-
 export function Rencana() {
+  const { goToTab } = useTabNav();
   const formRef = useRef<HTMLDivElement>(null);
+  const summaryRef = useRef<HTMLDivElement>(null);
   const [weekStart, setWeekStart] = useState(startOfWeekSunday());
   const [dayIndex, setDayIndex] = useState(() => new Date().getDay());
   const [meals, setMeals] = useState<Array<Record<string, unknown>>>([]);
   const [persons, setPersons] = useState<Array<Record<string, unknown>>>([]);
-  const [title, setTitle] = useState('Healthy shake');
-  const [slot, setSlot] = useState<'breakfast' | 'lunch' | 'dinner' | 'snack'>('breakfast');
+  const [prepItemOptions, setPrepItemOptions] = useState<Array<Record<string, unknown>>>([]);
+  const [slot, setSlot] = useState<(typeof SLOT_ORDER)[number]>('breakfast');
   const [personId, setPersonId] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [insightOpen, setInsightOpen] = useState(false);
+  const [finalizeBusy, setFinalizeBusy] = useState(false);
+  const [bootstrapNote, setBootstrapNote] = useState<string | null>(null);
 
   async function load() {
     try {
@@ -49,9 +41,71 @@ export function Rencana() {
     }
   }
 
+  async function loadPrepItems() {
+    try {
+      const r = await api.prepRuns();
+      const active = r.prepRuns.find((x) => String(x.status) === 'active');
+      if (!active) {
+        setPrepItemOptions([]);
+        return;
+      }
+      const pi = await api.prepItems(String(active.id));
+      setPrepItemOptions(pi.prepItems);
+    } catch {
+      setPrepItemOptions([]);
+    }
+  }
+
   useEffect(() => {
     void load();
   }, [weekStart]);
+
+  useEffect(() => {
+    void loadPrepItems();
+  }, [weekStart]);
+
+  useEffect(() => {
+    const raw = sessionStorage.getItem('nutria.plan.bootstrap');
+    if (!raw) return;
+    sessionStorage.removeItem('nutria.plan.bootstrap');
+    void (async () => {
+      try {
+        const p = JSON.parse(raw) as {
+          mode?: string;
+          targetWeek?: string;
+          sourceWeek?: string;
+          replaceExisting?: boolean;
+        };
+        if (!p.targetWeek) return;
+        if (p.mode === 'reuse' && p.sourceWeek) {
+          const res = await api.cloneWeekMeals({
+            fromWeekStart: p.sourceWeek,
+            toWeekStart: p.targetWeek,
+            replaceExisting: Boolean(p.replaceExisting),
+          });
+          setBootstrapNote(`Disalin ${res.cloned} menu ke minggu tujuan.`);
+        } else {
+          setBootstrapNote('Minggu tujuan dibuka — mulai catat menu dari kosong.');
+        }
+        setWeekStart(p.targetWeek);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : 'Gagal menyiapkan minggu');
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    const fd = sessionStorage.getItem('nutria.plan.focusDay');
+    if (fd != null) {
+      sessionStorage.removeItem('nutria.plan.focusDay');
+      const i = Number(fd);
+      if (Number.isInteger(i) && i >= 0 && i <= 6) setDayIndex(i);
+    }
+    const v = sessionStorage.getItem('nutria.plan.openSummary');
+    if (!v) return;
+    sessionStorage.removeItem('nutria.plan.openSummary');
+    summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [weekStart, meals.length]);
 
   const filtered = useMemo(
     () => meals.filter((m) => Number(m.dayIndex) === dayIndex),
@@ -71,13 +125,21 @@ export function Rencana() {
 
   const insight = useMemo(() => {
     const week = meals;
-    const noMacro = week.filter((m) => m.kcal == null || m.proteinG == null).length;
+    const noMacro = week.filter((x) => x.kcal == null || x.proteinG == null).length;
     const badge = Math.min(3, Math.max(1, noMacro || 1));
-    if (noMacro === 0) {
+    const noRecipe = week.filter((x) => !x.recipeId).length;
+    if (noMacro === 0 && noRecipe === 0) {
       return {
         badge: 0,
-        title: 'Protein sudah cukup 💪',
-        sub: 'Semua entri punya data makro · ketuk untuk detail',
+        title: 'Rencana siap dihitung belanja',
+        sub: 'Semua menu punya makro & resep · finalisasi di bawah',
+      };
+    }
+    if (noMacro === 0) {
+      return {
+        badge: Math.min(3, noRecipe || 1),
+        title: 'Hubungkan resep untuk belanja otomatis',
+        sub: `${noRecipe} menu belum punya resep Nutria`,
       };
     }
     return {
@@ -87,38 +149,33 @@ export function Rencana() {
     };
   }, [meals]);
 
-  async function addMeal(e: FormEvent) {
-    e.preventDefault();
-    setError(null);
-    try {
-      await api.createMeal({
-        weekStart,
-        dayIndex,
-        slot,
-        personId,
-        title,
-        isFresh: slot !== 'lunch',
-      });
-      setTitle('Healthy shake');
-      await load();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menambah');
+  const mealCountByDay = useMemo(() => {
+    const c = [0, 0, 0, 0, 0, 0, 0];
+    for (const m of meals) {
+      const di = Number(m.dayIndex);
+      if (di >= 0 && di <= 6) c[di] += 1;
     }
-  }
+    return c;
+  }, [meals]);
 
-  async function onAiIdeas() {
-    setError(null);
-    try {
-      const res = await api.mealIdeas();
-      const suggestions = (res.suggestions as string[] | undefined) ?? [];
-      if (suggestions[0]) setTitle(suggestions[0]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal mengambil saran');
-    }
-  }
+  const recipeBacked = useMemo(() => meals.filter((m) => m.recipeId).length, [meals]);
 
   function scrollToForm() {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function finalizePlan() {
+    setFinalizeBusy(true);
+    setError(null);
+    try {
+      const res = await api.groceryFromPlan({ weekStart, replaceGenerated: true });
+      setBootstrapNote(`Belanja: ${res.itemsAdded} baris dari resep ditambahkan.`);
+      goToTab('belanja');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Gagal membuat belanja');
+    } finally {
+      setFinalizeBusy(false);
+    }
   }
 
   return (
@@ -133,114 +190,40 @@ export function Rencana() {
         </button>
       </div>
 
+      {bootstrapNote ? (
+        <div
+          className="hifi-card"
+          style={{ marginTop: 10, background: 'var(--tag-fresh-bg)', borderColor: 'transparent' }}
+        >
+          <p style={{ margin: 0, fontSize: '0.88rem' }}>{bootstrapNote}</p>
+        </div>
+      ) : null}
+
+      <RencanaWeekSummaryCard
+        summaryRef={summaryRef}
+        weekStart={weekStart}
+        mealsTotal={meals.length}
+        recipeBacked={recipeBacked}
+        mealCountByDay={mealCountByDay}
+      />
+
+      <RencanaFinalizeCard
+        recipeBacked={recipeBacked}
+        finalizeBusy={finalizeBusy}
+        error={error}
+        onFinalize={() => void finalizePlan()}
+      />
+
+      <RencanaInsightCard insight={insight} insightOpen={insightOpen} setInsightOpen={setInsightOpen} />
+
+      <RencanaWeekDayStrip weekStart={weekStart} dayIndex={dayIndex} setDayIndex={setDayIndex} />
+
       <button
         type="button"
-        className="hifi-card"
-        onClick={() => setInsightOpen(!insightOpen)}
-        style={{
-          width: '100%',
-          marginTop: 4,
-          marginBottom: 14,
-          display: 'flex',
-          gap: 14,
-          alignItems: 'flex-start',
-          textAlign: 'left',
-          cursor: 'pointer',
-          border: '1px solid var(--border-soft)',
-        }}
+        className="btn-ghost"
+        style={{ marginBottom: 14, fontSize: '0.82rem' }}
+        onClick={() => setWeekStart(startOfWeekSunday())}
       >
-        <div
-          style={{
-            width: 44,
-            height: 44,
-            borderRadius: 14,
-            background: 'var(--tag-fresh-bg)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '1.25rem',
-            flexShrink: 0,
-          }}
-        >
-          🌿
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontWeight: 700, fontSize: '1rem' }}>{insight.title}</span>
-            {insight.badge > 0 ? (
-              <span
-                style={{
-                  background: 'var(--accent)',
-                  color: '#fff',
-                  borderRadius: 999,
-                  fontSize: '0.72rem',
-                  fontWeight: 800,
-                  padding: '2px 8px',
-                }}
-              >
-                {insight.badge}
-              </span>
-            ) : null}
-          </div>
-          <p style={{ margin: '6px 0 0', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            {insight.sub}
-          </p>
-          {insightOpen ? (
-            <p style={{ margin: '10px 0 0', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-              Tambah kkal & protein di entri menu (edit dari API / pengembangan berikutnya).
-            </p>
-          ) : null}
-        </div>
-        <span style={{ color: 'var(--text-muted)' }}>{insightOpen ? '⌃' : '⌄'}</span>
-      </button>
-
-      <div
-        style={{
-          display: 'flex',
-          gap: 8,
-          overflowX: 'auto',
-          paddingBottom: 10,
-          marginBottom: 6,
-          scrollbarWidth: 'none',
-        }}
-      >
-        {Array.from({ length: 7 }, (_, i) => {
-          const active = i === dayIndex;
-          return (
-            <button
-              key={i}
-              type="button"
-              onClick={() => setDayIndex(i)}
-              style={{
-                flex: '0 0 auto',
-                minWidth: 56,
-                padding: '10px 12px',
-                borderRadius: 14,
-                border: active ? 'none' : '1px solid var(--border)',
-                background: active ? 'var(--text)' : 'var(--surface-elevated)',
-                color: active ? '#fff' : 'var(--text)',
-                fontWeight: 700,
-                fontSize: '0.78rem',
-                cursor: 'pointer',
-                boxShadow: active ? 'var(--shadow-soft)' : 'none',
-              }}
-            >
-              {weekStripLabel(i, weekStart)}
-              <div
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: 999,
-                  background: active ? 'var(--accent)' : 'var(--accent-soft)',
-                  margin: '6px auto 0',
-                }}
-              />
-            </button>
-          );
-        })}
-      </div>
-
-      <button type="button" className="btn-ghost" style={{ marginBottom: 14, fontSize: '0.82rem' }} onClick={() => setWeekStart(startOfWeekSunday())}>
         Lompat ke minggu ini
       </button>
 
@@ -248,110 +231,20 @@ export function Rencana() {
         {dayFullName(dayIndex)}
       </h3>
 
-      {groupedSlots.length === 0 ? (
-        <div className="hifi-card" style={{ marginBottom: 14 }}>
-          <p style={{ margin: 0, color: 'var(--text-muted)' }}>Belum ada menu untuk hari ini.</p>
-        </div>
-      ) : (
-        groupedSlots.map(([sl, list]) => (
-          <div key={sl} style={{ marginBottom: 18 }}>
-            <p className="eyebrow" style={{ marginBottom: 10 }}>
-              {SLOT_LABEL[sl]} · {list.length}
-            </p>
-            {list.map((m) => {
-              const pid = String(m.personId);
-              const person = persons.find((p) => String(p.id) === pid);
-              const who = String(person?.displayName ?? '?');
-              const fresh = Boolean(m.isFresh);
-              const kcal = m.kcal != null ? `${Math.round(Number(m.kcal))}kkal` : '—';
-              const prot = m.proteinG != null ? `${Math.round(Number(m.proteinG))}g protein` : '—';
-              return (
-                <div className="hifi-card" key={String(m.id)} style={{ marginBottom: 10, padding: '14px 16px' }}>
-                  <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <div
-                      style={{
-                        width: 48,
-                        height: 48,
-                        borderRadius: 16,
-                        background: 'var(--canvas)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '1.4rem',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {MEAL_ICON[sl] ?? '🍽️'}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
-                        {fresh ? <span className="tag-segar">segar</span> : <span className="tag-prep">prep</span>}
-                      </div>
-                      <div className="h-serif" style={{ fontSize: '1.12rem', marginTop: 8 }}>
-                        {String(m.title)}
-                      </div>
-                      <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 6 }}>
-                        {m.notes ? String(m.notes) : 'Tambahkan bahan di catatan menu'}
-                      </div>
-                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 8 }}>
-                        {kcal} · {prot}
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                      <span
-                        title={who}
-                        style={{
-                          width: 32,
-                          height: 32,
-                          borderRadius: 999,
-                          background: '#6b3d4a',
-                          color: '#fff',
-                          fontSize: '0.75rem',
-                          fontWeight: 800,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        {initialOf(who)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ))
-      )}
+      <RencanaMealDayList groupedSlots={groupedSlots} persons={persons} />
 
-      <div className="hifi-card" ref={formRef} style={{ marginTop: 8 }}>
-        <h3 className="h-serif" style={{ fontSize: '1.1rem' }}>
-          Tambah menu
-        </h3>
-        <form onSubmit={addMeal} style={{ display: 'grid', gap: 12, marginTop: 12 }}>
-          <input className="input" value={title} onChange={(ev) => setTitle(ev.target.value)} />
-          <button type="button" className="btn-ghost" onClick={onAiIdeas} style={{ width: '100%' }}>
-            Saran AI
-          </button>
-          <select className="input" value={slot} onChange={(ev) => setSlot(ev.target.value as typeof slot)}>
-            <option value="breakfast">Sarapan</option>
-            <option value="lunch">Makan siang</option>
-            <option value="dinner">Makan malam</option>
-            <option value="snack">Camilan</option>
-          </select>
-          <select className="input" value={personId} onChange={(ev) => setPersonId(ev.target.value)}>
-            {persons.map((p) => (
-              <option key={String(p.id)} value={String(p.id)}>
-                {String(p.displayName)}
-              </option>
-            ))}
-          </select>
-          {error ? <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div> : null}
-          <button className="btn-primary" type="submit">
-            Simpan menu
-          </button>
-        </form>
-      </div>
+      <RencanaMealForm
+        formRef={formRef}
+        weekStart={weekStart}
+        dayIndex={dayIndex}
+        slot={slot}
+        setSlot={setSlot}
+        persons={persons}
+        personId={personId}
+        setPersonId={setPersonId}
+        prepItemOptions={prepItemOptions}
+        onMealSaved={() => void load()}
+      />
     </div>
   );
 }

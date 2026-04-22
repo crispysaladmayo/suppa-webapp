@@ -33,6 +33,14 @@ export const SummaryResponse = z.object({
     ),
   }),
   mealsToday: z.array(z.record(z.string(), z.unknown())),
+  weekPlan: z
+    .object({
+      totalMeals: z.number(),
+      daysWithMeals: z.number(),
+      recipeBackedMeals: z.number(),
+      mealCountByDay: z.array(z.number()),
+    })
+    .optional(),
   hints: z.object({
     pantryNames: z.array(z.string()),
     openGroceryCount: z.number(),
@@ -86,4 +94,29 @@ export const ErrorResponse = z.object({
     message: z.string(),
     details: z.unknown().optional(),
   }),
+});
+
+export const RecipesListResponse = z.object({
+  recipes: z.array(z.record(z.string(), z.unknown())),
+});
+
+export const RecipeDetailResponse = z.object({
+  recipe: z.record(z.string(), z.unknown()),
+  ingredients: z.array(z.record(z.string(), z.unknown())),
+  micros: z.record(z.string(), z.number()).nullable(),
+});
+
+export const CloneWeekResponse = z.object({
+  ok: z.literal(true),
+  cloned: z.number(),
+});
+
+export const GroceryFromPlanResponse = z.object({
+  ok: z.literal(true),
+  itemsAdded: z.number(),
+});
+
+export const RecipeCreateResponse = z.object({
+  recipe: z.record(z.string(), z.unknown()),
+  ingredients: z.array(z.record(z.string(), z.unknown())),
 });

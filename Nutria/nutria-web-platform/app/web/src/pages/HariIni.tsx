@@ -2,20 +2,15 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { api } from '../api/client.js';
 import type { SummaryResponse } from '../api/schemas.js';
 import { headerDayMonth } from '../lib/formatId.js';
-import { startOfWeekSunday } from '../lib/week.js';
+import { addDaysYmd, startOfWeekSunday } from '../lib/week.js';
 import { log } from '../logger.js';
+import { useTabNav } from '../navigation/TabNavContext.js';
+import { HariIniTodayPlan } from '../components/HariIniTodayPlan.js';
 import type { z } from 'zod';
 
 type Summary = z.infer<typeof SummaryResponse>;
 
 const BAR_COLORS = ['#c44d34', '#4a7c59', '#2d5a40', '#c9a227'];
-
-const SLOT_UPPER: Record<string, string> = {
-  breakfast: 'SARAPAN',
-  lunch: 'MAKAN SIANG',
-  dinner: 'MAKAN MALAM',
-  snack: 'CAMILAN',
-};
 
 function Ring({ pct }: { pct: number }) {
   const r = 36;
@@ -38,6 +33,7 @@ function Ring({ pct }: { pct: number }) {
 }
 
 export function HariIni() {
+  const { goToTab } = useTabNav();
   const [summary, setSummary] = useState<Summary | null>(null);
   const [persons, setPersons] = useState<Array<Record<string, unknown>>>([]);
   const [groceryTotal, setGroceryTotal] = useState(0);
@@ -49,8 +45,11 @@ export function HariIni() {
   const [personId, setPersonId] = useState('');
   const [grams, setGrams] = useState('80');
   const [busy, setBusy] = useState(false);
+  const [prepModalOpen, setPrepModalOpen] = useState(false);
+  const [replaceNextWeek, setReplaceNextWeek] = useState(false);
 
   const weekStart = useMemo(() => startOfWeekSunday(), []);
+  const nextWeekStart = useMemo(() => addDaysYmd(weekStart, 7), [weekStart]);
 
   async function load() {
     try {
@@ -143,10 +142,26 @@ export function HariIni() {
     );
   }
 
+  const weekPlan = summary.weekPlan ?? {
+    totalMeals: 0,
+    daysWithMeals: 0,
+    recipeBackedMeals: 0,
+    mealCountByDay: [0, 0, 0, 0, 0, 0, 0],
+  };
+
+  function openPlannerToday() {
+    sessionStorage.setItem('nutria.plan.focusDay', String(new Date().getDay()));
+    goToTab('rencana');
+  }
+
   return (
     <div>
       <p className="eyebrow">{headerDayMonth()}</p>
       <h2 className="screen-title">Stok meal prep</h2>
+      <p className="home-lede">
+        Menu hari ini di atas, stok prep di bawah — supaya keluarga tahu makan apa sebelum cek sisa
+        batch.
+      </p>
 
       {alertLine ? (
         <div
@@ -163,6 +178,13 @@ export function HariIni() {
           </p>
         </div>
       ) : null}
+
+      <HariIniTodayPlan
+        meals={summary.mealsToday}
+        persons={persons}
+        weekStart={weekStart}
+        onEditInPlanner={openPlannerToday}
+      />
 
       <div className="hifi-card" style={{ marginTop: 14 }}>
         <p className="eyebrow" style={{ letterSpacing: '0.08em' }}>
@@ -223,10 +245,132 @@ export function HariIni() {
           </div>
         ) : null}
 
-        <button type="button" className="btn-primary" style={{ marginTop: 18 }}>
-          Jadwalkan prep lebih awal ›
-        </button>
+        <p
+          style={{
+            margin: '14px 0 0',
+            fontSize: '0.85rem',
+            color: 'var(--text-muted)',
+            lineHeight: 1.45,
+          }}
+        >
+          Rencana minggu:{' '}
+          <strong style={{ color: 'var(--text)' }}>{weekPlan.totalMeals} menu</strong>{' '}
+          · {weekPlan.daysWithMeals} hari terisi · {weekPlan.recipeBackedMeals} dengan resep Nutria
+        </p>
+
+        <div style={{ display: 'grid', gap: 10, marginTop: 16 }}>
+          <button
+            type="button"
+            className="btn-ghost"
+            style={{
+              width: '100%',
+              border: '1px solid var(--border)',
+              borderRadius: 14,
+              padding: '12px 14px',
+              fontWeight: 700,
+            }}
+            onClick={() => {
+              sessionStorage.setItem('nutria.plan.openSummary', '1');
+              sessionStorage.setItem('nutria.plan.focusDay', String(new Date().getDay()));
+              goToTab('rencana');
+            }}
+          >
+            Lihat detail rencana minggu ›
+          </button>
+          <button
+            type="button"
+            className="btn-primary"
+            style={{ width: '100%', marginTop: 0 }}
+            onClick={() => setPrepModalOpen(true)}
+          >
+            Susun prep minggu depan ›
+          </button>
+        </div>
       </div>
+
+      {prepModalOpen ? (
+        <div
+          className="modal-backdrop"
+          role="presentation"
+          onClick={() => setPrepModalOpen(false)}
+        >
+          <div
+            className="modal-sheet hifi-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="prep-modal-title"
+            onClick={(ev) => ev.stopPropagation()}
+            style={{ border: '1px solid var(--border-soft)', margin: 0 }}
+          >
+            <h3 id="prep-modal-title" className="h-serif" style={{ fontSize: '1.15rem', margin: 0 }}>
+              Mulai isi menu prep
+            </h3>
+            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.5 }}>
+              Target: minggu mulai <strong>{nextWeekStart}</strong>. Gunakan menu minggu ini (
+              {weekStart}) sebagai awalan, atau mulai kosong lalu catat makanan per hari di tab Rencana.
+              Setelah menu memakai resep Nutria, finalisasi untuk membuat daftar belanja.
+            </p>
+            <label
+              style={{
+                display: 'flex',
+                gap: 10,
+                alignItems: 'flex-start',
+                fontSize: '0.85rem',
+                marginTop: 14,
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={replaceNextWeek}
+                onChange={(ev) => setReplaceNextWeek(ev.target.checked)}
+              />
+              <span>Jika minggu depan sudah ada menu, timpa dengan salinan dari minggu ini</span>
+            </label>
+            <div style={{ display: 'grid', gap: 10, marginTop: 18 }}>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={() => {
+                  sessionStorage.setItem(
+                    'nutria.plan.bootstrap',
+                    JSON.stringify({
+                      mode: 'reuse',
+                      sourceWeek: weekStart,
+                      targetWeek: nextWeekStart,
+                      replaceExisting: replaceNextWeek,
+                    }),
+                  );
+                  setPrepModalOpen(false);
+                  goToTab('rencana');
+                }}
+              >
+                Ya, pakai ulang menu minggu ini
+              </button>
+              <button
+                type="button"
+                className="btn-ghost"
+                style={{ border: '1px solid var(--border)', borderRadius: 14 }}
+                onClick={() => {
+                  sessionStorage.setItem(
+                    'nutria.plan.bootstrap',
+                    JSON.stringify({
+                      mode: 'fresh',
+                      targetWeek: nextWeekStart,
+                    }),
+                  );
+                  setPrepModalOpen(false);
+                  goToTab('rencana');
+                }}
+              >
+                Tidak, mulai kosong
+              </button>
+              <button type="button" className="btn-ghost" onClick={() => setPrepModalOpen(false)}>
+                Batal
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <div
         style={{
@@ -257,52 +401,6 @@ export function HariIni() {
               ? `Mulai ${String(activeSession.startedAt).slice(11, 16)}`
               : 'Mulai dari tab Prep'}
           </div>
-        </div>
-      </div>
-
-      <div style={{ marginTop: 22 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-          <h3 className="screen-title" style={{ fontSize: '1.2rem' }}>
-            Makan hari ini
-          </h3>
-          <span style={{ fontSize: '0.85rem', color: 'var(--accent)', fontWeight: 600 }}>Minggu →</span>
-        </div>
-        <div className="hifi-card" style={{ marginTop: 10, padding: '14px 16px' }}>
-          {summary.mealsToday.length === 0 ? (
-            <p style={{ margin: 0, color: 'var(--text-muted)' }}>Belum ada menu hari ini.</p>
-          ) : (
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              {summary.mealsToday.map((m) => (
-                <li
-                  key={String(m.id)}
-                  style={{
-                    display: 'flex',
-                    gap: 12,
-                    alignItems: 'flex-start',
-                    padding: '12px 0',
-                    borderBottom: '1px solid var(--border-soft)',
-                  }}
-                >
-                  <span style={{ color: 'var(--sage-deep)', fontSize: '1.1rem' }}>✓</span>
-                  <div>
-                    <div style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--text-muted)' }}>
-                      {SLOT_UPPER[String(m.slot)] ?? String(m.slot).toUpperCase()}
-                    </div>
-                    <div
-                      className="h-serif"
-                      style={{
-                        fontSize: '1.05rem',
-                        marginTop: 4,
-                        textDecoration: 'none',
-                      }}
-                    >
-                      {String(m.title)}
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
 

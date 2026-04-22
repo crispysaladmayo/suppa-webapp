@@ -3,6 +3,7 @@
 ## Implemented
 
 - P0: Session auth, Hari ini summary + consumption log, prep runs/items, meals CRUD, grocery CRUD with IDR total, prep sessions CRUD + ingredients/steps endpoints, full v1 REST, Postgres schema + Drizzle migration, seed script, Indonesian four-tab web shell, structured logging on server and wrapped logger on web (dev-only console output).
+- **UX pass:** Tab navigation for prep CTA from home; plan tab without stray AI CTA; meal add form with clear field groups; grocery add/edit with persistent labels, quantity text on create, and per-item edit sheet.
 - P1: Pantry CRUD, settings JSON merge, migrations + seed documented.
 - P2: Markdown week export (`GET /api/v1/export/week.md`), rule-based AI meal suggestions (`POST /api/v1/ai/meal-ideas`), depletion transition logging on consumption (notification hook placeholder), `docker-compose.yml` for Postgres.
 

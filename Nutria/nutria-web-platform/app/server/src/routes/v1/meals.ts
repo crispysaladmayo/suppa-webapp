@@ -5,7 +5,7 @@ import type { Db } from '../../db/client.js';
 import * as schema from '../../db/schema/index.js';
 import { jsonError } from '../../lib/jsonError.js';
 import type { HonoEnv } from '../../types/hono.js';
-import { MealCreate, MealPatch } from '../../validation/entities.js';
+import { MealCloneWeek, MealCreate, MealPatch } from '../../validation/entities.js';
 
 export function mealsRouter(db: Db) {
   const r = new Hono<HonoEnv>();
@@ -54,6 +54,14 @@ export function mealsRouter(db: Db) {
       if (!link) return jsonError('not_found', 'Prep item not found', 404);
     }
     const id = randomUUID();
+    if (m.recipeId) {
+      const [rec] = await db
+        .select({ id: schema.recipe.id })
+        .from(schema.recipe)
+        .where(eq(schema.recipe.id, m.recipeId))
+        .limit(1);
+      if (!rec) return jsonError('not_found', 'Recipe not found', 404);
+    }
     await db.insert(schema.mealEntry).values({
       id,
       householdId,
@@ -64,6 +72,7 @@ export function mealsRouter(db: Db) {
       title: m.title,
       isFresh: m.isFresh ?? true,
       prepItemId: m.prepItemId ?? null,
+      recipeId: m.recipeId ?? null,
       notes: m.notes ?? null,
       kcal: m.kcal ?? null,
       proteinG: m.proteinG ?? null,
@@ -75,6 +84,82 @@ export function mealsRouter(db: Db) {
     });
     const [row] = await db.select().from(schema.mealEntry).where(eq(schema.mealEntry.id, id)).limit(1);
     return c.json({ meal: row }, 201);
+  });
+
+  r.post('/clone-week', async (c) => {
+    const { householdId } = c.get('auth');
+    let body: unknown;
+    try {
+      body = await c.req.json();
+    } catch {
+      return jsonError('bad_request', 'Invalid JSON', 400);
+    }
+    const parsed = MealCloneWeek.safeParse(body);
+    if (!parsed.success) {
+      return jsonError('validation_error', 'Invalid body', 400, parsed.error.flatten());
+    }
+    const { fromWeekStart, toWeekStart, replaceExisting } = parsed.data;
+    if (fromWeekStart === toWeekStart) {
+      return jsonError('validation_error', 'from and to must differ', 400);
+    }
+    const existingTo = await db
+      .select({ id: schema.mealEntry.id })
+      .from(schema.mealEntry)
+      .where(
+        and(eq(schema.mealEntry.householdId, householdId), eq(schema.mealEntry.weekStart, toWeekStart)),
+      );
+    if (existingTo.length > 0 && !replaceExisting) {
+      return jsonError(
+        'conflict',
+        'Minggu tujuan sudah punya menu. Centang timpa atau hapus entri lama dulu.',
+        409,
+      );
+    }
+    if (replaceExisting && existingTo.length > 0) {
+      await db
+        .delete(schema.mealEntry)
+        .where(
+          and(
+            eq(schema.mealEntry.householdId, householdId),
+            eq(schema.mealEntry.weekStart, toWeekStart),
+          ),
+        );
+    }
+    const src = await db
+      .select()
+      .from(schema.mealEntry)
+      .where(
+        and(
+          eq(schema.mealEntry.householdId, householdId),
+          eq(schema.mealEntry.weekStart, fromWeekStart),
+        ),
+      );
+    let n = 0;
+    for (const row of src) {
+      const id = randomUUID();
+      await db.insert(schema.mealEntry).values({
+        id,
+        householdId,
+        weekStart: toWeekStart,
+        dayIndex: row.dayIndex,
+        slot: row.slot,
+        personId: row.personId,
+        title: row.title,
+        isFresh: row.isFresh,
+        prepItemId: null,
+        recipeId: row.recipeId,
+        notes: row.notes,
+        kcal: row.kcal,
+        proteinG: row.proteinG,
+        carbsG: row.carbsG,
+        fatG: row.fatG,
+        fiberG: row.fiberG,
+        ironMg: row.ironMg,
+        calciumMg: row.calciumMg,
+      });
+      n += 1;
+    }
+    return c.json({ ok: true, cloned: n });
   });
 
   r.patch('/:id', async (c) => {
@@ -97,6 +182,14 @@ export function mealsRouter(db: Db) {
       .limit(1);
     if (!existing) return jsonError('not_found', 'Meal not found', 404);
     const p = parsed.data;
+    if (p.recipeId) {
+      const [rec] = await db
+        .select({ id: schema.recipe.id })
+        .from(schema.recipe)
+        .where(eq(schema.recipe.id, p.recipeId))
+        .limit(1);
+      if (!rec) return jsonError('not_found', 'Recipe not found', 404);
+    }
     await db
       .update(schema.mealEntry)
       .set({
@@ -107,6 +200,7 @@ export function mealsRouter(db: Db) {
         title: p.title ?? existing.title,
         isFresh: p.isFresh ?? existing.isFresh,
         prepItemId: p.prepItemId === undefined ? existing.prepItemId : p.prepItemId,
+        recipeId: p.recipeId === undefined ? existing.recipeId : p.recipeId,
         notes: p.notes === undefined ? existing.notes : p.notes,
         kcal: p.kcal === undefined ? existing.kcal : p.kcal,
         proteinG: p.proteinG === undefined ? existing.proteinG : p.proteinG,

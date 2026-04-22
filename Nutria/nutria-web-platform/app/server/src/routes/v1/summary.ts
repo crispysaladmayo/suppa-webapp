@@ -62,14 +62,20 @@ export function summaryRouter(db: Db) {
     }
 
     const today = toYmd(new Date());
-    const mealsToday = await db
+    const mealsWeek = await db
       .select()
       .from(schema.mealEntry)
       .where(
         and(eq(schema.mealEntry.householdId, householdId), eq(schema.mealEntry.weekStart, weekStart)),
       );
     const dayIndex = new Date().getDay();
-    const mealsForToday = mealsToday.filter((m) => m.dayIndex === dayIndex);
+    const mealsForToday = mealsWeek.filter((m) => m.dayIndex === dayIndex);
+    const mealCountByDay = [0, 0, 0, 0, 0, 0, 0];
+    for (const m of mealsWeek) {
+      if (m.dayIndex >= 0 && m.dayIndex <= 6) mealCountByDay[m.dayIndex] += 1;
+    }
+    const daysWithMeals = mealCountByDay.filter((c) => c > 0).length;
+    const recipeBackedMeals = mealsWeek.filter((m) => m.recipeId != null).length;
 
     const pantry = await db
       .select({ name: schema.pantryItem.name })
@@ -93,6 +99,12 @@ export function summaryRouter(db: Db) {
       settings,
       prep: { activeRuns: runs, items: itemsOut },
       mealsToday: mealsForToday,
+      weekPlan: {
+        totalMeals: mealsWeek.length,
+        daysWithMeals,
+        recipeBackedMeals,
+        mealCountByDay,
+      },
       hints: {
         pantryNames: pantry.map((p) => p.name),
         openGroceryCount: openGrocery.length,

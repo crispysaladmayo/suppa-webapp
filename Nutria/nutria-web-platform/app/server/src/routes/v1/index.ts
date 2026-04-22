@@ -12,6 +12,7 @@ import { prepSessionsRouter } from './prepSessions.js';
 import { settingsRouter } from './settings.js';
 import { summaryRouter } from './summary.js';
 import { aiRouter } from './ai.js';
+import { recipesRouter } from './recipes.js';
 
 export function createV1App(db: Db) {
   const app = new Hono<HonoEnv>();
@@ -20,6 +21,7 @@ export function createV1App(db: Db) {
   app.route('/persons', personsRouter(db));
   app.route('/prep', prepRouter(db));
   app.route('/meals', mealsRouter(db));
+  app.route('/recipes', recipesRouter(db));
   app.route('/grocery', groceryRouter(db));
   app.route('/pantry', pantryRouter(db));
   app.route('/settings', settingsRouter(db));

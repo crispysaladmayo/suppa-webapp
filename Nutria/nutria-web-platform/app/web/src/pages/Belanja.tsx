@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { api } from '../api/client.js';
+import { FormField } from '../components/FormField.js';
 import { startOfWeekSunday } from '../lib/week.js';
 import { log } from '../logger.js';
 
@@ -22,20 +23,32 @@ export function Belanja() {
   const [total, setTotal] = useState(0);
   const [pantryCount, setPantryCount] = useState(0);
   const [openMap, setOpenMap] = useState<Record<string, boolean>>({});
-  const [name, setName] = useState('Bayam');
+
+  const [name, setName] = useState('');
   const [section, setSection] = useState('produce');
-  const [price, setPrice] = useState('8000');
-  const [error, setError] = useState<string | null>(null);
+  const [qtyText, setQtyText] = useState('');
+  const [price, setPrice] = useState('');
+
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
+  const [editSection, setEditSection] = useState('produce');
+  const [editQtyText, setEditQtyText] = useState('');
+  const [editPrice, setEditPrice] = useState('');
+
+  const [listError, setListError] = useState<string | null>(null);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [editError, setEditError] = useState<string | null>(null);
 
   async function load() {
     try {
       const [g, p] = await Promise.all([api.grocery(weekStart), api.pantry()]);
+      setListError(null);
       setItems(g.items);
       setTotal(g.totalIdrUnchecked);
       setPantryCount(p.items.length);
     } catch (e) {
       log.error('belanja_load_failed', { err: String(e) });
-      setError('Gagal memuat belanja');
+      setListError('Gagal memuat belanja');
     }
   }
 
@@ -67,22 +80,66 @@ export function Belanja() {
   const totalCount = items.length;
   const cartProgress = totalCount > 0 ? Math.round((checkedCount / totalCount) * 100) : 0;
 
+  function startEdit(it: Record<string, unknown>) {
+    const id = String(it.id);
+    setEditingId(id);
+    setEditName(String(it.name));
+    setEditSection(String(it.section));
+    setEditQtyText(it.qtyText != null ? String(it.qtyText) : '');
+    setEditPrice(it.priceIdrPerUnit != null ? String(it.priceIdrPerUnit) : '');
+    setEditError(null);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+  }
+
   async function addItem(e: FormEvent) {
     e.preventDefault();
-    setError(null);
+    setAddError(null);
+    if (!name.trim()) {
+      setAddError('Isi nama barang.');
+      return;
+    }
     try {
-      const priceIdr = price.trim() === '' ? null : Number(price);
+      const priceIdr = price.trim() === '' ? null : Number(price.replace(/\./g, ''));
       await api.createGrocery({
         weekStart,
-        name,
+        name: name.trim(),
         section,
+        qtyText: qtyText.trim() || null,
         priceIdrPerUnit: Number.isFinite(priceIdr as number) ? priceIdr : null,
         checked: false,
       });
-      setName('Bayam');
+      setName('');
+      setQtyText('');
+      setPrice('');
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menambah');
+      setAddError(err instanceof Error ? err.message : 'Gagal menambah');
+    }
+  }
+
+  async function saveEdit(e: FormEvent) {
+    e.preventDefault();
+    if (!editingId) return;
+    setEditError(null);
+    if (!editName.trim()) {
+      setEditError('Nama tidak boleh kosong.');
+      return;
+    }
+    try {
+      const priceIdr = editPrice.trim() === '' ? null : Number(editPrice.replace(/\./g, ''));
+      await api.patchGrocery(editingId, {
+        name: editName.trim(),
+        section: editSection,
+        qtyText: editQtyText.trim() || null,
+        priceIdrPerUnit: Number.isFinite(priceIdr as number) ? priceIdr : null,
+      });
+      cancelEdit();
+      await load();
+    } catch (err) {
+      setEditError(err instanceof Error ? err.message : 'Gagal menyimpan');
     }
   }
 
@@ -91,7 +148,7 @@ export function Belanja() {
       await api.patchGrocery(id, { checked: !checked });
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal update');
+      setListError(err instanceof Error ? err.message : 'Gagal update');
     }
   }
 
@@ -113,6 +170,22 @@ export function Belanja() {
           ⚙
         </button>
       </div>
+
+      {listError ? (
+        <div
+          role="alert"
+          style={{
+            marginTop: 12,
+            padding: '12px 14px',
+            borderRadius: 12,
+            background: 'var(--danger-soft, #fde8e8)',
+            color: 'var(--danger)',
+            fontSize: '0.88rem',
+          }}
+        >
+          {listError}
+        </div>
+      ) : null}
 
       <div
         style={{
@@ -150,6 +223,59 @@ export function Belanja() {
           {checkedCount} dari {totalCount || 1} sudah masuk keranjang
         </p>
       </div>
+
+      {editingId ? (
+        <div className="hifi-card" style={{ marginTop: 14, border: '2px solid var(--accent-soft)' }}>
+          <h3 className="h-serif" style={{ fontSize: '1.05rem' }}>
+            Sunting barang
+          </h3>
+          <form onSubmit={saveEdit} style={{ display: 'grid', gap: 14, marginTop: 12 }}>
+            <FormField label="Nama barang" fieldId="g-edit-name">
+              <input id="g-edit-name" className="input" value={editName} onChange={(ev) => setEditName(ev.target.value)} />
+            </FormField>
+            <FormField label="Kategori" fieldId="g-edit-sec">
+              <select id="g-edit-sec" className="input" value={editSection} onChange={(ev) => setEditSection(ev.target.value)}>
+                <option value="produce">Sayur & buah</option>
+                <option value="meat">Protein</option>
+                <option value="dairy">Susu & telur</option>
+                <option value="frozen">Beku</option>
+                <option value="pantry">Sembako</option>
+                <option value="other">Lainnya</option>
+              </select>
+            </FormField>
+            <FormField
+              label="Jumlah / catatan"
+              hint="Contoh: 2 ikat, 1 kg, untuk sup"
+              fieldId="g-edit-qty"
+            >
+              <input id="g-edit-qty" className="input" value={editQtyText} onChange={(ev) => setEditQtyText(ev.target.value)} aria-describedby="g-edit-qty-hint" />
+            </FormField>
+            <FormField label="Perkiraan harga (IDR)" hint="Satu baris ini di pasar" fieldId="g-edit-price">
+              <input
+                id="g-edit-price"
+                className="input"
+                value={editPrice}
+                onChange={(ev) => setEditPrice(ev.target.value)}
+                inputMode="numeric"
+                aria-describedby="g-edit-price-hint"
+              />
+            </FormField>
+            {editError ? (
+              <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }} role="alert">
+                {editError}
+              </div>
+            ) : null}
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button className="btn-primary" type="submit" style={{ flex: 1 }}>
+                Simpan perubahan
+              </button>
+              <button type="button" className="btn-ghost" style={{ flex: 1 }} onClick={cancelEdit}>
+                Batal
+              </button>
+            </div>
+          </form>
+        </div>
+      ) : null}
 
       {grouped.map(([sec, rows]) => {
         const meta = sectionMeta(sec);
@@ -243,17 +369,21 @@ export function Belanja() {
                           {it.qtyText ? String(it.qtyText) : '—'}
                         </div>
                       </div>
-                      <div
-                        className="h-serif"
-                        style={{
-                          fontSize: '0.95rem',
-                          flexShrink: 0,
-                          textDecoration: checkedIt ? 'line-through' : 'none',
-                        }}
-                      >
-                        {it.priceIdrPerUnit != null
-                          ? `Rp${Number(it.priceIdrPerUnit).toLocaleString('id-ID')}`
-                          : '—'}
+                      <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                        <div
+                          className="h-serif"
+                          style={{
+                            fontSize: '0.95rem',
+                            textDecoration: checkedIt ? 'line-through' : 'none',
+                          }}
+                        >
+                          {it.priceIdrPerUnit != null
+                            ? `Rp${Number(it.priceIdrPerUnit).toLocaleString('id-ID')}`
+                            : '—'}
+                        </div>
+                        <button type="button" className="btn-inline" onClick={() => startEdit(it)}>
+                          Ubah
+                        </button>
                       </div>
                     </li>
                   );
@@ -268,20 +398,45 @@ export function Belanja() {
         <h3 className="h-serif" style={{ fontSize: '1.05rem' }}>
           Tambah barang
         </h3>
-        <form onSubmit={addItem} style={{ display: 'grid', gap: 10, marginTop: 12 }}>
-          <input className="input" value={name} onChange={(ev) => setName(ev.target.value)} />
-          <select className="input" value={section} onChange={(ev) => setSection(ev.target.value)}>
-            <option value="produce">Sayur & buah</option>
-            <option value="meat">Protein</option>
-            <option value="dairy">Susu & telur</option>
-            <option value="frozen">Beku</option>
-            <option value="pantry">Sembako</option>
-            <option value="other">Lainnya</option>
-          </select>
-          <input className="input" value={price} onChange={(ev) => setPrice(ev.target.value)} placeholder="Harga IDR" />
-          {error ? <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div> : null}
+        <form onSubmit={addItem} style={{ display: 'grid', gap: 14, marginTop: 12 }}>
+          <FormField label="Nama barang" hint="Contoh: Bayam, Dada ayam fillet" fieldId="g-add-name">
+            <input id="g-add-name" className="input" value={name} onChange={(ev) => setName(ev.target.value)} aria-describedby="g-add-name-hint" />
+          </FormField>
+          <FormField label="Kategori" fieldId="g-add-sec">
+            <select id="g-add-sec" className="input" value={section} onChange={(ev) => setSection(ev.target.value)}>
+              <option value="produce">Sayur & buah</option>
+              <option value="meat">Protein</option>
+              <option value="dairy">Susu & telur</option>
+              <option value="frozen">Beku</option>
+              <option value="pantry">Sembako</option>
+              <option value="other">Lainnya</option>
+            </select>
+          </FormField>
+          <FormField
+            label="Jumlah / catatan"
+            hint="Contoh: 2 ikat, 500 g, untuk 3 hari"
+            fieldId="g-add-qty"
+          >
+            <input id="g-add-qty" className="input" value={qtyText} onChange={(ev) => setQtyText(ev.target.value)} aria-describedby="g-add-qty-hint" />
+          </FormField>
+          <FormField label="Perkiraan harga (IDR)" hint="Angka saja; total minggu di atas" fieldId="g-add-price">
+            <input
+              id="g-add-price"
+              className="input"
+              value={price}
+              onChange={(ev) => setPrice(ev.target.value)}
+              inputMode="numeric"
+              placeholder="contoh: 45000"
+              aria-describedby="g-add-price-hint"
+            />
+          </FormField>
+          {addError ? (
+            <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }} role="alert">
+              {addError}
+            </div>
+          ) : null}
           <button className="btn-primary" type="submit">
-            Tambah
+            Tambah ke daftar
           </button>
         </form>
       </div>

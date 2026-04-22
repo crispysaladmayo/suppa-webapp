@@ -51,6 +51,34 @@ export const consumptionLog = pgTable('consumption_log', {
   loggedAt: text('logged_at').notNull(),
 });
 
+export const recipe = pgTable('recipe', {
+  id: text('id').primaryKey(),
+  nameKey: text('name_key').notNull().unique(),
+  title: text('title').notNull(),
+  createdByHouseholdId: text('created_by_household_id').references(() => household.id, {
+    onDelete: 'set null',
+  }),
+  createdAt: text('created_at').notNull(),
+  kcal: real('kcal'),
+  proteinG: real('protein_g'),
+  carbsG: real('carbs_g'),
+  fatG: real('fat_g'),
+  fiberG: real('fiber_g'),
+  ironMg: real('iron_mg'),
+  calciumMg: real('calcium_mg'),
+  microJson: text('micro_json'),
+});
+
+export const recipeIngredient = pgTable('recipe_ingredient', {
+  id: text('id').primaryKey(),
+  recipeId: text('recipe_id')
+    .notNull()
+    .references(() => recipe.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  grams: real('grams').notNull(),
+  sortOrder: integer('sort_order').notNull().default(0),
+});
+
 export const mealEntry = pgTable('meal_entry', {
   id: text('id').primaryKey(),
   householdId: text('household_id')
@@ -65,6 +93,7 @@ export const mealEntry = pgTable('meal_entry', {
   title: text('title').notNull(),
   isFresh: boolean('is_fresh').notNull().default(true),
   prepItemId: text('prep_item_id').references(() => prepItem.id),
+  recipeId: text('recipe_id').references(() => recipe.id, { onDelete: 'set null' }),
   notes: text('notes'),
   kcal: real('kcal'),
   proteinG: real('protein_g'),

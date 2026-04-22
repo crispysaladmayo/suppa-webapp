@@ -36,6 +36,25 @@ export const ConsumptionCreate = z.object({
   loggedAt: z.string().min(1),
 });
 
+export const RecipeIngredientIn = z.object({
+  name: z.string().min(1).max(200),
+  grams: z.number().positive(),
+  sortOrder: z.number().int().min(0).optional(),
+});
+
+export const RecipeCreate = z.object({
+  title: z.string().min(1).max(400),
+  ingredients: z.array(RecipeIngredientIn).min(1).max(80),
+  kcal: z.number().nullable().optional(),
+  proteinG: z.number().nullable().optional(),
+  carbsG: z.number().nullable().optional(),
+  fatG: z.number().nullable().optional(),
+  fiberG: z.number().nullable().optional(),
+  ironMg: z.number().nullable().optional(),
+  calciumMg: z.number().nullable().optional(),
+  micros: z.record(z.string(), z.number()).optional(),
+});
+
 export const MealCreate = z.object({
   weekStart: z.string().min(1),
   dayIndex: z.number().int().min(0).max(6),
@@ -44,6 +63,7 @@ export const MealCreate = z.object({
   title: z.string().min(1).max(400),
   isFresh: z.boolean().optional(),
   prepItemId: z.string().min(1).max(64).nullable().optional(),
+  recipeId: z.string().min(1).max(64).nullable().optional(),
   notes: z.string().max(2000).nullable().optional(),
   kcal: z.number().nullable().optional(),
   proteinG: z.number().nullable().optional(),
@@ -52,6 +72,17 @@ export const MealCreate = z.object({
   fiberG: z.number().nullable().optional(),
   ironMg: z.number().nullable().optional(),
   calciumMg: z.number().nullable().optional(),
+});
+
+export const MealCloneWeek = z.object({
+  fromWeekStart: z.string().min(1),
+  toWeekStart: z.string().min(1),
+  replaceExisting: z.boolean().optional(),
+});
+
+export const GroceryFromPlan = z.object({
+  weekStart: z.string().min(1),
+  replaceGenerated: z.boolean().optional(),
 });
 
 export const MealPatch = MealCreate.partial();

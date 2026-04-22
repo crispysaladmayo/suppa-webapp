@@ -8,6 +8,13 @@
       "when": 1776873057345,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777100000000,
+      "tag": "0001_recipe_and_meal",
+      "breakpoints": true
     }
   ]
 }
