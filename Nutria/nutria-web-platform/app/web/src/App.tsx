@@ -13,17 +13,17 @@ function isDesignQaUrl(): boolean {
 function ApiOfflineBanner({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="api-offline-banner" role="alert">
-      <p className="api-offline-banner__title">Backend belum berjalan</p>
+      <p className="api-offline-banner__title">Eits, servernya belum nyala</p>
       <p className="api-offline-banner__body">
-        Aplikasi ini membutuhkan API di <strong>port 3001</strong>. Dari folder{' '}
+        Kalau lagi coba di laptop sendiri, nyalain dulu API di <strong>port 3001</strong>. Dari folder{' '}
         <code className="api-offline-banner__code">nutria-web-platform</code>, jalankan{' '}
-        <code className="api-offline-banner__code">npm run dev</code> untuk menjalankan server dan web
-        sekaligus. Atau gunakan dua terminal:{' '}
+        <code className="api-offline-banner__code">npm run dev</code> biar server dan web jalan bareng.
+        Atau pakai dua jendela terminal:{' '}
         <code className="api-offline-banner__code">npm run dev -w app/server</code> lalu{' '}
         <code className="api-offline-banner__code">npm run dev -w app/web</code>.
       </p>
       <button type="button" className="btn-primary api-offline-banner__retry" onClick={onRetry}>
-        Server sudah jalan — coba lagi
+        Udah nyala — coba lagi ya
       </button>
     </div>
   );
@@ -39,10 +39,10 @@ function Gate() {
           Nutria
         </p>
         <p className="screen-title" style={{ fontSize: '1.2rem' }}>
-          Memuat sesi…
+          Bentar ya…
         </p>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', maxWidth: 240, lineHeight: 1.5 }}>
-          Menyambungkan akun dan rumah tangga Anda
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', maxWidth: 260, lineHeight: 1.5 }}>
+          Lagi nyiapin akun dan profil keluarga kamu biar semuanya sinkron.
         </p>
       </div>
     );

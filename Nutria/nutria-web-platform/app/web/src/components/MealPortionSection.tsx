@@ -19,7 +19,7 @@ export function MealPortionSection({
 }: Props) {
   return (
     <>
-      <div className="form-section-title">Takaran & porsi</div>
+      <div className="form-section-title">Porsi & catatan</div>
       <FormField
         label="Takaran satu porsi"
         hint="Contoh: 1 gelas (300 ml), 1 mangkuk, 150 g dada ayam"
@@ -48,8 +48,8 @@ export function MealPortionSection({
         />
       </FormField>
       <FormField
-        label="Catatan tambahan"
-        hint="Bahan lain, cara masak, atau sumber resep"
+        label="Catatan dari hati (opsional)"
+        hint="Bahan lain, cara masak, atau asal resep — bebas"
         fieldId="meal-catatan"
       >
         <textarea

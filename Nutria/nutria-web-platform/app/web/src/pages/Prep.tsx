@@ -33,7 +33,7 @@ export function Prep() {
       setSessions(s.sessions);
     } catch (e) {
       log.error('prep_load_failed', { err: String(e) });
-      setError('Sesi prep tidak bisa dimuat. Periksa sambungan, lalu coba lagi.');
+      setError('Sesi prep belum kebuka — cek koneksi kamu dulu, terus coba lagi ya.');
     } finally {
       setSessionsReady(true);
     }
@@ -78,7 +78,7 @@ export function Prep() {
       setNotes('Prep hari Minggu');
       await loadSessions();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Sesi tidak bisa dimulai. Coba lagi.');
+      setError(err instanceof Error ? err.message : 'Belum bisa mulai sesi — coba lagi bentar lagi ya.');
     }
   }
 
@@ -88,7 +88,7 @@ export function Prep() {
       await api.patchPrepSession(id, { endedAt: new Date().toISOString() });
       await loadSessions();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Sesi tidak bisa diakhiri. Coba lagi.');
+      setError(err instanceof Error ? err.message : 'Belum bisa nutup sesi — coba lagi sebentar.');
     }
   }
 
@@ -100,7 +100,7 @@ export function Prep() {
       const rawKg = Number(ingKg);
       const shrinkPct = Number(ingShrink);
       if (!ingName.trim() || !Number.isFinite(rawKg) || !Number.isFinite(shrinkPct)) {
-        setError('Isi nama bahan serta berat (kg) dan susut (%) dengan angka yang valid.');
+        setError('Isi nama bahannya ya, plus berat (kg) & susut (%) yang valid.');
         return;
       }
       await api.addPrepSessionIngredient(activeId, {
@@ -115,7 +115,7 @@ export function Prep() {
       const ing = await api.prepSessionIngredients(activeId);
       setIngredients(ing.ingredients);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menambah bahan');
+      setError(err instanceof Error ? err.message : 'Bahan belum ke-save — coba lagi ya.');
     }
   }
 
@@ -130,7 +130,7 @@ export function Prep() {
       const st = await api.prepSessionSteps(activeId);
       setSteps(st.steps);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menambah langkah');
+      setError(err instanceof Error ? err.message : 'Langkah belum ke-save — coba lagi ya.');
     }
   }
 
@@ -144,7 +144,7 @@ export function Prep() {
     return (
       <div>
         <p className="eyebrow">
-          {headerDayMonth()} · persiapan
+          {headerDayMonth()} · lagi disiapin
         </p>
         <h1 className="screen-title">Prep hari {dayFullName(new Date().getDay())}</h1>
         <PrepSkeleton />
@@ -159,8 +159,8 @@ export function Prep() {
       </p>
       <h1 className="screen-title">Prep hari {dow}</h1>
       <p className="tab-hero-lede">
-        Satu sesi untuk mass prep: catat berat mentah dan susut, lalu susun urutan masak. Perkiraan porsi
-        mengikuti total kg bahan (bukan timbangan dapur).
+        Satu sesi buat mass prep kamu: tulis berat mentah & susutnya, terus urutin langkah masak biar tenang.
+        Perkiraan porsi dari total kg bahan ya (bukan timbangan pasti di dapur).
       </p>
 
       {error ? (
@@ -182,21 +182,21 @@ export function Prep() {
       {!active ? (
         <div className="hifi-card tab-module-form" style={{ marginTop: 14, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
-            title="Belum ada sesi prep aktif"
-            body="Mulai satu sesi untuk mencatat bahan, susut, dan urutan masak — fokus satu alur sampai selesai."
+            title="Belum ada sesi prep yang jalan"
+            body="Mulai satu sesi aja — catat bahan, susut, sama urutan masak biar minggu ini lebih rapi dan gak lupa langkah."
             illustration={<IllustrationEmptyPlate />}
           />
           <div style={{ padding: '0 18px 18px' }}>
             <p className="prep-section-kicker" style={{ marginTop: 0 }}>
-              Sesi baru
+              Mulai yang baru
             </p>
             <h3 className="h-serif" style={{ fontSize: '1.1rem' }}>
-              Mulai sesi prep — {dow}
+              Yuk prep hari {dow}
             </h3>
             <form onSubmit={startSession} style={{ display: 'grid', gap: 12, marginTop: 12 }}>
             <FormField
-              label="Catatan sesi"
-              hint="Contoh: Prep Minggu pagi, batch untuk anak & orang tua"
+              label="Catatan kecil (opsional)"
+              hint="Misal: prep Minggu pagi, buat bekal anak & suami"
               fieldId="prep-start-notes"
             >
               <input
@@ -208,7 +208,7 @@ export function Prep() {
               />
             </FormField>
             <button className="btn-primary" type="submit">
-              Mulai sesi prep
+              Mulai prep sekarang
             </button>
           </form>
           </div>
@@ -261,19 +261,19 @@ export function Prep() {
               style={{ marginTop: 14, width: '100%', background: 'rgba(255,255,255,0.35)' }}
               onClick={() => void endSession(activeId!)}
             >
-              Akhiri sesi
+              Selesai prep untuk kali ini
             </button>
           </div>
 
           <div style={{ marginTop: 22 }}>
             <p className="prep-section-kicker" style={{ marginTop: 0 }}>
-              Bahan & porsi
+              Bahan & perkiraan porsi
             </p>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
               <h3 className="h-serif" style={{ fontSize: '1.2rem' }}>
                 Bahan utama
               </h3>
-              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>estimasi 7 hari</span>
+              <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>kira-kira buat 7 hari</span>
             </div>
             <div
               style={{
@@ -300,14 +300,14 @@ export function Prep() {
               })}
               {ingredients.length === 0 ? (
                 <p style={{ gridColumn: '1 / -1', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                  Tambahkan bahan di bawah — kisi menampilkan empat item pertama.
+                  Tambah bahan di bawah ya — yang tampil di kisi cuma empat pertama (sisanya tetap ke-save).
                 </p>
               ) : null}
             </div>
           </div>
 
           <div style={{ marginTop: 22 }}>
-            <p className="prep-section-kicker">Alur kerja</p>
+            <p className="prep-section-kicker">Urutan kerja di dapur</p>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 className="h-serif" style={{ fontSize: '1.2rem' }}>
                 Urutan masak
@@ -316,13 +316,13 @@ export function Prep() {
                 className="tag-prep"
                 style={{ fontSize: '0.62rem', background: 'rgba(212,149,71,0.25)', color: '#5c4f3d' }}
               >
-                checklist
+                ceklis
               </span>
             </div>
             <div className="hifi-card" style={{ marginTop: 12, padding: '8px 0' }}>
               {steps.length === 0 ? (
                 <p style={{ padding: '12px 16px', margin: 0, color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                  Belum ada langkah — tambahkan dari formulir di bawah.
+                  Belum ada langkah — tambah dari form di bawah, pelan-pelan aja.
                 </p>
               ) : (
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
@@ -361,7 +361,7 @@ export function Prep() {
             </div>
             <form onSubmit={addStep} style={{ display: 'flex', gap: 8, marginTop: 12, alignItems: 'flex-end' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <FormField label="Langkah berikutnya" hint="Contoh: Rebus ayam, kupas ubi" fieldId="prep-step-title">
+                <FormField label="Langkah berikutnya" hint="Misal: rebus ayam, kupas ubi" fieldId="prep-step-title">
                   <input
                     id="prep-step-title"
                     className="input"
@@ -376,17 +376,17 @@ export function Prep() {
                 className="btn-primary"
                 type="submit"
                 style={{ width: 'auto', padding: '12px 18px', flexShrink: 0 }}
-                aria-label="Tambah langkah"
+                aria-label="Tambah langkah masak"
               >
                 +
               </button>
             </form>
           </div>
 
-          <p className="prep-section-kicker">Log bahan</p>
+          <p className="prep-section-kicker">Catat bahan ke sesi</p>
           <div className="hifi-card tab-module-form" style={{ marginTop: 0 }}>
             <h3 className="h-serif" style={{ fontSize: '1.05rem' }}>
-              Tambah bahan ke sesi
+              Tambah bahan buat sesi ini
             </h3>
             <form onSubmit={addIngredient} style={{ display: 'grid', gap: 12, marginTop: 12 }}>
               <FormField label="Nama bahan" hint="Contoh: Dada ayam tanpa tulang" fieldId="prep-ing-name">
@@ -420,7 +420,7 @@ export function Prep() {
                 </FormField>
               </div>
               <button className="btn-primary" type="submit">
-                Tambah ke sesi
+                Simpan bahan
               </button>
             </form>
           </div>
@@ -429,7 +429,7 @@ export function Prep() {
 
       {sessions.filter((s) => s.endedAt).length > 0 ? (
         <div style={{ marginTop: 24 }}>
-          <p className="prep-section-kicker">Riwayat</p>
+          <p className="prep-section-kicker">Yang udah selesai</p>
           {sessions
             .filter((s) => s.endedAt)
             .map((s) => (

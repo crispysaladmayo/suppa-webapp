@@ -77,7 +77,9 @@ export function HariIni() {
       }
     } catch (e) {
       log.error('hari_ini_load_failed', { err: String(e) });
-      setLoadError('Ringkasan hari ini tidak bisa dimuat. Periksa sambungan, lalu coba lagi.');
+      setLoadError(
+        'Lagi susah nyambung ke server — cek WiFi atau kuota kamu dulu, terus coba lagi ya.',
+      );
     }
   }
 
@@ -102,8 +104,9 @@ export function HariIni() {
     const row = crit ?? low;
     if (!row) return null;
     const name = String((row.prepItem as { name?: string }).name ?? 'Item');
-    if (crit) return `⚠️ Stok ${name} kritis — restock atau siapkan batch prep.`;
-    return `⚠️ ${name} menipis — perkiraan habis dalam beberapa hari.`;
+    if (crit)
+      return `⚠️ Waduh, stok ${name} tinggal dikit banget — sempetin restock atau prep ulang ya, Bun.`;
+    return `⚠️ ${name} mulai menipis — kayanya masih cukup beberapa hari lagi kalau dipakai hemat.`;
   }, [summary]);
 
   const activeSession = useMemo(
@@ -118,7 +121,7 @@ export function HariIni() {
     try {
       const g = Number(grams);
       if (!prepItemId || !personId || !Number.isFinite(g) || g <= 0) {
-        setError('Pilih batch prep, anggota keluarga, dan berat dalam gram (lebih dari 0).');
+        setError('Pilih batch prep-nya, siapa yang makan, sama beratnya (gram) — isi yang lebih dari 0 ya.');
         return;
       }
       await api.logConsumption({
@@ -130,7 +133,7 @@ export function HariIni() {
       setGrams('80');
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal mencatat');
+      setError(err instanceof Error ? err.message : 'Belum ke-save — coba lagi bentar lagi ya.');
     } finally {
       setBusy(false);
     }
@@ -142,7 +145,7 @@ export function HariIni() {
         <div>
           <p className="eyebrow">{headerDayMonth()}</p>
           <h1 className="screen-title hari-ini-hero-title">Stok meal prep</h1>
-          <ConflictOrErrorBanner error={new Error(loadError)} onRefresh={() => void load()} contextLabel="Ringkasan" />
+          <ConflictOrErrorBanner error={new Error(loadError)} onRefresh={() => void load()} contextLabel="Layar hari ini" />
         </div>
       );
     }
@@ -172,7 +175,8 @@ export function HariIni() {
       <p className="eyebrow">{headerDayMonth()}</p>
       <h1 className="screen-title hari-ini-hero-title">Stok meal prep</h1>
       <p className="hari-ini-hero-sub">
-        Lihat stok prep, menu hari ini, dan belanja terbuka — tanpa pindah tab bolak-balik.
+        Di sini kelihatan stok prep, menu hari ini, sama yang masih harus dibelanjain — tanpa bolak-balik tab,
+        biar tenang sebentar.
       </p>
 
       {alertLine ? (
@@ -200,11 +204,11 @@ export function HariIni() {
 
       <div className="hifi-card" style={{ marginTop: 14 }}>
         <p className="eyebrow" style={{ letterSpacing: '0.08em' }}>
-          Tersisa dari prep minggu
+          Sisa stok dari prep minggu ini
         </p>
         {summary.prep.items.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', margin: '8px 0 0' }}>
-            Belum ada batch prep yang tercatat untuk minggu ini.
+            Belum ada batch prep yang kita catat minggu ini — santai, bisa mulai dari tab Prep kalau mau.
           </p>
         ) : (
           <div style={{ display: 'flex', gap: 20, alignItems: 'center', marginTop: 8 }}>
@@ -229,7 +233,7 @@ export function HariIni() {
             </div>
             <div style={{ flex: 1 }}>
               <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.45 }}>
-                {eatenPct}% sudah dimakan · hari ke-{dayInWeek} dari 7
+                {eatenPct}% udah habis dimakan · ini hari ke-{dayInWeek} dari 7
               </p>
             </div>
           </div>
@@ -267,9 +271,10 @@ export function HariIni() {
             lineHeight: 1.45,
           }}
         >
-          Rencana minggu ini:{' '}
-          <strong style={{ color: 'var(--text)' }}>{weekPlan.totalMeals} menu</strong>{' '}
-          · {weekPlan.daysWithMeals} hari berisi menu · {weekPlan.recipeBackedMeals} terhubung resep Nutria
+          Minggu ini kita catat{' '}
+          <strong style={{ color: 'var(--text)' }}>{weekPlan.totalMeals} menu</strong>
+          {' · '}
+          {weekPlan.daysWithMeals} hari udah keisi · {weekPlan.recipeBackedMeals} menu pakai resep Nutria
         </p>
 
         <div style={{ display: 'grid', gap: 10, marginTop: 16 }}>
@@ -289,7 +294,7 @@ export function HariIni() {
               goToTab('rencana');
             }}
           >
-            Buka ringkasan rencana minggu ›
+            Lihat rencana minggu lengkapnya ›
           </button>
           <button
             type="button"
@@ -297,7 +302,7 @@ export function HariIni() {
             style={{ width: '100%', marginTop: 0 }}
             onClick={() => setPrepModalOpen(true)}
           >
-            Atur prep untuk minggu depan ›
+            Yuk siapin prep minggu depan ›
           </button>
         </div>
       </div>
@@ -317,12 +322,13 @@ export function HariIni() {
             style={{ border: '1px solid var(--border-soft)', margin: 0 }}
           >
             <h3 id="prep-modal-title" className="h-serif" style={{ fontSize: '1.15rem', margin: 0 }}>
-              Atur menu untuk prep minggu depan
+              Minggu depan mau dimasak apa?
             </h3>
             <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.5 }}>
-              Minggu tujuan dimulai <strong>{nextWeekStart}</strong>. Anda bisa menyalin menu dari minggu
-              berjalan ({weekStart}) atau mulai dari nol lalu mengisi per hari di tab Rencana. Setelah menu
-              memakai resep Nutria, gunakan finalisasi di Rencana untuk mengisi daftar belanja.
+              Minggu barunya mulai <strong>{nextWeekStart}</strong>. Kamu bisa nyalin menu dari minggu ini (
+              {weekStart}) biar gak mulai dari nol, atau kosongin dulu terus isi pelan-pelan di tab Rencana.
+              Nanti kalau menunya udah pakai resep Nutria, tinggal finalisasi di Rencana biar list belanja
+              keisi sendiri.
             </p>
             <label
               style={{
@@ -339,7 +345,7 @@ export function HariIni() {
                 onChange={(ev) => setReplaceNextWeek(ev.target.checked)}
               />
               <span>
-                Jika minggu depan sudah berisi menu, ganti seluruhnya dengan salinan dari minggu ini
+                Kalau minggu depan udah ada isinya, ganti semua dengan salinan dari minggu ini
               </span>
             </label>
             <div style={{ display: 'grid', gap: 10, marginTop: 18 }}>
@@ -360,7 +366,7 @@ export function HariIni() {
                   goToTab('rencana');
                 }}
               >
-                Salin menu dari minggu ini
+                Iya, pakai menu minggu ini lagi
               </button>
               <button
                 type="button"
@@ -378,10 +384,10 @@ export function HariIni() {
                   goToTab('rencana');
                 }}
               >
-                Mulai minggu depan dari nol
+                Enggak, mulai kosong aja
               </button>
               <button type="button" className="btn-ghost" onClick={() => setPrepModalOpen(false)}>
-                Batal
+                Nanti dulu
               </button>
             </div>
           </div>
@@ -400,7 +406,7 @@ export function HariIni() {
           <div style={{ fontSize: '1.25rem', marginBottom: 6 }} aria-hidden>
             🛒
           </div>
-          <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{groceryOpen} item belanja terbuka</div>
+          <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{groceryOpen} barang belum kebeli</div>
           <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', marginTop: 4 }}>
             Rp{groceryTotal.toLocaleString('id-ID')}
           </div>
@@ -410,21 +416,21 @@ export function HariIni() {
             🍞
           </div>
           <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>
-            {activeSession ? 'Sesi prep aktif' : 'Belum ada sesi'}
+            {activeSession ? 'Lagi prep nih' : 'Belum ada sesi prep'}
           </div>
           <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: 6, lineHeight: 1.4 }}>
             {activeSession
-              ? `Mulai ${String(activeSession.startedAt).slice(11, 16)}`
-              : 'Buka tab Prep untuk memulai'}
+              ? `Mulai jam ${String(activeSession.startedAt).slice(11, 16)}`
+              : 'Mau mulai? buka tab Prep'}
           </div>
         </div>
       </div>
 
       <details className="hifi-details hifi-card" style={{ marginTop: 16, padding: '14px 16px' }}>
-        <summary style={{ marginBottom: 8 }}>Catat konsumsi cepat</summary>
+        <summary style={{ marginBottom: 8 }}>Catat habis berapa gram (cepat)</summary>
         {summary.prep.items.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Tambahkan batch prep dulu agar konsumsi bisa dicatat.
+            Tambah batch prep dulu ya, baru bisa nitung yang habis dimakan.
           </p>
         ) : (
           <form onSubmit={onLog} style={{ display: 'grid', gap: 10, marginTop: 10 }}>
@@ -455,18 +461,18 @@ export function HariIni() {
               value={grams}
               onChange={(ev) => setGrams(ev.target.value)}
               inputMode="decimal"
-              placeholder="contoh: 80"
+              placeholder="misalnya: 80"
             />
             {error ? <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div> : null}
             <button className="btn-primary" type="submit" disabled={busy}>
-              Simpan catatan
+              Simpan
             </button>
           </form>
         )}
       </details>
 
       <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 16 }}>
-        {pantryCount} barang di pantry · {groceryOpen} belum ditandai di daftar belanja
+        {pantryCount} barang di pantry · {groceryOpen} belum dicentang di list belanja
       </p>
     </div>
   );

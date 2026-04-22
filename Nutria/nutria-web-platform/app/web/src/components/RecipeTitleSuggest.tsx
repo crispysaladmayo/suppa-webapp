@@ -23,7 +23,7 @@ export function RecipeTitleSuggest({
     <div className="recipe-title-field">
       <FormField
         label="Nama makanan"
-        hint="Ketik untuk mencari resep Nutria, atau nama baru jika Anda membuat resep sendiri."
+        hint="Ketik buat cari resep Nutria, atau nama baru kalau kamu bikin resep sendiri."
         fieldId="meal-title"
       >
         <input
@@ -40,7 +40,7 @@ export function RecipeTitleSuggest({
       </FormField>
       {recipeLocked ? (
         <button type="button" className="btn-inline recipe-title-field__unlink" onClick={onClearRecipe}>
-          Lepas resep, edit manual
+          Lepas resep · edit manual
         </button>
       ) : null}
       {!recipeLocked && suggestions.length > 0 ? (
@@ -54,7 +54,7 @@ export function RecipeTitleSuggest({
                 onClick={() => onPickRecipe(String(s.id))}
               >
                 <span className="recipe-suggest-item__title">{String(s.title)}</span>
-                <span className="recipe-suggest-item__meta">Resep Nutria · ketuk untuk memilih</span>
+                <span className="recipe-suggest-item__meta">Resep Nutria · ketuk kalau mau dipakai</span>
               </button>
             </li>
           ))}

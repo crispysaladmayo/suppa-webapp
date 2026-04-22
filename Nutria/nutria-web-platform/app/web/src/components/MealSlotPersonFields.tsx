@@ -13,7 +13,7 @@ type Props = {
 export function MealSlotPersonFields({ slot, setSlot, persons, personId, setPersonId }: Props) {
   return (
     <>
-      <FormField label="Waktu makan" fieldId="meal-slot">
+      <FormField label="Makan kapan?" fieldId="meal-slot">
         <div className="select-shell">
           <select
             id="meal-slot"
@@ -28,7 +28,7 @@ export function MealSlotPersonFields({ slot, setSlot, persons, personId, setPers
           </select>
         </div>
       </FormField>
-      <FormField label="Untuk siapa" fieldId="meal-person">
+      <FormField label="Buat siapa?" fieldId="meal-person">
         <div className="select-shell">
           <select
             id="meal-person"

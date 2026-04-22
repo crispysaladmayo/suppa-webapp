@@ -22,7 +22,7 @@ export function LoginPage() {
         await register(email, password, householdName);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal');
+      setError(err instanceof Error ? err.message : 'Ada yang salah — coba lagi sebentar lagi ya.');
     } finally {
       setLoading(false);
     }
@@ -33,13 +33,14 @@ export function LoginPage() {
       <div className="login-mark">
         <NutriaMark />
       </div>
-      <p className="login-eyebrow">Nutria</p>
+      <p className="login-eyebrow">Hai, Bunda</p>
       <div className="login-card">
         <h1 className="screen-title" style={{ fontSize: '1.92rem' }}>
-          Rencana makan keluarga dalam satu akun
+          Nutria nemenin menu & belanja keluarga kamu
         </h1>
         <p className="login-lede" style={{ color: 'var(--text-muted)', marginTop: 10, marginBottom: 0 }}>
-          Lacak stok prep, isi menu mingguan, dan satukan daftar belanja untuk semua anggota rumah tangga.
+          Stok prep, jadwal makan mingguan, sama list belanja — biar minggu ini lebih ringan, gak harus
+          ingat semuanya sendirian.
         </p>
         <div className="login-toggle">
           <button type="button" data-on={mode === 'login'} onClick={() => setMode('login')}>
@@ -72,7 +73,7 @@ export function LoginPage() {
           {mode === 'register' ? (
             <label>
               <div style={{ fontSize: '0.82rem', fontWeight: 600, marginBottom: 6 }}>
-                Nama rumah tangga
+                Nama keluarga di Nutria
               </div>
               <input
                 className="input"
@@ -85,11 +86,11 @@ export function LoginPage() {
             <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div>
           ) : null}
           <button className="btn-primary" type="submit" disabled={loading}>
-            {mode === 'login' ? 'Masuk' : 'Buat akun'}
+            {mode === 'login' ? 'Masuk ke Nutria' : 'Yuk buat akun'}
           </button>
         </form>
         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 20, lineHeight: 1.45 }}>
-          Demo lokal: jalankan seed backend, lalu ikuti akun contoh di README folder{' '}
+          Mode demo di laptop: jalankan seed backend, terus lihat contoh akunnya di README folder{' '}
           <code style={{ fontSize: '0.9em' }}>nutria-web-platform</code>.
         </p>
       </div>

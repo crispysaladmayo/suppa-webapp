@@ -19,13 +19,13 @@ export function RencanaWeekSummaryCard({
   return (
     <div ref={summaryRef} className="tab-meta-card">
       <p className="tab-module-kicker" style={{ color: 'var(--accent)', marginBottom: 8 }}>
-        Gambaran minggu
+        Kilas balik minggu ini
       </p>
       <h3 className="h-serif" style={{ fontSize: '1.12rem', margin: 0 }}>
-        Ringkasan rencana
+        Ringkasan singkat
       </h3>
       <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', margin: '8px 0 0', lineHeight: 1.45 }}>
-        {mealsTotal} menu tercatat · {recipeBacked} terhubung ke resep Nutria (untuk menghitung belanja).
+        {mealsTotal} menu udah kecatat · {recipeBacked} udah nempel resep Nutria (biar hitung belanjanya gampang).
       </p>
       <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}>
         {mealCountByDay.map((n, i) => (

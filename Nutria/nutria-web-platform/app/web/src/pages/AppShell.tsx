@@ -34,19 +34,19 @@ export function AppShell() {
             <div>
               <p className="app-masthead__name">Nutria</p>
               <p className="app-masthead__tagline" aria-hidden>
-                Makan · Rencana · Stok
+                Menu minggu · stok prep · belanja
               </p>
             </div>
           </div>
           <button type="button" className="app-masthead__logout" onClick={() => void logout()}>
-            Keluar
+            Keluar akun
           </button>
         </header>
         <main key={tab} className="tab-panel" id="main" aria-label={TAB_COPY[tab]}>
           {body}
         </main>
 
-        <nav className="tabs tabs--v2" aria-label="Navigasi utama">
+        <nav className="tabs tabs--v2" aria-label="Pindah halaman utama">
           <div className="tabs__inner">
             <button
               type="button"

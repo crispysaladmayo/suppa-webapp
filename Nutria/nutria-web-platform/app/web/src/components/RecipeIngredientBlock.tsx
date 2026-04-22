@@ -10,17 +10,17 @@ type Props = {
 export function RecipeIngredientBlock({ recipeLocked, busy, ingredientRows, setIngredientRows }: Props) {
   return (
     <>
-      <div className="form-section-title">Bahan (resep)</div>
+      <div className="form-section-title">Bahan untuk resep</div>
       <p className="recipe-ingredient-hint">
         {recipeLocked
-          ? 'Bahan dari resep Nutria. Lepas resep untuk mengedit atau menyimpan variasi baru.'
-          : 'Setiap baris: satu bahan dan berat total (gram) untuk hidangan ini. Jika diisi, Nutria menyimpan resep baru saat Anda menekan simpan (nama makanan sebaiknya unik).'}
+          ? 'Ini bahan dari resep Nutria. Mau ubah? lepas dulu resepnya, nanti bisa disimpan jadi variasi baru.'
+          : 'Tiap baris: satu bahan + berat total (gram) buat hidangan ini. Kalau diisi rapi, Nutria simpan jadi resep baru pas kamu pencet simpan (nama makanannya enaknya beda biar gak ketuker).'}
       </p>
       {ingredientRows.map((row, idx) => (
         <div key={idx} className="ingredient-row">
           <input
             className="input"
-            placeholder="contoh: Dada ayam fillet"
+            placeholder="misal: dada ayam fillet"
             value={row.name}
             disabled={recipeLocked || busy}
             onChange={(ev) => {
@@ -53,7 +53,7 @@ export function RecipeIngredientBlock({ recipeLocked, busy, ingredientRows, setI
           className="btn-ghost"
           onClick={() => setIngredientRows([...ingredientRows, { name: '', grams: '' }])}
         >
-          + Tambah bahan
+          + Bahan lagi
         </button>
       ) : null}
     </>

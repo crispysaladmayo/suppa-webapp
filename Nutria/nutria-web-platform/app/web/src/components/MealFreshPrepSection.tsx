@@ -17,10 +17,10 @@ export function MealFreshPrepSection({
 }: Props) {
   return (
     <>
-      <div className="form-section-title">Sumber makanan</div>
+      <div className="form-section-title">Makanannya dari mana?</div>
       <FormField
-        label="Segar atau dari prep?"
-        hint="Menu dari prep mengurangi stok batch yang Anda hubungkan"
+        label="Segar atau dari stok prep?"
+        hint="Kalau dari prep, stok batch yang kamu hubungin bakal berkurang"
         fieldId="meal-fresh"
       >
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -46,14 +46,14 @@ export function MealFreshPrepSection({
         </div>
       </FormField>
       {!isFresh ? (
-        <FormField label="Hubungkan ke item prep (opsional)" fieldId="meal-prep-link">
+        <FormField label="Mau nempel ke batch prep yang mana? (opsional)" fieldId="meal-prep-link">
           <select
             id="meal-prep-link"
             className="input"
             value={linkedPrepItemId}
             onChange={(ev) => setLinkedPrepItemId(ev.target.value)}
           >
-            <option value="">— Tidak memilih —</option>
+            <option value="">— Biarin dulu —</option>
             {prepItemOptions.map((pi) => (
               <option key={String(pi.id)} value={String(pi.id)}>
                 {String(pi.name)}

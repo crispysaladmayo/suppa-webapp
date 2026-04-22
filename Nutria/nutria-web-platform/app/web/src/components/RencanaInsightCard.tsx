@@ -48,8 +48,8 @@ export function RencanaInsightCard({ insight, insightOpen, setInsightOpen }: Pro
         </p>
         {insightOpen ? (
           <p style={{ margin: '10px 0 0', fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.45 }}>
-            Alur disarankan: isi menu per hari → lengkapi kalori dan protein bila perlu → hubungkan resep
-            untuk belanja otomatis → finalisasi.
+            Urutan yang enak dijalani: isi menu tiap hari → rapikan kalori & protein kalau sempat → tempel
+            resep biar belanja keisi sendiri → finalisasi pas udah kebayang minggunya.
           </p>
         ) : null}
       </div>

@@ -170,7 +170,7 @@ export function RencanaMealForm({
           vitaminCMg,
         ),
         unmatched: [] as string[],
-        portionsNote: 'Per porsi sesuai data resep Nutria (satu entri log).',
+        portionsNote: 'Per porsi ngikut data resep Nutria yang kamu pilih.',
       };
     }
     if (validIngredientRows.length === 0) {
@@ -249,7 +249,7 @@ export function RencanaMealForm({
       );
       setSuggestions([]);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Gagal memuat resep');
+      setError(e instanceof Error ? e.message : 'Resepnya belum kebuka — coba lagi ya.');
     }
   }
 
@@ -271,7 +271,7 @@ export function RencanaMealForm({
     setError(null);
     setSaveFeedback(null);
     if (!title.trim()) {
-      setError('Isi nama makanan terlebih dahulu.');
+      setError('Tulis nama makanannya dulu ya.');
       return;
     }
     setBusy(true);
@@ -348,21 +348,21 @@ export function RencanaMealForm({
       resetForm();
       onMealSaved();
       const successTitle = createdNewRecipe
-        ? 'Tersimpan — resep Nutria baru'
-        : 'Menu tersimpan';
+        ? 'Hore, resep barunya ke-save'
+        : 'Menu udah masuk rencana';
       const successSub = createdNewRecipe
-        ? `“${savedTitle}” tersimpan di Nutria dan terhubung ke menu ini. Cari lagi dengan mengetik nama yang sama.`
-        : `“${savedTitle}” muncul di rencana untuk hari dan waktu makan yang Anda pilih.`;
+        ? `“${savedTitle}” sekarang ada di Nutria dan nempel ke menu ini. Mau dipakai lagi? tinggal ketik nama yang mirip.`
+        : `“${savedTitle}” udah muncul di hari & waktu makan yang kamu pilih — tinggal lanjut isi hari lain kalau mau.`;
       setSaveFeedback({ title: successTitle, sub: successSub });
       const toastMsg = createdNewRecipe
-        ? `Resep baru tersimpan: ${savedTitle}`
-        : `Menu tersimpan: ${savedTitle}`;
+        ? `Resep baru ke-save: ${savedTitle}`
+        : `Menu ke-save: ${savedTitle}`;
       showToast(toastMsg, { durationMs: 5500 });
       window.requestAnimationFrame(() => {
         feedbackRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Gagal menambah');
+      setError(err instanceof Error ? err.message : 'Belum ke-save — coba lagi sebentar ya.');
     } finally {
       setBusy(false);
     }
@@ -371,12 +371,11 @@ export function RencanaMealForm({
   return (
     <div className="hifi-card tab-module-form" ref={formRef} style={{ marginTop: 8 }}>
       <h3 className="h-serif" style={{ fontSize: '1.1rem' }}>
-        Catat menu dan resep
+        Tulis menu & resepnya
       </h3>
       <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 6, lineHeight: 1.45 }}>
-        Ketik nama untuk mencari resep, atau isi daftar bahan — Nutria menghitung perkiraan nutrisi dari
-        tabel komposisi pangan Indonesia. Bahan yang lengkap disimpan sebagai resep baru saat Anda menekan
-        simpan.
+        Ketik nama buat cari resep yang udah ada, atau isi bahan sendiri — Nutria bantu kira-kira nutrisinya
+        dari tabel pangan Indonesia. Kalau bahannya lengkap, resep baru ke-save pas kamu pencet simpan.
       </p>
       <form onSubmit={addMeal} style={{ display: 'grid', gap: 14, marginTop: 14 }}>
         {saveFeedback ? (
@@ -391,7 +390,7 @@ export function RencanaMealForm({
           </div>
         ) : null}
 
-        <div className="form-section-title">Dasar</div>
+        <div className="form-section-title">Yang penting dulu</div>
         <RecipeTitleSuggest
           title={title}
           setTitle={setTitle}
@@ -446,7 +445,7 @@ export function RencanaMealForm({
           </div>
         ) : null}
         <button className="btn-primary" type="submit" disabled={busy}>
-          Simpan menu ke rencana
+          Simpan ke rencana
         </button>
       </form>
     </div>

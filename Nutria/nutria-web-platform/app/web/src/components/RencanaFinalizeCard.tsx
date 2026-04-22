@@ -9,14 +9,14 @@ export function RencanaFinalizeCard({ recipeBacked, finalizeBusy, error, onFinal
   return (
     <div className="tab-meta-card">
       <p className="tab-module-kicker" style={{ color: 'var(--accent)', marginBottom: 8 }}>
-        Langkah berikutnya
+        Biar makin lengkap
       </p>
       <h3 className="h-serif" style={{ fontSize: '1.12rem', margin: 0 }}>
-        Finalisasi belanja
+        Rapikan jadi list belanja
       </h3>
       <p style={{ fontSize: '0.84rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.45 }}>
-        Gabungkan bahan dari menu yang sudah terhubung resep Nutria, lalu kirim perkiraan ke tab Belanja.
-        Baris belanja yang sebelumnya dibuat dari rencana ini akan diganti.
+        Nutria bakal gabungin bahan dari menu yang udah nempel resep, terus kirim perkiraannya ke tab Belanja.
+        List belanja lama dari rencana ini bakal diganti yang baru — jadi lebih rapi.
       </p>
       {error ? (
         <p style={{ color: 'var(--danger)', fontSize: '0.88rem', marginTop: 10 }} role="alert">
@@ -30,12 +30,12 @@ export function RencanaFinalizeCard({ recipeBacked, finalizeBusy, error, onFinal
         disabled={finalizeBusy || recipeBacked === 0}
         onClick={onFinalize}
       >
-        {finalizeBusy ? 'Memproses…' : 'Finalisasi dan buka Belanja'}
+        {finalizeBusy ? 'Tunggu sebentar…' : 'Finalisasi & buka Belanja'}
       </button>
       {recipeBacked === 0 ? (
         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.4 }}>
-          Tambah menu lalu simpan atau hubungkan resep Nutria — tanpa resep, bahan tidak bisa
-          dijumlahkan otomatis untuk belanja.
+          Tambah menu dulu dan sambungin ke resep Nutria ya — tanpa resep, bahannya susah dijumlahin otomatis
+          buat belanja.
         </p>
       ) : null}
     </div>

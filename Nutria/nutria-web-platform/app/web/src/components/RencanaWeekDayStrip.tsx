@@ -30,7 +30,7 @@ export function RencanaWeekDayStrip({ weekStart, dayIndex, setDayIndex, mealCoun
             type="button"
             onClick={() => setDayIndex(i)}
             aria-current={active ? 'true' : undefined}
-            aria-label={`${weekStripLabel(i, weekStart)}, ${n} menu`}
+            aria-label={`${weekStripLabel(i, weekStart)}, ${n} menu tercatat`}
             style={{
               flex: '0 0 auto',
               minWidth: 58,

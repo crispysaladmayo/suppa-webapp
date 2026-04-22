@@ -26,7 +26,7 @@ export function RencanaMealDayList({ groupedSlots, persons }: Props) {
   if (groupedSlots.length === 0) {
     return (
       <div className="hifi-card" style={{ marginBottom: 14 }}>
-        <p style={{ margin: 0, color: 'var(--text-muted)' }}>Belum ada menu untuk hari ini.</p>
+        <p style={{ margin: 0, color: 'var(--text-muted)' }}>Belum ada menu buat hari ini — yuk isi dari form di bawah.</p>
       </div>
     );
   }

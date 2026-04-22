@@ -56,7 +56,7 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
       <div className="today-plan-header">
         <div>
           <p className="today-plan-kicker" id="today-plan-heading">
-            Menu keluarga
+            Menu keluarga hari ini
           </p>
           <p className="today-plan-lede">
             <span className="today-plan-lede-strong">{dayName}</span>
@@ -66,23 +66,23 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
             <span className="today-plan-lede-muted">Minggu {weekLabel}</span>
           </p>
           {sorted.length > 0 ? (
-            <p className="today-plan-meta">{sorted.length} menu · urut waktu makan</p>
+            <p className="today-plan-meta">{sorted.length} menu · urut dari sarapan sampai camilan</p>
           ) : null}
         </div>
         <button type="button" className="btn-today-plan-edit" onClick={onEditInPlanner}>
-          Ubah di Rencana
+          Ubah di tab Rencana
         </button>
       </div>
 
       {sorted.length === 0 ? (
         <div className="today-plan-empty">
-          <p className="today-plan-empty-title">Belum ada menu untuk hari ini</p>
+          <p className="today-plan-empty-title">Hari ini belum ada menu yang dicatat</p>
           <p className="today-plan-empty-body">
-            Isi sarapan, makan siang, dan makan malam di Rencana agar semua anggota melihat jadwal yang
-            sama — tanpa tebak-tebakan di grup chat.
+            Tenang, isi sarapan–makan siang–makan malam di Rencana — biar suami atau ART ikut lihat jadwalnya
+            tanpa harus nanya berkali-kali.
           </p>
           <button type="button" className="btn-primary today-plan-empty-cta" onClick={onEditInPlanner}>
-            Buka Rencana
+            Yuk ke Rencana
           </button>
         </div>
       ) : (
@@ -124,7 +124,7 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
                       {macroLine ? <p className="today-plan-macros">{macroLine}</p> : null}
                     </div>
                     {who ? (
-                      <div className="today-plan-avatar" title={who} aria-label={`Untuk ${who}`}>
+                      <div className="today-plan-avatar" title={who} aria-label={`Buat ${who}`}>
                         {initialOf(who)}
                       </div>
                     ) : null}
