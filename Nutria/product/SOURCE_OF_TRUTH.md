@@ -48,7 +48,7 @@
 ## Tab: Belanja
 
 - **Eyebrow:** `BELANJA MINGGUAN` (small caps grey).
-- **Title:** **Grocery** (serif) + filter affordance (optional).
+- **Title:** **Belanja** (serif) + filter affordance (optional).
 - **Dark hero:** `PERKIRAAN TOTAL`, large `Rp…` (serif), subline `n item belanja · m sudah ada di dapur` (pantry count), **progress bar** (e.g. checked / total), caption `x dari y sudah masuk keranjang`.
 - **Categories:** Collapsible; header = colored icon tile + category title + `checked/total · Rp…` + chevron.
 - **Rows:** Checkbox / check circle; name + detail line; price right; strikethrough when checked.

@@ -23,7 +23,7 @@ export function RecipeTitleSuggest({
     <div className="recipe-title-field">
       <FormField
         label="Nama makanan"
-        hint="Ketik buat cari resep Nutria, atau nama baru kalau kamu bikin resep sendiri."
+        hint="Ketik untuk mencari resep Nutria, atau nama baru bila membuat resep sendiri."
         fieldId="meal-title"
       >
         <input

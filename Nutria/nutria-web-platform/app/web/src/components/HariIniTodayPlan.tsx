@@ -76,12 +76,12 @@ export function HariIniTodayPlan({ meals, persons, weekStart, onEditInPlanner }:
 
       {sorted.length === 0 ? (
         <div className="today-plan-empty">
-          <p className="today-plan-empty-title">Hari ini belum ada menu yang dicatat</p>
+          <p className="today-plan-empty-title">Belum ada menu untuk hari ini</p>
           <p className="today-plan-empty-body">
-            Isi makanan di Rencana — anggota rumah lihat jadwal tanpa tanya ulang.
+            Isi di tab Rencana — keluarga melihat jadwal yang sama tanpa tanya berulang.
           </p>
           <button type="button" className="btn-primary today-plan-empty-cta" onClick={onEditInPlanner}>
-            Yuk ke Rencana
+            Buka Rencana
           </button>
         </div>
       ) : (

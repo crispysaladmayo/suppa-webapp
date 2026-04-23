@@ -170,7 +170,7 @@ export function RencanaMealForm({
           vitaminCMg,
         ),
         unmatched: [] as string[],
-        portionsNote: 'Per porsi ngikut data resep Nutria yang kamu pilih.',
+        portionsNote: 'Per porsi mengikuti data resep Nutria yang dipilih.',
       };
     }
     if (validIngredientRows.length === 0) {
@@ -249,7 +249,7 @@ export function RencanaMealForm({
       );
       setSuggestions([]);
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Resepnya belum kebuka — coba lagi ya.');
+      setError(e instanceof Error ? e.message : 'Resep belum terbuka. Coba lagi sebentar.');
     }
   }
 
@@ -349,10 +349,10 @@ export function RencanaMealForm({
       onMealSaved();
       const successTitle = createdNewRecipe
         ? 'Hore, resep barunya ke-save'
-        : 'Menu udah masuk rencana';
+        : 'Menu tersimpan di rencana';
       const successSub = createdNewRecipe
         ? `“${savedTitle}” sekarang ada di Nutria dan nempel ke menu ini. Mau dipakai lagi? tinggal ketik nama yang mirip.`
-        : `“${savedTitle}” udah muncul di hari & waktu makan yang kamu pilih — tinggal lanjut isi hari lain kalau mau.`;
+        : `“${savedTitle}” sudah tercatat di hari dan waktu makan yang dipilih — lanjut isi hari lain bila perlu.`;
       setSaveFeedback({ title: successTitle, sub: successSub });
       const toastMsg = createdNewRecipe
         ? `Resep baru ke-save: ${savedTitle}`
@@ -362,7 +362,7 @@ export function RencanaMealForm({
         feedbackRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Belum ke-save — coba lagi sebentar ya.');
+      setError(err instanceof Error ? err.message : 'Belum tersimpan. Coba lagi sebentar.');
     } finally {
       setBusy(false);
     }
@@ -371,11 +371,12 @@ export function RencanaMealForm({
   return (
     <div className="hifi-card tab-module-form" ref={formRef} style={{ marginTop: 8 }}>
       <h3 className="h-serif" style={{ fontSize: '1.1rem' }}>
-        Tulis menu & resepnya
+        Tulis menu & resep
       </h3>
       <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: 6, lineHeight: 1.45 }}>
-        Ketik nama buat cari resep yang udah ada, atau isi bahan sendiri — Nutria bantu kira-kira nutrisinya
-        dari tabel pangan Indonesia. Kalau bahannya lengkap, resep baru ke-save pas kamu pencet simpan.
+        Cari resep yang sudah ada di Nutria, atau isi bahan sendiri — Nutria membantu memperkirakan
+        ringkasan gizi dari tabel komposisi. Bahan lengkap tersimpan sebagai resep baru saat Simpan
+        ditekan (nama hidangan sebaiknya unik agar mudah dibedakan).
       </p>
       <form onSubmit={addMeal} style={{ display: 'grid', gap: 14, marginTop: 14 }}>
         {saveFeedback ? (

@@ -49,7 +49,7 @@ export function Rencana() {
       if (!personId && p.persons[0]?.id) setPersonId(String(p.persons[0].id));
     } catch (e) {
       log.error('rencana_load_failed', { err: String(e) });
-      setLoadError('Rencana minggu belum kebuka — cek koneksi kamu, terus coba lagi ya.');
+      setLoadError('Rencana minggu belum terbuka. Cek sambungan internet, lalu coba lagi.');
     } finally {
       setLoadBusy(false);
     }
@@ -101,14 +101,18 @@ export function Rencana() {
             toWeekStart: p.targetWeek,
             replaceExisting: Boolean(p.replaceExisting),
           });
-          setBootstrapNote(`Nutria udah nyalin ${res.cloned} menu ke minggu yang kamu buka.`);
+          setBootstrapNote(
+            `Nutria sudah menyalin ${res.cloned} menu ke minggu yang Anda buka.`,
+          );
         } else {
-          setBootstrapNote('Minggu barunya udah kebuka — yuk isi menu dari sini, pelan-pelan juga gak apa-apa.');
+          setBootstrapNote(
+            'Minggu baru sudah terbuka — isi menu dari sini; sketsa dulu, rinci nanti juga boleh.',
+          );
         }
         setWeekStart(p.targetWeek);
       } catch (e) {
         setError(
-          e instanceof Error ? e.message : 'Minggunya belum kebuka — refresh halaman dulu ya, terus coba lagi.',
+          e instanceof Error ? e.message : 'Minggu belum terbuka. Muat ulang halaman, lalu coba lagi.',
         );
       }
     })();
@@ -151,27 +155,30 @@ export function Rencana() {
     if (noMacro === 0 && noRecipe === 0) {
       return {
         badge: 0,
-        title: 'Udah siap jadi list belanja',
-        sub: 'Semua menu punya makro & resep — finalisasi di bawah saja',
+        title: 'Siap dirangkum ke list belanja',
+        sub: 'Setiap menu punya ringkasan gizi & resep — cukup finalisasi di bawah',
+        badgeVariant: 'info' as const,
       };
     }
     if (noMacro === 0) {
       return {
         badge: Math.min(3, noRecipe || 1),
-        title: 'Yuk lengkapi resepnya biar belanja keisi sendiri',
+        title: 'Hubungkan resep Nutria supaya bahan terhitung sendiri',
         sub:
           noRecipe === 1
-            ? 'Masih 1 menu yang belum nempel ke resep Nutria'
-            : `Masih ${noRecipe} menu yang belum nempel ke resep Nutria`,
+            ? 'Satu menu belum terhubung ke resep — tanpa resep, bahan tidak dijumlah otomatis ke Belanja'
+            : `${noRecipe} menu belum terhubung ke resep — tanpa resep, bahan tidak dijumlah otomatis ke Belanja`,
+        badgeVariant: 'accent' as const,
       };
     }
     return {
       badge,
-      title: 'Kalori & proteinnya dirapikan dikit ya',
+      title: 'Ringkasan gizi (opsional) — untuk gambaran mingguan, bukan nilai harian',
       sub:
         noMacro === 1
-          ? '1 menu belum ada angka kalori/protein — ketuk buat lihat saran langkahnya'
-          : `${noMacro} menu belum ada angka kalori/protein — ketuk buat lihat saran langkahnya`,
+          ? 'Satu menu belum ada angka kalori/protein — isi bila sempat; tidak wajib untuk jadwal makan'
+          : `${noMacro} menu belum ada angka kalori/protein — isi bila sempat; tidak wajib untuk jadwal makan`,
+      badgeVariant: 'info' as const,
     };
   }, [meals]);
 
@@ -195,11 +202,15 @@ export function Rencana() {
     setError(null);
     try {
       const res = await api.groceryFromPlan({ weekStart, replaceGenerated: true });
-      setBootstrapNote(`Nutria udah nambahin ${res.itemsAdded} baris belanja dari resep ke list kamu.`);
+      setBootstrapNote(
+        `Nutria menambahkan ${res.itemsAdded} baris ke list belanja dari resep (tab Belanja).`,
+      );
       goToTab('belanja');
     } catch (e) {
       setError(
-        e instanceof Error ? e.message : 'List belanjanya belum kebikin — cek resepnya dulu, terus coba lagi ya.',
+        e instanceof Error
+          ? e.message
+          : 'List belanja belum tergenerate. Pastikan menu memakai resep Nutria, lalu coba lagi.',
       );
     } finally {
       setFinalizeBusy(false);
@@ -232,7 +243,8 @@ export function Rencana() {
         </button>
       </div>
       <p className="tab-hero-lede">
-        Pilih hari, tambah menu, tempel resep bila perlu — satu alur per minggu.
+        Pilih hari, tambah menu, resep bila mau — satu alur per minggu, bisa diulang minggu depan
+        tanpa mulai dari nol.
       </p>
 
       {loadError ? (
@@ -252,7 +264,7 @@ export function Rencana() {
       ) : null}
 
       <div className="tab-module-focus">
-        <p className="tab-module-kicker">Mau lihat hari yang mana?</p>
+        <p className="tab-module-kicker">Mau cek hari yang mana?</p>
         <RencanaWeekDayStrip
           weekStart={weekStart}
           dayIndex={dayIndex}
@@ -260,22 +272,22 @@ export function Rencana() {
           mealCountByDay={mealCountByDay}
         />
         <button type="button" className="link-quiet" onClick={() => setWeekStart(startOfWeekSunday())}>
-          Balik ke minggu yang lagi jalan
+          Kembali ke minggu berjalan
         </button>
       </div>
 
       <h2 className="tab-day-heading">{dayFullName(dayIndex)}</h2>
       <p className="tab-day-sub">
-        Menu hari pilihanmu. Slot makan diubah lewat form di bawah.
+        Menu untuk hari yang dipilih. Ubah waktu makan (slot) lewat form di bawah.
       </p>
 
       {groupedSlots.length === 0 ? (
         <div className="hifi-card" style={{ marginTop: 10, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
-            title={`${dayFullName(dayIndex)} masih kosong nih`}
-            body="Mulai dari form di bawah: pilih slot, simpan."
+            title={`${dayFullName(dayIndex)} belum ada menu`}
+            body="Tambah dari form di bawah: pilih slot makan, simpan. Isi dulu seadanya — detail bisa dilengkapi nanti."
             illustration={<IllustrationEmptyPlate />}
-            ctaLabel="Isi menu yuk"
+            ctaLabel="Tambah menu"
             onCta={scrollToForm}
           />
         </div>

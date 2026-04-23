@@ -20,7 +20,7 @@ export function MealFreshPrepSection({
       <div className="form-section-title">Makanannya dari mana?</div>
       <FormField
         label="Segar atau dari stok prep?"
-        hint="Kalau dari prep, stok batch yang kamu hubungin bakal berkurang"
+        hint="Jika terhubung ke prep, stok batch berkurang sesuai porsi"
         fieldId="meal-fresh"
       >
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>

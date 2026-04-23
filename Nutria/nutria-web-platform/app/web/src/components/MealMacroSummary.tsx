@@ -11,11 +11,11 @@ type Props = {
 export function MealMacroSummary({ recipeLocked, values, unmatchedIngredientNames, portionsNote }: Props) {
   return (
     <div className="macro-summary">
-      <div className="form-section-title">Nutrisi (kira-kira)</div>
+      <div className="form-section-title">Ringkasan gizi (kira-kira)</div>
       <p className="macro-summary__lede">
         {recipeLocked
-          ? 'Angka ini ngikut resep Nutria yang kamu pilih — bukan isi manual.'
-          : 'Dihitung dari bahan + tabel pangan Indonesia; buat panduan sehari-hari ya, bukan diagnosis dokter.'}
+          ? 'Angka mengikuti resep Nutria yang dipilih — bukan isi manual.'
+          : 'Dari bahan + tabel komposisi pangan; untuk gambaran sehari-hari, bukan saran klinis.'}
       </p>
       {values ? (
         <>
@@ -58,9 +58,9 @@ export function MealMacroSummary({ recipeLocked, values, unmatchedIngredientName
       )}
       {!recipeLocked && unmatchedIngredientNames.length > 0 ? (
         <p className="macro-summary__warn" role="status">
-          Ada {unmatchedIngredientNames.length} bahan yang belum ketemu di tabel (
+          {unmatchedIngredientNames.length} bahan belum cocok di tabel (
           {unmatchedIngredientNames.slice(0, 4).join(', ')}
-          {unmatchedIngredientNames.length > 4 ? '…' : ''}) — jadi angkanya bisa lebih rendah dari kenyataan.
+          {unmatchedIngredientNames.length > 4 ? '…' : ''}) — total bisa lebih rendah dari aslinya.
         </p>
       ) : null}
     </div>

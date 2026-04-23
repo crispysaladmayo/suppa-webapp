@@ -8,6 +8,37 @@ import { HariIni } from './HariIni.js';
 import { Prep } from './Prep.js';
 import { Rencana } from './Rencana.js';
 
+function MastheadQuickNav({ tab, onTab }: { tab: AppTab; onTab: (t: AppTab) => void }) {
+  return (
+    <nav className="app-masthead__quick" aria-label="Akses cepat ke tab utama">
+      <button
+        type="button"
+        className="app-masthead__quick-link"
+        data-active={tab === 'rencana'}
+        onClick={() => onTab('rencana')}
+      >
+        Rencana minggu
+      </button>
+      <button
+        type="button"
+        className="app-masthead__quick-link"
+        data-active={tab === 'hari'}
+        onClick={() => onTab('hari')}
+      >
+        Hari ini
+      </button>
+      <button
+        type="button"
+        className="app-masthead__quick-link"
+        data-active={tab === 'belanja'}
+        onClick={() => onTab('belanja')}
+      >
+        Belanja
+      </button>
+    </nav>
+  );
+}
+
 const TAB_COPY: Record<AppTab, string> = {
   hari: 'Hari ini',
   rencana: 'Rencana',
@@ -29,18 +60,21 @@ export function AppShell() {
     <TabNavProvider goToTab={setTab}>
       <div className="app-shell app-shell--v2" data-active-tab={tab}>
         <header className="app-masthead" role="banner">
-          <div className="app-masthead__left">
-            <NutriaMark className="app-masthead__mark" />
-            <div>
-              <p className="app-masthead__name">Nutria</p>
-              <p className="app-masthead__tagline" aria-hidden>
-                Menu minggu · stok prep · belanja
-              </p>
+          <div className="app-masthead__top">
+            <div className="app-masthead__left">
+              <NutriaMark className="app-masthead__mark" />
+              <div>
+                <p className="app-masthead__name">Nutria</p>
+                <p className="app-masthead__tagline" aria-hidden>
+                  Satu rencana &amp; satu list — beban berkurang di jam sibuk
+                </p>
+              </div>
             </div>
+            <button type="button" className="app-masthead__logout" onClick={() => void logout()}>
+              Keluar akun
+            </button>
           </div>
-          <button type="button" className="app-masthead__logout" onClick={() => void logout()}>
-            Keluar akun
-          </button>
+          <MastheadQuickNav tab={tab} onTab={setTab} />
         </header>
         <main key={tab} className="tab-panel" id="main" aria-label={TAB_COPY[tab]}>
           {body}

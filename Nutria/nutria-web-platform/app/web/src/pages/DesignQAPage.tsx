@@ -109,8 +109,8 @@ export function DesignQAPage() {
         </h2>
         <div className="hifi-card" style={{ marginTop: 8, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
-            title="Daftar belanja masih kosong"
-            body="Isi Rencana dengan resep Nutria lalu finalisasi — atau tambah barang manual di tab Belanja."
+            title="Belum ada isi untuk minggu ini"
+            body="Isi Rencana dengan resep Nutria lalu rangkum ke Belanja — atau tambah barang manual di sini."
             illustration={<IllustrationEmptyCart />}
             ctaLabel="Buka aplikasi"
             onCta={exitDesignQa}
@@ -118,8 +118,8 @@ export function DesignQAPage() {
         </div>
         <div className="hifi-card" style={{ marginTop: 12, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
-            title="Minggu ini belum berisi menu"
-            body="Tambahkan menu per waktu makan; ringkasan makro muncul setelah data terisi."
+            title="Minggu ini belum punya menu"
+            body="Tambah menu per waktu makan; ringkasan gizi tampil bila angka tersedia (opsional)."
             illustration={<IllustrationEmptyPlate />}
           />
         </div>

@@ -13,8 +13,8 @@ export function RecipeIngredientBlock({ recipeLocked, busy, ingredientRows, setI
       <div className="form-section-title">Bahan untuk resep</div>
       <p className="recipe-ingredient-hint">
         {recipeLocked
-          ? 'Ini bahan dari resep Nutria. Mau ubah? lepas dulu resepnya, nanti bisa disimpan jadi variasi baru.'
-          : 'Tiap baris: satu bahan + berat total (gram) buat hidangan ini. Kalau diisi rapi, Nutria simpan jadi resep baru pas kamu pencet simpan (nama makanannya enaknya beda biar gak ketuker).'}
+          ? 'Ini bahan dari resep Nutria. Untuk mengubah, lepas tautan resep dulu — variasi baru bisa disimpan terpisah.'
+          : 'Tiap baris: satu bahan dan berat total (gram) untuk hidangan ini. Bila rapi, Nutria menyimpan sebagai resep baru saat Simpan; gunakan nama berbeda agar tidak tertukar.'}
       </p>
       {ingredientRows.map((row, idx) => (
         <div key={idx} className="ingredient-row">

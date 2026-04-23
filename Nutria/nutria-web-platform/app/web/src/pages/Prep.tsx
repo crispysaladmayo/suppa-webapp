@@ -33,7 +33,7 @@ export function Prep() {
       setSessions(s.sessions);
     } catch (e) {
       log.error('prep_load_failed', { err: String(e) });
-      setError('Sesi prep belum kebuka — cek koneksi kamu dulu, terus coba lagi ya.');
+      setError('Sesi prep belum terbuka. Cek sambungan internet, lalu coba lagi.');
     } finally {
       setSessionsReady(true);
     }
@@ -78,7 +78,7 @@ export function Prep() {
       setNotes('Prep hari Minggu');
       await loadSessions();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Belum bisa mulai sesi — coba lagi bentar lagi ya.');
+      setError(err instanceof Error ? err.message : 'Belum bisa memulai sesi. Coba lagi sebentar.');
     }
   }
 
@@ -88,7 +88,7 @@ export function Prep() {
       await api.patchPrepSession(id, { endedAt: new Date().toISOString() });
       await loadSessions();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Belum bisa nutup sesi — coba lagi sebentar.');
+      setError(err instanceof Error ? err.message : 'Sesi belum bisa ditutup. Coba lagi sebentar.');
     }
   }
 
@@ -159,7 +159,8 @@ export function Prep() {
       </p>
       <h1 className="screen-title">Prep hari {dow}</h1>
       <p className="tab-hero-lede">
-        Satu sesi: berat mentah, susut, urutan masak. Porsi estimasi dari total kg (bukan timbangan pasti).
+        Satu sesi: berat mentah, susut masak, urutan di dapur. Porsi estimasi dari jumlah total (bukan
+        hasil timbang pasti).
       </p>
 
       {error ? (
@@ -181,8 +182,8 @@ export function Prep() {
       {!active ? (
         <div className="hifi-card tab-module-form" style={{ marginTop: 14, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
-            title="Belum ada sesi prep yang jalan"
-            body="Satu sesi: catat bahan, susut, urutan — nanti gampang dilacak"
+            title="Belum ada sesi prep yang aktif"
+            body="Satu sesi menyimpan berat mentah, susut, urutan memasak — mudah ditelusuri minggu ke minggu."
             illustration={<IllustrationEmptyPlate />}
           />
           <div style={{ padding: '0 18px 18px' }}>
@@ -428,7 +429,7 @@ export function Prep() {
 
       {sessions.filter((s) => s.endedAt).length > 0 ? (
         <div style={{ marginTop: 24 }}>
-          <p className="prep-section-kicker">Yang udah selesai</p>
+          <p className="prep-section-kicker">Yang sudah selesai</p>
           {sessions
             .filter((s) => s.endedAt)
             .map((s) => (

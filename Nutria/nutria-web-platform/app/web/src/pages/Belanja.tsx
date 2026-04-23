@@ -60,7 +60,7 @@ export function Belanja() {
       setPantryCount(p.items.length);
     } catch (e) {
       log.error('belanja_load_failed', { err: String(e) });
-      setListError('List belanja belum kebuka — cek koneksi kamu dulu, terus coba lagi ya.');
+      setListError('List belanja belum terbuka. Cek sambungan internet, lalu coba lagi.');
     } finally {
       setListLoading(false);
     }
@@ -130,7 +130,7 @@ export function Belanja() {
       setPrice('');
       await load();
     } catch (err) {
-      setAddError(err instanceof Error ? err.message : 'Belum ke-save — coba lagi sebentar.');
+      setAddError(err instanceof Error ? err.message : 'Belum tersimpan. Coba lagi sebentar.');
     }
   }
 
@@ -153,7 +153,7 @@ export function Belanja() {
       cancelEdit();
       await load();
     } catch (err) {
-      setEditError(err instanceof Error ? err.message : 'Perubahan belum ke-save — coba lagi ya.');
+      setEditError(err instanceof Error ? err.message : 'Perubahan belum tersimpan. Coba lagi sebentar.');
     }
   }
 
@@ -173,7 +173,7 @@ export function Belanja() {
       setListError(
         err instanceof Error
           ? err.message
-          : 'Belum ke-save — cek koneksi bentar, terus coba lagi ya.',
+          : 'Belum tersimpan. Cek sambungan, lalu coba lagi.',
       );
     }
   }
@@ -219,7 +219,8 @@ export function Belanja() {
         </button>
       </div>
       <p className="tab-hero-lede">
-        Centang saat barang sudah di keranjang. Total hanya baris yang belum. Ketuk baris untuk ubah.
+        Centang saat barang masuk keranjang. Total hanya memuat baris yang belum dicentang. Ketuk baris
+        untuk mengubah. Bila list berasal dari rencana + finalisasi, baris selaras menu mingguan.
       </p>
 
       {listError ? (
@@ -246,7 +247,7 @@ export function Belanja() {
           Rp{total.toLocaleString('id-ID')}
         </div>
         <p style={{ margin: '10px 0 0', fontSize: '0.88rem', color: 'var(--grocery-hero-muted)' }}>
-          {totalCount} barang di list · {pantryCount} udah ada stok di dapur
+          {totalCount} barang di list · {pantryCount} sudah tercatat di dapur
         </p>
         <div
           className="progress-track"
@@ -262,10 +263,10 @@ export function Belanja() {
           />
         </div>
         <p style={{ margin: '10px 0 0', fontSize: '0.8rem', color: 'var(--grocery-hero-muted)' }}>
-          {checkedCount} dari {totalCount || 1} udah dicentang masuk keranjang
+          {checkedCount} dari {totalCount || 1} sudah dicentang (keranjang)
         </p>
         <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: 'var(--grocery-hero-muted)', lineHeight: 1.4 }}>
-          Perkiraan dari harga per baris (bukan struk toko beneran).
+          Perkiraan dari harga per baris (bukan struk toko sebenarnya).
         </p>
       </div>
 
@@ -274,12 +275,12 @@ export function Belanja() {
       {!listLoading && totalCount === 0 && !listError ? (
         <div className="hifi-card belanja-empty-wrap" style={{ marginTop: 0, padding: 0, overflow: 'hidden' }}>
           <NutriaEmptyState
-            title="List belanjanya masih kosong nih"
-            body="Isi di bawah, atau rencanakan di Rencana + resep → finalisasi, list jalan sendiri."
+            title="Belum ada isi untuk minggu ini"
+            body="Tambah barang di bawah, atau isi Rencana dengan resep lalu rangkum ke sini — baris mengikuti bahan yang tergenerate."
             illustration={<IllustrationEmptyCart />}
-            ctaLabel="Tambah barang dulu"
+            ctaLabel="Tambah barang"
             onCta={scrollToAdd}
-            secondaryLabel="Ke Rencana"
+            secondaryLabel="Buka Rencana"
             onSecondary={() => goToTab('rencana')}
           />
         </div>
@@ -414,7 +415,7 @@ export function Belanja() {
                           flexShrink: 0,
                           marginTop: 2,
                         }}
-                        aria-label={checkedIt ? 'Batal centang keranjang' : 'Centang kalau udah masuk keranjang'}
+                        aria-label={checkedIt ? 'Batal centang keranjang' : 'Centang bila barang sudah di keranjang'}
                       />
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div

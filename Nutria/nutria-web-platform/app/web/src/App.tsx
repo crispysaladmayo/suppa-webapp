@@ -11,16 +11,38 @@ function isDesignQaUrl(): boolean {
 }
 
 function ApiOfflineBanner({ onRetry }: { onRetry: () => void }) {
+  const isDev = import.meta.env.DEV;
+
+  if (!isDev) {
+    return (
+      <div className="api-offline-banner api-offline-banner--prod" role="status">
+        <p className="api-offline-banner__title">Mode tampilan</p>
+        <p className="api-offline-banner__body">
+          Versi di GitHub Pages hanya file statis: tidak ada server login di domain ini. Akun dan data
+          butuh <strong>API Nutria</strong> (lokal atau hosting). Untuk mode lengkap, ikuti README — dari
+          folder <code className="api-offline-banner__code">nutria-web-platform</code> jalankan{' '}
+          <code className="api-offline-banner__code">npm run dev</code> di komputer sendiri.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="api-offline-banner" role="alert">
       <p className="api-offline-banner__title">Eits, servernya belum nyala</p>
       <p className="api-offline-banner__body">
-        Kalau lagi coba di laptop sendiri, nyalain dulu API di <strong>port 3001</strong>. Dari folder{' '}
-        <code className="api-offline-banner__code">nutria-web-platform</code>, jalankan{' '}
-        <code className="api-offline-banner__code">npm run dev</code> biar server dan web jalan bareng.
-        Atau pakai dua jendela terminal:{' '}
-        <code className="api-offline-banner__code">npm run dev -w app/server</code> lalu{' '}
-        <code className="api-offline-banner__code">npm run dev -w app/web</code>.
+        Nyalain API dulu (biasanya <strong>port 3001</strong>). Dari folder{' '}
+        <code className="api-offline-banner__code">nutria-web-platform</code> jalankan{' '}
+        <code className="api-offline-banner__code">npm run dev</code> (server + web sekaligus), atau{' '}
+        <code className="api-offline-banner__code">npm run dev -w app/server</code> di satu terminal dan{' '}
+        <code className="api-offline-banner__code">npm run dev -w app/web</code> di terminal lain.
+      </p>
+      <p className="api-offline-banner__body api-offline-banner__body--tight" style={{ marginTop: 8 }}>
+        Kalau di terminal muncul <strong>EADDRINUSE</strong> / &quot;port 3001 already in use&quot;: tutup
+        instansi lama, atau cek dengan <code className="api-offline-banner__code">lsof -i :3001</code> lalu{' '}
+        <code className="api-offline-banner__code">kill &lt;pid&gt;</code>. Bisa juga pakai port lain:{' '}
+        <code className="api-offline-banner__code">PORT=3002 npm run dev -w app/server</code> dan sejajarkan
+        Vite: <code className="api-offline-banner__code">NUTRIA_API_PORT=3002 npm run dev -w app/web</code>.
       </p>
       <button type="button" className="btn-primary api-offline-banner__retry" onClick={onRetry}>
         Udah nyala — coba lagi ya
@@ -41,8 +63,8 @@ function Gate() {
         <p className="screen-title" style={{ fontSize: '1.2rem' }}>
           Bentar ya…
         </p>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', maxWidth: 260, lineHeight: 1.5 }}>
-          Lagi nyiapin akun dan profil keluarga kamu biar semuanya sinkron.
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.86rem', maxWidth: 280, lineHeight: 1.5 }}>
+          Menyiapkan akun dan profil rumah tangga agar jadwal, list belanja, dan stok tampil selaras.
         </p>
       </div>
     );

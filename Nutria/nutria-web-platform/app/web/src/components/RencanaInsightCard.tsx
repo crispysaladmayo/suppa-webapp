@@ -1,4 +1,10 @@
-type Insight = { badge: number; title: string; sub: string };
+type Insight = {
+  badge: number;
+  title: string;
+  sub: string;
+  /** Info = optional nutrition gaps (sage). Accent = recipe linkage (terracotta). */
+  badgeVariant?: 'info' | 'accent';
+};
 
 type Props = {
   insight: Insight;
@@ -7,37 +13,27 @@ type Props = {
 };
 
 export function RencanaInsightCard({ insight, insightOpen, setInsightOpen }: Props) {
+  const variant = insight.badgeVariant ?? 'info';
   return (
     <button type="button" className="tab-insight-card" onClick={() => setInsightOpen(!insightOpen)}>
       <div
+        className="tab-insight-card__icon"
         style={{
-          width: 44,
-          height: 44,
-          borderRadius: 14,
-          background: 'var(--tag-fresh-bg)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '1.25rem',
-          flexShrink: 0,
+          background:
+            variant === 'info' ? 'var(--tag-fresh-bg)' : 'var(--tan-tag)',
         }}
         aria-hidden
       >
-        🌿
+        {variant === 'info' ? '🌿' : '📋'}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <span style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text)' }}>{insight.title}</span>
           {insight.badge > 0 ? (
             <span
-              style={{
-                background: 'var(--accent)',
-                color: '#fff',
-                borderRadius: 999,
-                fontSize: '0.72rem',
-                fontWeight: 800,
-                padding: '2px 8px',
-              }}
+              className={
+                variant === 'info' ? 'tab-insight-badge tab-insight-badge--info' : 'tab-insight-badge tab-insight-badge--accent'
+              }
             >
               {insight.badge}
             </span>
@@ -56,9 +52,9 @@ export function RencanaInsightCard({ insight, insightOpen, setInsightOpen }: Pro
               lineHeight: 1.5,
             }}
           >
-            <li>Isi menu per hari</li>
-            <li>Lengkapi kalori & protein bila sempat</li>
-            <li>Tempel resep → finalisasi → list belanja</li>
+            <li>Isi menu per hari — ringkas dulu, rapi kemudian</li>
+            <li>Angka gizi boleh dilengkapi bila sempat; fokus keluarga di jadwal, bukan skor harian</li>
+            <li>Resep Nutria → finalisasi → list belanja mengikuti bahan</li>
           </ul>
         ) : null}
       </div>

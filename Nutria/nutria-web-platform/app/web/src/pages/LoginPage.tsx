@@ -22,7 +22,7 @@ export function LoginPage() {
         await register(email, password, householdName);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Ada yang salah — coba lagi sebentar lagi ya.');
+      setError(err instanceof Error ? err.message : 'Ada yang salah. Coba lagi sebentar.');
     } finally {
       setLoading(false);
     }
@@ -36,10 +36,11 @@ export function LoginPage() {
       <p className="login-eyebrow">Hai</p>
       <div className="login-card">
         <h1 className="screen-title" style={{ fontSize: '1.92rem' }}>
-          Nutria nemenin menu & belanja keluarga kamu
+          Rencana minggu, list belanja, sisa prep — tanpa panik saat jam sibuk
         </h1>
         <p className="login-lede" style={{ color: 'var(--text-muted)', marginTop: 10, marginBottom: 0 }}>
-          Stok prep, jadwal makan, list belanja — ringkas di satu tempat, bukan di kepala.
+          Satu tempat buat jadwal makan, keranjang yang nyambung ke menu, dan stok prep — bukan tiga
+          aplikasi plus catatan di meja dapur.
         </p>
         <div className="login-toggle">
           <button type="button" data-on={mode === 'login'} onClick={() => setMode('login')}>
@@ -85,7 +86,7 @@ export function LoginPage() {
             <div style={{ color: 'var(--danger)', fontSize: '0.88rem' }}>{error}</div>
           ) : null}
           <button className="btn-primary" type="submit" disabled={loading}>
-            {mode === 'login' ? 'Masuk ke Nutria' : 'Yuk buat akun'}
+            {mode === 'login' ? 'Masuk ke Nutria' : 'Buat akun keluarga'}
           </button>
         </form>
         <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: 20, lineHeight: 1.45 }}>

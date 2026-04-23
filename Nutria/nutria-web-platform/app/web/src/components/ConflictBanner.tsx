@@ -12,19 +12,19 @@ type Props = {
 export function ConflictOrErrorBanner({ error, onRefresh, contextLabel }: Props) {
   if (!error) return null;
   const msg = error instanceof Error ? error.message : String(error);
-  let title = 'Ada yang nyangkut';
+  let title = 'Terjadi masalah';
   let body = msg;
   let variant: 'conflict' | 'auth' | 'default' = 'default';
 
   if (isApiError(error)) {
     if (error.code === 'conflict') {
-      title = 'Versinya kebentrok';
+      title = 'Versi data tidak sama';
       body =
-        'Kayaknya data ini juga ke-update di tab atau HP lain. Muat ulang dulu ya, biar kita sama-sama lihat yang terbaru — terus coba lagi.';
+        'Kemungkinan data pernah diubah di perangkat atau tab lain. Muat ulang halaman untuk versi terbaru, lalu coba lagi.';
       variant = 'conflict';
     } else if (error.code === 'unauthorized') {
-      title = 'Sesi kamu udah habis';
-      body = 'Masuk lagi sebentar ya, biar aman dan lanjut dari situ terakhir.';
+      title = 'Sesi berakhir';
+      body = 'Masuk lagi untuk melanjutkan dengan aman dari titik terakhir.';
       variant = 'auth';
     }
   }

@@ -78,7 +78,7 @@ export function HariIni() {
     } catch (e) {
       log.error('hari_ini_load_failed', { err: String(e) });
       setLoadError(
-        'Lagi susah nyambung ke server — cek WiFi atau kuota kamu dulu, terus coba lagi ya.',
+        'Sulit menyambung ke server. Cek Wi‑Fi atau kuota, lalu coba lagi.',
       );
     }
   }
@@ -132,7 +132,7 @@ export function HariIni() {
       setGrams('80');
       await load();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Belum ke-save — coba lagi bentar lagi ya.');
+      setError(err instanceof Error ? err.message : 'Belum tersimpan. Coba lagi sebentar.');
     } finally {
       setBusy(false);
     }
@@ -174,7 +174,7 @@ export function HariIni() {
       <p className="eyebrow">{headerDayMonth()}</p>
       <h1 className="screen-title hari-ini-hero-title">Stok meal prep</h1>
       <p className="hari-ini-hero-sub">
-        Stok prep, menu hari ini, sisa belanja — satu layar, tanpa bolak-balik tab.
+        Sisa prep, menu hari ini, dan gambaran belanja — satu layar, tanpa bolak-balik tab.
       </p>
 
       {alertLine ? (
@@ -206,7 +206,7 @@ export function HariIni() {
         </p>
         {summary.prep.items.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', margin: '8px 0 0' }}>
-            Belum ada batch prep minggu ini — mulai dari tab Prep kapan sempat.
+            Belum ada batch prep untuk minggu ini — mulai dari tab Prep kapan siap.
           </p>
         ) : (
           <div style={{ display: 'flex', gap: 20, alignItems: 'center', marginTop: 8 }}>
@@ -231,7 +231,7 @@ export function HariIni() {
             </div>
             <div style={{ flex: 1 }}>
               <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.88rem', lineHeight: 1.45 }}>
-                {eatenPct}% udah habis dimakan · ini hari ke-{dayInWeek} dari 7
+                {eatenPct}% sudah terpakai · hari ke-{dayInWeek} dari 7
               </p>
             </div>
           </div>
@@ -272,7 +272,8 @@ export function HariIni() {
           Minggu ini kita catat{' '}
           <strong style={{ color: 'var(--text)' }}>{weekPlan.totalMeals} menu</strong>
           {' · '}
-          {weekPlan.daysWithMeals} hari udah keisi · {weekPlan.recipeBackedMeals} menu pakai resep Nutria
+          {weekPlan.daysWithMeals} hari sudah berisi menu · {weekPlan.recipeBackedMeals} menu terhubung
+          resep Nutria
         </p>
 
         <div style={{ display: 'grid', gap: 10, marginTop: 16 }}>
@@ -344,7 +345,7 @@ export function HariIni() {
                 onChange={(ev) => setReplaceNextWeek(ev.target.checked)}
               />
               <span>
-                Kalau minggu depan sudah keisi, timpa dengan salinan minggu ini
+                Jika minggu depan sudah berisi menu, ganti dengan salinan minggu ini
               </span>
             </label>
             <div style={{ display: 'grid', gap: 10, marginTop: 18 }}>

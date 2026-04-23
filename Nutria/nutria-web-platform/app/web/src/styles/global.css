@@ -111,13 +111,50 @@ button {
 
 .app-masthead {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
   padding: 4px 0 12px;
   border-bottom: 1px solid rgba(221, 212, 200, 0.65);
   background: linear-gradient(180deg, rgba(255, 252, 246, 0.55) 0%, transparent 100%);
   backdrop-filter: blur(6px);
+}
+
+.app-masthead__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.app-masthead__quick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 12px;
+}
+
+.app-masthead__quick-link {
+  font-family: var(--font-ui);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  padding: 6px 2px;
+  cursor: pointer;
+  transition: color 0.2s var(--ease-std);
+}
+
+.app-masthead__quick-link:hover {
+  color: var(--text);
+}
+
+.app-masthead__quick-link[data-active='true'] {
+  color: var(--accent);
 }
 
 .app-masthead__left {
@@ -909,6 +946,37 @@ details.hifi-details summary::-webkit-details-marker {
   box-shadow: var(--shadow-card);
 }
 
+.tab-insight-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.tab-insight-badge {
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  min-width: 1.25rem;
+  text-align: center;
+}
+
+.tab-insight-badge--accent {
+  background: var(--accent);
+  color: #fff;
+}
+
+.tab-insight-badge--info {
+  background: var(--tag-fresh-bg);
+  color: var(--tag-fresh-text);
+  border: 1px solid rgba(29, 74, 40, 0.14);
+}
+
 .tab-module-form {
   margin-top: 22px;
   border-radius: var(--radius-lg);
@@ -1194,6 +1262,18 @@ details.hifi-details summary::-webkit-details-marker {
   background: var(--warning-bg);
   color: var(--warning-text);
   border: 1px solid rgba(139, 58, 47, 0.25);
+}
+
+/* Production static host (e.g. GitHub Pages): info, not “server crash” */
+.api-offline-banner--prod {
+  background: rgba(46, 40, 36, 0.06);
+  color: var(--text-muted);
+  border-color: var(--border-soft);
+}
+
+.api-offline-banner--prod .api-offline-banner__title {
+  color: var(--text);
+  font-weight: 700;
 }
 
 .api-offline-banner__title {

@@ -25,7 +25,8 @@ export function RencanaWeekSummaryCard({
         Ringkasan singkat
       </h3>
       <p style={{ fontSize: '0.86rem', color: 'var(--text-muted)', margin: '8px 0 0', lineHeight: 1.45 }}>
-        {mealsTotal} menu udah kecatat · {recipeBacked} udah nempel resep Nutria (biar hitung belanjanya gampang).
+        {mealsTotal} menu tercatat · {recipeBacked} terhubung resep Nutria (bahan bisa mengalir ke list
+        belanja).
       </p>
       <div style={{ display: 'flex', gap: 6, marginTop: 14, flexWrap: 'wrap' }}>
         {mealCountByDay.map((n, i) => (
