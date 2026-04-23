@@ -13,7 +13,7 @@
 3. `cd app/server && npm run db:seed` — creates `demo@nutria.local` / `nutria-demo-12` plus sample prep, pantry, grocery for current week.
 4. From repo root `Nutria/nutria-web-platform/`: `npm run dev` — API `:3001`, web `:5173`.
 
-Env (optional): `DATABASE_URL`, `SESSION_SECRET` (min 16 chars), `CORS_ORIGIN` (default `http://localhost:5173`), `PORT` (default `3001`).
+Env (optional): `DATABASE_URL`, `SESSION_SECRET` (min 16 chars), `CORS_ORIGIN` (comma-separated; default includes `localhost:5173` and `:5174` for Vite), `PORT` (default `3001`), `SESSION_SAMESITE` (`Lax` local, `None` for GitHub Pages + API on another host — see `DEPLOY.md`). Vite dev proxy: `NUTRIA_API_PORT` (default `3001`).
 
 ## API surface (summary)
 

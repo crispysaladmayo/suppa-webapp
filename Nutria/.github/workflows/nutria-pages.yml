@@ -1,0 +1,55 @@
+# Rebuild docs/ for GitHub Pages with a public API URL (e.g. Railway).
+# Actions → this workflow → Run workflow → paste API origin (no trailing slash).
+
+name: Nutria — build GitHub Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      api_base:
+        description: Public API origin (no trailing slash), e.g. https://xxx.up.railway.app
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nutria-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: nutria-web-platform/package-lock.json
+
+      - name: Install and build Vite app into docs/
+        working-directory: nutria-web-platform
+        env:
+          VITE_GITHUB_PAGES: '1'
+          VITE_API_BASE: ${{ inputs.api_base }}
+        run: |
+          npm ci
+          npm run build -w @nutria/web
+          rm -rf ../docs
+          cp -R app/web/dist ../docs
+          touch ../docs/.nojekyll
+
+      - name: Commit and push docs/ if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          if git diff --staged --quiet; then
+            echo "No changes to docs/"
+            exit 0
+          fi
+          git commit -m "chore(pages): rebuild with VITE_API_BASE (workflow)"
+          git push

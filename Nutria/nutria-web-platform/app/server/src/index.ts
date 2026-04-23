@@ -13,10 +13,12 @@ const db = createDb(env);
 
 const app = new Hono();
 
+const corsOrigins = env.CORS_ORIGIN.split(',').map((s) => s.trim());
+
 app.use(
   '*',
   cors({
-    origin: env.CORS_ORIGIN,
+    origin: corsOrigins,
     credentials: true,
     allowHeaders: ['Content-Type', 'Cookie'],
     exposeHeaders: ['Set-Cookie'],
@@ -58,6 +60,20 @@ app.onError((err, c) => {
   return c.json({ error: { code: 'internal_error', message } }, 500);
 });
 
-serve({ fetch: app.fetch, port: env.PORT }, (info) => {
+const server = serve({ fetch: app.fetch, port: env.PORT }, (info) => {
   log.info('server_listen', { port: info.port, env: env.NODE_ENV });
+});
+server.on('error', (err: NodeJS.ErrnoException) => {
+  if (err.code === 'EADDRINUSE') {
+    process.stderr.write(
+      `\n[nutria] Port ${String(env.PORT)} is already in use (another process has it open).\n` +
+        '  Free it:  macOS/Linux:  lsof -i :' +
+        String(env.PORT) +
+        "  →  kill <pid>  (or close the old terminal running Nutria.)\n" +
+        '  Or use another port:  PORT=3002 npm run dev -w app/server\n' +
+        '  If you use PORT=3002, start Vite with the same:  NUTRIA_API_PORT=3002 npm run dev -w app/web\n\n',
+    );
+    process.exit(1);
+  }
+  throw err;
 });

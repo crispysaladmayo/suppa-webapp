@@ -3,5 +3,8 @@ app/.idea/
 app/node_modules/
 app/.expo/
 app/dist/
+nutria-web-platform/node_modules/
+nutria-web-platform/app/web/dist/
+nutria-web-platform/app/server/node_modules/
 *.log
 npm-debug.log*

@@ -1,0 +1,7 @@
+# Context noise only — full install + build run inside the image
+node_modules
+**/.git
+**/.env
+**/.env.*
+!**/.env.production.example
+npm-debug.log*

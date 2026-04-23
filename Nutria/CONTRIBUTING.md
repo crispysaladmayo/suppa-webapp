@@ -16,8 +16,8 @@
 
 ## Pushing the static site (`docs/`)
 
-- Regenerate from the Expo app: `cd app && npm run export:web` (writes `../docs/`).
-- Commit the resulting `docs/` changes on your **feature** branch, or on **`main`** if you are doing a direct hotfix, then **push the same branch** you intend to ship (usually merge to `main` first if using a feature branch).
+- Regenerate the **hi-fi Vite** bundle: from `nutria-web-platform/`, `npm run export:gh-pages` (writes `../docs/` from `app/web` after `vite build`). Not the legacy `app && npm run export:web` unless you explicitly want the old Expo web UI.
+- Commit the resulting `docs/` changes on your **feature** branch, or on **`main`** for a direct hotfix, then **push** the branch you intend to ship.
 
 ## Optional GitHub settings (maintainer)
 

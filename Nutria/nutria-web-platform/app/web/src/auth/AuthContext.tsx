@@ -7,7 +7,9 @@ import {
   useState,
   type ReactNode,
 } from 'react';
+import { getApiOrigin } from '../api/apiBase.js';
 import { api } from '../api/client.js';
+import { loadApiConfigForApp } from '../config/publicConfig.js';
 import type { z } from 'zod';
 import { UserSchema } from '../api/schemas.js';
 import { log } from '../logger.js';
@@ -30,7 +32,7 @@ type AuthCtx = {
 const Ctx = createContext<AuthCtx | null>(null);
 
 function looksLikeApiDown(msg: string): boolean {
-  return /non-JSON|3001|ECONNREFUSED|Failed to fetch|NetworkError|fetch failed|Load failed|502|503|504/i.test(
+  return /non-JSON|3001|ECONNREFUSED|Failed to fetch|NetworkError|fetch failed|Load failed|502|503|504|AbortError|aborted|timed out|404/i.test(
     msg,
   );
 }
@@ -57,7 +59,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    void refresh();
+    let cancel = false;
+    void (async () => {
+      await loadApiConfigForApp();
+      if (cancel) return;
+      const hasRemoteApi = Boolean(getApiOrigin());
+      const staticPagesNoApi = import.meta.env.VITE_GITHUB_PAGES === '1' && !hasRemoteApi;
+      if (staticPagesNoApi) {
+        setUser(null);
+        setApiReachable('unreachable');
+        setBusy(false);
+        return;
+      }
+      await refresh();
+    })();
+    return () => {
+      cancel = true;
+    };
   }, [refresh]);
 
   const login = useCallback(async (email: string, password: string) => {

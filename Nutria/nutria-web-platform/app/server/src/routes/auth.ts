@@ -17,8 +17,10 @@ const SESSION_DAYS = 30;
 
 function sessionCookieValue(token: string, env: Env): string {
   const maxAge = SESSION_DAYS * 24 * 60 * 60;
-  const secure = env.NODE_ENV === 'production' ? '; Secure' : '';
-  return `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAge}${secure}`;
+  const same = env.SESSION_SAMESITE;
+  const needsSecure = same === 'None' || env.NODE_ENV === 'production';
+  const secure = needsSecure ? '; Secure' : '';
+  return `${SESSION_COOKIE_NAME}=${encodeURIComponent(token)}; Path=/; HttpOnly; SameSite=${same}; Max-Age=${maxAge}${secure}`;
 }
 
 export function createAuthApp(db: Db, env: Env) {
@@ -104,9 +106,12 @@ export function createAuthApp(db: Db, env: Env) {
       const tokenHash = hashSessionToken(raw);
       await db.delete(schema.session).where(eq(schema.session.tokenHash, tokenHash));
     }
+    const same = env.SESSION_SAMESITE;
+    const needsSecure = same === 'None' || env.NODE_ENV === 'production';
+    const secure = needsSecure ? '; Secure' : '';
     c.header(
       'Set-Cookie',
-      `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`,
+      `${SESSION_COOKIE_NAME}=; Path=/; HttpOnly; SameSite=${same}; Max-Age=0${secure}`,
     );
     return c.json({ ok: true });
   });
