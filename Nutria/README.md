@@ -2,6 +2,14 @@
 
 Meal prep, planner, grocery, and consumption tracking (Expo / React Native). This repository includes a **static web build** under [`docs/`](./docs/) for GitHub Pages.
 
+### Git: which branch for the web app?
+
+- **Production + GitHub Pages** use the **`main`** branch only (Pages: **`main`** + **`/docs`**).  
+- **Day-to-day work:** create **`feature/…`** branches from `main` and merge via PR.  
+- Full details: [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+
+**Important:** this folder (`crispysaladmayo/nutria`) is its **own** git repository. A parent “workspace” may have other branches; they do not apply here.
+
 ## Live site (GitHub Pages)
 
 After enabling Pages (**Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `main`, folder `/docs`), the app is available at:
